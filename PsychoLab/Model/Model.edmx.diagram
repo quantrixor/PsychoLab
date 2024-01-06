@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2a9459db02034dd587d4d0c1f2d69571" Name="Diagram1">
+        <EntityTypeShape EntityType="dbPsychoLabModel.Client" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbPsychoLabModel.ExportLog" Width="1.5" PointX="12.25" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbPsychoLabModel.PsychologicalTest" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbPsychoLabModel.PsychologistReport" Width="1.5" PointX="7.5" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbPsychoLabModel.Role" Width="1.5" PointX="7.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbPsychoLabModel.Schedule" Width="1.5" PointX="5.25" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbPsychoLabModel.SessionArchive" Width="1.5" PointX="7.5" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbPsychoLabModel.sysdiagram" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbPsychoLabModel.TestAnswer" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbPsychoLabModel.TestQuestion" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbPsychoLabModel.TestResult" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbPsychoLabModel.User" Width="1.5" PointX="10" PointY="5" IsExpanded="true" />
+        <AssociationConnector Association="dbPsychoLabModel.FK__Schedule__Client__398D8EEE" ManuallyRouted="false" />
+        <AssociationConnector Association="dbPsychoLabModel.FK__ExportLog__UserI__4222D4EF" ManuallyRouted="false" />
+        <AssociationConnector Association="dbPsychoLabModel.FK__TestQuest__TestI__6477ECF3" ManuallyRouted="false" />
+        <AssociationConnector Association="dbPsychoLabModel.FK__TestResul__TestI__6B24EA82" ManuallyRouted="false" />
+        <AssociationConnector Association="dbPsychoLabModel.FK__Psycholog__Sessi__44FF419A" ManuallyRouted="false" />
+        <AssociationConnector Association="dbPsychoLabModel.FK__SessionAr__Sessi__3F466844" ManuallyRouted="false" />
+        <AssociationConnector Association="dbPsychoLabModel.FK__TestResul__Sessi__6A30C649" ManuallyRouted="false" />
+        <AssociationConnector Association="dbPsychoLabModel.FK__TestAnswe__Quest__6754599E" ManuallyRouted="false" />
+        <AssociationConnector Association="dbPsychoLabModel.FK__TestResul__Answe__6D0D32F4" ManuallyRouted="false" />
+        <AssociationConnector Association="dbPsychoLabModel.FK__TestResul__Quest__6C190EBB" ManuallyRouted="false" />
+        <AssociationConnector Association="dbPsychoLabModel.UserRoles" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
