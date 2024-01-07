@@ -1,0 +1,50 @@
+﻿<Window x:Class="PsychoLab.Views.Windows.ManageTestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PsychoLab.Views.Windows"
+        mc:Ignorable="d"
+        Title="ManageTestWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <!-- Новая строка для списка ответов -->
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+            <TextBlock Text="Add New Question:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+            <TextBox x:Name="QuestionTextBox" Width="200"/>
+            <Button Content="Add Question" Click="AddQuestion_Click" Margin="5,0"/>
+        </StackPanel>
+
+        <ListView x:Name="QuestionsListView" 
+                  SelectionChanged="QuestionsListView_SelectionChanged"
+                  Grid.Row="1" Margin="10">
+            <!-- Bind to a collection of questions -->
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Question Text" DisplayMemberBinding="{Binding QuestionText}" Width="400"/>
+                    <!-- Other columns for actions like edit/delete -->
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <ListView x:Name="AnswersListView" Grid.Row="3" Margin="10">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Answer Text" DisplayMemberBinding="{Binding AnswerText}" Width="400"/>
+                    <!-- Columns for actions like edit/delete if necessary -->
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="10">
+            <TextBlock Text="Add Answer Option to Selected Question:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+            <TextBox x:Name="AnswerTextBox" Width="200"/>
+            <Button Content="Add Answer" Click="AddAnswerOption_Click" Margin="5,0"/>
+        </StackPanel>
+    </Grid>
+</Window>

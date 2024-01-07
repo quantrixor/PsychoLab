@@ -27,21 +27,25 @@
                     Click="btnExit_Click"/>
         </StackPanel>
         <StackPanel HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
+                    VerticalAlignment="Center"
+                    Width="300">
             <Button Content="Управление клиентами"
                     x:Name="btnManageClients"
                     Click="btnManageClients_Click"
-                    Width="250"
                     Height="40"/>
-            <Button Content="Управление расписанием" Width="250"
+            <Button Content="Управление расписанием"
                     Height="40" Margin="0,5"/>
-            <Button Content="Управление сеансами" Width="250" 
+            <Button Content="Управление сеансами" 
                     Height="40"/>
-            <Button Content="Управление тестами" Width="250" 
+            <Button Content="Тестирование" 
                     Margin="0,5"
                     Height="40"
-                    x:Name="btnManageTest"
-                    Click="btnManageTest_Click"/>
+                    x:Name="btnTesting"
+                    Click="btnTesting_Click"/>
+            <Button Content="Управление тестами"
+                    Height="40"
+                    x:Name="btnManagementTests"
+                    Click="btnManagementTests_Click"/>
         </StackPanel>
     </Grid>
 </Page>
