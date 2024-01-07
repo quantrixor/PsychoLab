@@ -13,12 +13,18 @@
     <Grid>
         <StackPanel HorizontalAlignment="Left"
                     VerticalAlignment="Top"
-                    Margin="10">
+                    Margin="10"
+                    Orientation="Horizontal">
             <Label x:Name="lblCurrentUser" 
                    FontSize="20"
                    Content="Test"
                    ContentStringFormat="Пользователь: {0}" 
                    />
+            <Button Content="Выйти"
+                    Margin="5,0"
+                    Width="150"
+                    x:Name="btnExit"
+                    Click="btnExit_Click"/>
         </StackPanel>
         <StackPanel HorizontalAlignment="Center"
                     VerticalAlignment="Center">
@@ -31,6 +37,11 @@
                     Height="40" Margin="0,5"/>
             <Button Content="Управление сеансами" Width="250" 
                     Height="40"/>
+            <Button Content="Управление тестами" Width="250" 
+                    Margin="0,5"
+                    Height="40"
+                    x:Name="btnManageTest"
+                    Click="btnManageTest_Click"/>
         </StackPanel>
     </Grid>
 </Page>

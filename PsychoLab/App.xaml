@@ -4,6 +4,16 @@
              xmlns:local="clr-namespace:PsychoLab"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Style TargetType="Control">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        <Style TargetType="DataGrid">
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+        </Style>
     </Application.Resources>
+
 </Application>

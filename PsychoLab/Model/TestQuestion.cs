@@ -22,7 +22,6 @@ namespace PsychoLab.Model
         }
     
         public int QuestionID { get; set; }
-        public Nullable<int> TestID { get; set; }
         public string QuestionText { get; set; }
     
         public virtual PsychologicalTest PsychologicalTest { get; set; }

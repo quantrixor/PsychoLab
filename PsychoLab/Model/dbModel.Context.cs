@@ -13,10 +13,10 @@ namespace PsychoLab.Model
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class dbPsychoLabEntities : DbContext
+    public partial class dbPsychoLabAppEntities : DbContext
     {
-        public dbPsychoLabEntities()
-            : base("name=dbPsychoLabEntities")
+        public dbPsychoLabAppEntities()
+            : base("name=dbPsychoLabAppEntities")
         {
         }
     
@@ -28,11 +28,12 @@ namespace PsychoLab.Model
         public virtual DbSet<Client> Clients { get; set; }
         public virtual DbSet<ExportLog> ExportLogs { get; set; }
         public virtual DbSet<Gender> Genders { get; set; }
+        public virtual DbSet<Permission> Permissions { get; set; }
         public virtual DbSet<PsychologicalTest> PsychologicalTests { get; set; }
         public virtual DbSet<PsychologistReport> PsychologistReports { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
-        public virtual DbSet<Schedule> Schedules { get; set; }
         public virtual DbSet<SessionArchive> SessionArchives { get; set; }
+        public virtual DbSet<Session> Sessions { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TestAnswer> TestAnswers { get; set; }
         public virtual DbSet<TestQuestion> TestQuestions { get; set; }

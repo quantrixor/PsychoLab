@@ -6,17 +6,13 @@ using System.Threading.Tasks;
 
 namespace PsychoLab.Model
 {
-    public partial class User
+    public partial class Client
     {
-        public string FullName
+        public string GetData
         {
             get
             {
-                return $"{FirstName} {LastName} {MiddleName}";
-            }
-            set
-            {
-                FullName = value;
+                return $"{FirstName} {LastName} - {Phone} ";
             }
         }
     }

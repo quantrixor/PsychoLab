@@ -12,20 +12,18 @@ namespace PsychoLab.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class TestAnswer
+    public partial class Permission
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public TestAnswer()
+        public Permission()
         {
-            this.TestResults = new HashSet<TestResult>();
+            this.Roles = new HashSet<Role>();
         }
     
-        public int AnswerID { get; set; }
-        public string AnswerText { get; set; }
-        public Nullable<bool> IsCorrect { get; set; }
+        public int PermissionID { get; set; }
+        public string PermissionName { get; set; }
     
-        public virtual TestQuestion TestQuestion { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TestResult> TestResults { get; set; }
+        public virtual ICollection<Role> Roles { get; set; }
     }
 }

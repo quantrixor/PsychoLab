@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -34,55 +36,31 @@ namespace PsychoLab.Views.Pages.UserView
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(txbFirstname.Text)
-                    || string.IsNullOrWhiteSpace(txbLastname.Text)
-                    || string.IsNullOrWhiteSpace(txbEmail.Text)
-                    || string.IsNullOrWhiteSpace(txbPhone.Text)
-                    || string.IsNullOrWhiteSpace(cmbGender.Text)
-                    || string.IsNullOrWhiteSpace(txbMiddlename.Text)
-                    || ptDateOfBirth.SelectedDate == null)
+                if (!AreClientDetailsValid())
                 {
-                    MessageBox.Show("Пожалуйста, заполните все поля.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
+                    return; // Проверка деталей клиента и вывод соответствующих сообщений об ошибке
                 }
-                if (ValidateEmail(txbEmail.Text))
-                {
-                    MessageBox.Show("Формат электронной почты недействителен.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
+
                 if (client == null)
                 {
-                    bool clientExists = AppData.db.Clients.Any(c => c.Email == txbEmail.Text || c.Phone == txbPhone.Text);
-
-                    if (clientExists)
-                    {
-                        MessageBox.Show("Клиент с таким адресом электронной почты или номером телефона уже существует.", "Дублирующийся клиент", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        return;
-                    }
                     client = new Client();
-                    SaveClient(client);
-                    AppData.db.Clients.Add(client);
-                }
-                
-                else
-                {
-                    SaveClient(client);
                 }
 
-                AppData.db.SaveChanges();
+                if (IsClientDuplicate(client))
+                {
+                    MessageBox.Show("Клиент с таким адресом электронной почты или номером телефона уже существует.", "Дублирующийся клиент", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                SaveClient(client); // Обновляем данные клиента
+                SaveOrUpdateClient(client); // Сохраняем или обновляем клиента в базе данных
                 MessageBox.Show("Данные клиента успешно сохранены.", "Сохранено", MessageBoxButton.OK, MessageBoxImage.Information);
                 GetClients();
                 ClearTextBox();
             }
             catch (DbEntityValidationException ex)
             {
-                foreach (var validationErrors in ex.EntityValidationErrors)
-                {
-                    foreach (var validationError in validationErrors.ValidationErrors)
-                    {
-                        MessageBox.Show($"Property: {validationError.PropertyName} Error: {validationError.ErrorMessage}");
-                    }
-                }
+                DisplayValidationErrors(ex);
             }
         }
         public bool ValidateEmail(string email)
@@ -97,28 +75,103 @@ namespace PsychoLab.Views.Pages.UserView
         {
             listDataClient.ItemsSource = AppData.db.Clients.ToList();
         }
+        private bool AreClientDetailsValid()
+        {
+            if (string.IsNullOrWhiteSpace(txbFirstname.Text)
+                || string.IsNullOrWhiteSpace(txbLastname.Text)
+                || string.IsNullOrWhiteSpace(txbEmail.Text)
+                || string.IsNullOrWhiteSpace(txbPhone.Text)
+                || cmbGender.SelectedItem == null
+                || string.IsNullOrWhiteSpace(txbMiddlename.Text)
+                || ptDateOfBirth.SelectedDate == null)
+            {
+                MessageBox.Show("Пожалуйста, заполните все поля.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            if (!ValidateEmail(txbEmail.Text))
+            {
+                MessageBox.Show("Формат электронной почты недействителен.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+
+            // Возможно, добавить здесь дополнительные проверки...
+
+            return true; // Все проверки пройдены
+        }
+
+        private bool IsClientDuplicate(Client client)
+        {
+            // Проверяем, существует ли уже клиент с таким же Email или Phone, исключая текущего клиента из поиска
+            return AppData.db.Clients.Any(c => (c.Email == txbEmail.Text || c.Phone == txbPhone.Text) && c.ClientID != client.ClientID);
+        }
+
+        private void DisplayValidationErrors(DbEntityValidationException ex)
+        {
+            var errorMessages = new StringBuilder();
+
+            foreach (var validationErrors in ex.EntityValidationErrors)
+            {
+                foreach (var validationError in validationErrors.ValidationErrors)
+                {
+                    errorMessages.AppendLine($"Property: {validationError.PropertyName} Error: {validationError.ErrorMessage}");
+                }
+            }
+
+            MessageBox.Show(errorMessages.ToString(), "Ошибка валидации", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
 
         private void SaveClient(Client client)
         {
-           
+
             client.FirstName = txbFirstname.Text;
             client.LastName = txbLastname.Text;
             client.MiddleName = txbMiddlename.Text;
             client.Email = txbEmail.Text;
             client.Phone = txbPhone.Text;
-            client.DateOfBirth = ptDateOfBirth.SelectedDate.Value.Date;
+            client.DateOfBirth = ptDateOfBirth.SelectedDate.HasValue ? ptDateOfBirth.SelectedDate.Value.Date : (DateTime?)null;
 
-            var selectedGenderTitle = cmbGender.Text;
-            var gender = AppData.db.Genders.FirstOrDefault(item => item.Title == selectedGenderTitle);
+            var selectedGender = cmbGender.SelectedItem as string;
+            var gender = AppData.db.Genders.FirstOrDefault(g => g.Title == selectedGender);
             if (gender != null)
             {
-                client.Gender = gender;
+                client.Gender = gender; // Устанавливаем связанный объект Gender, а не IDGender
+            }
+
+            // Установка дат создания или обновления
+            DateTime currentTime = DateTime.UtcNow;
+            if (client.ClientID == 0)
+            {
+                client.CreatedAt = currentTime;
+                client.CreatedBy = GetCurrentUserId();
             }
             else
             {
-                MessageBox.Show("Выбранный пол не найден.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                client.UpdatedAt = currentTime;
+                client.UpdatedBy = GetCurrentUserId();
             }
         }
+
+        private void SaveOrUpdateClient(Client client)
+        {
+            // Теперь этот метод отвечает за добавление нового клиента или обновление существующего в базе данных
+            if (client.ClientID == 0)
+            {
+                AppData.db.Clients.Add(client); // Добавляем нового клиента, если его ID равен 0
+            }
+            else
+            {
+                AppData.db.Entry(client).State = EntityState.Modified; // Обновляем существующего клиента, если у него уже есть ID
+            }
+
+            AppData.db.SaveChanges(); // Сохраняем изменения в базе данных
+        }
+
+        private int GetCurrentUserId()
+        {
+            return 1;
+        }
+
         private void ClearTextBox()
         {
             txbEmail.Text = "";
@@ -179,10 +232,9 @@ namespace PsychoLab.Views.Pages.UserView
             return searchResults;
         }
 
-
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
-            client = (Client)listDataClient.SelectedItem;
+            client = listDataClient.SelectedItem as Client;
             if (client != null)
             {
                 txbEmail.Text = client.Email;
@@ -191,7 +243,9 @@ namespace PsychoLab.Views.Pages.UserView
                 txbLastname.Text = client.LastName;
                 txbPhone.Text = client.Phone;
                 ptDateOfBirth.SelectedDate = client.DateOfBirth;
-                cmbGender.Text = client.Gender?.Title;
+
+                // Установка выбранного пола клиента в ComboBox
+                cmbGender.SelectedItem = client.Gender?.Title;
             }
         }
 
@@ -246,6 +300,11 @@ namespace PsychoLab.Views.Pages.UserView
             {
                 textBox.SelectionStart = 18;
             }
+        }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.GoBack();
         }
     }
 }

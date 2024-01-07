@@ -17,20 +17,23 @@ namespace PsychoLab.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Client()
         {
-            this.Schedules = new HashSet<Schedule>();
+            this.Sessions = new HashSet<Session>();
         }
     
         public int ClientID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string MiddleName { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public string IDGender { get; set; }
-        public string MiddleName { get; set; }
         public Nullable<System.DateTime> DateOfBirth { get; set; }
+        public System.DateTime CreatedAt { get; set; }
+        public Nullable<int> CreatedBy { get; set; }
+        public Nullable<System.DateTime> UpdatedAt { get; set; }
+        public Nullable<int> UpdatedBy { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Schedule> Schedules { get; set; }
+        public virtual ICollection<Session> Sessions { get; set; }
         public virtual Gender Gender { get; set; }
     }
 }

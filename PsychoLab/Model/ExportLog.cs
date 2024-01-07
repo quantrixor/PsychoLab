@@ -15,7 +15,6 @@ namespace PsychoLab.Model
     public partial class ExportLog
     {
         public int LogID { get; set; }
-        public int UserID { get; set; }
         public System.DateTime ExportDate { get; set; }
         public string FormatExported { get; set; }
     

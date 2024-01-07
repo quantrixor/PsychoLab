@@ -15,9 +15,8 @@ namespace PsychoLab.Model
     public partial class SessionArchive
     {
         public int ArchiveID { get; set; }
-        public int SessionID { get; set; }
         public System.DateTime ArchivedDate { get; set; }
     
-        public virtual Schedule Schedule { get; set; }
+        public virtual Session Session { get; set; }
     }
 }

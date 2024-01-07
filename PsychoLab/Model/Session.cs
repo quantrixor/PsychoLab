@@ -12,23 +12,25 @@ namespace PsychoLab.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Schedule
+    public partial class Session
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Schedule()
+        public Session()
         {
             this.PsychologistReports = new HashSet<PsychologistReport>();
             this.SessionArchives = new HashSet<SessionArchive>();
-            this.TestResults1 = new HashSet<TestResult>();
+            this.TestResults = new HashSet<TestResult>();
         }
     
         public int SessionID { get; set; }
-        public int ClientID { get; set; }
         public System.DateTime SessionDate { get; set; }
         public System.TimeSpan StartTime { get; set; }
         public System.TimeSpan EndTime { get; set; }
         public string SessionNote { get; set; }
-        public string TestResults { get; set; }
+        public System.DateTime CreatedAt { get; set; }
+        public Nullable<int> CreatedBy { get; set; }
+        public Nullable<System.DateTime> UpdatedAt { get; set; }
+        public Nullable<int> UpdatedBy { get; set; }
     
         public virtual Client Client { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -36,6 +38,6 @@ namespace PsychoLab.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SessionArchive> SessionArchives { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TestResult> TestResults1 { get; set; }
+        public virtual ICollection<TestResult> TestResults { get; set; }
     }
 }

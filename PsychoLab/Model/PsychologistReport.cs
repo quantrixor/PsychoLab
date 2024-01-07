@@ -15,10 +15,9 @@ namespace PsychoLab.Model
     public partial class PsychologistReport
     {
         public int ReportID { get; set; }
-        public int SessionID { get; set; }
         public string ReportContent { get; set; }
         public System.DateTime PrintDate { get; set; }
     
-        public virtual Schedule Schedule { get; set; }
+        public virtual Session Session { get; set; }
     }
 }

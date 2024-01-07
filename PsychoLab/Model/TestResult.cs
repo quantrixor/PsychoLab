@@ -15,13 +15,9 @@ namespace PsychoLab.Model
     public partial class TestResult
     {
         public int ResultID { get; set; }
-        public Nullable<int> SessionID { get; set; }
-        public Nullable<int> TestID { get; set; }
-        public Nullable<int> QuestionID { get; set; }
-        public Nullable<int> AnswerID { get; set; }
     
         public virtual PsychologicalTest PsychologicalTest { get; set; }
-        public virtual Schedule Schedule { get; set; }
+        public virtual Session Session { get; set; }
         public virtual TestAnswer TestAnswer { get; set; }
         public virtual TestQuestion TestQuestion { get; set; }
     }

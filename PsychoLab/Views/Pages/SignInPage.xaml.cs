@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
@@ -25,25 +26,48 @@ namespace PsychoLab.Views.Pages
         {
             Application.Current.Shutdown();
         }
+        // Метод аутентификации пользователя по логину и паролю и определению роли
+        private (User user, string role) AuthenticateUser(string username, string password)
+        {
+            // Поиск пользователя по имени и паролю
+            var user = AppData.db.Users
+                            .Include(u => u.Roles) // Загрузка ролей
+                            .FirstOrDefault(u => u.Username == username && u.Password == password);
+
+            if (user != null)
+            {
+                // Получение роли пользователя. Предполагается, что у пользователя только одна роль.
+                var role = user.Roles.Select(r => r.RoleName).FirstOrDefault(); // Первая роль или null, если ролей нет
+                return (user, role);
+            }
+            return (null, null);
+        }
 
         private void btnSignIn_Click(object sender, RoutedEventArgs e)
         {
             // Происходит аутентификация пользователя
             try
             {
-                var currentUser = AuthenticateUser(txbUsername.Text, psbPassword.Password);
-                switch (currentUser.role)
+                var (user, role) = AuthenticateUser(txbUsername.Text, psbPassword.Password);
+                if (user != null)
                 {
-                    case "Администратор":
-                        NavigationService.Navigate(new AdminMainView());
-                        break;
-                    case "Психолог":
-                        NavigationService.Navigate(new UserMainView(currentUser.user.FullName));
-                        break;
-                    case null:
-                        MessageBox.Show("Пользователь с такими данными не найден! Пожалуйста, убедитесь, что вы вводите данные правильно и повторите попытку.",
-                            "Пользователь не найден.", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        break;
+                    switch (role) // Используйте переменную role для свитча
+                    {
+                        case "Administrator":
+                            NavigationService.Navigate(new AdminMainView());
+                            break;
+                        case "Psychologist":
+                            NavigationService.Navigate(new UserMainView(user.FullName)); // Используйте user.FullName
+                            break;
+                        default:
+                            MessageBox.Show("Пользователь с такими данными не найден! Пожалуйста, убедитесь, что вы вводите данные правильно и повторите попытку.",
+                                "Пользователь не найден.", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            break;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Неверное имя пользователя или пароль.", "Ошибка входа", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (DbEntityValidationException ex)
@@ -56,23 +80,6 @@ namespace PsychoLab.Views.Pages
                     }
                 }
             }
-        }
-
-        // Метод аутентификации пользователя по логину и паролю и определению роли
-        public (User user, string role) AuthenticateUser(string username, string password)
-        {
-            // Найти пользователя по имени пользователя и паролю
-            var user = AppData.db.Users.FirstOrDefault(u => u.Username == username && u.Password == password);
-
-            if (user != null)
-            {
-                var userRoles = user.Roles.Select(r => r.RoleName).ToList();
-                string role = userRoles.FirstOrDefault();
-
-                return (user, role);
-            }
-
-            return (null, null);
         }
     }
 }

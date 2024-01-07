@@ -9,6 +9,6 @@ namespace PsychoLab.Context
 {
     internal class AppData
     {
-        public static dbPsychoLabEntities db = new dbPsychoLabEntities();
+        public static dbPsychoLabAppEntities db = new dbPsychoLabAppEntities();
     }
 }

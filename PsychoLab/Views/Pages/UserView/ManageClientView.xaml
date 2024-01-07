@@ -68,8 +68,8 @@
             
             <GroupBox Grid.Row="1" Header="Данные клиентов"
                       Padding="5">
-                <DataGrid ColumnWidth="*" AutoGenerateColumns="False"
-                          IsReadOnly="True" x:Name="listDataClient">
+                <DataGrid ColumnWidth="*"
+                          x:Name="listDataClient">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Binding="{Binding ClientID}" Width="40"/>
                         <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}"/>
@@ -98,6 +98,10 @@
                         Width="200"
                         Padding="4"
                         Margin="10,0"/>
+                <Button Content="Назад"
+                        Width="200"
+                        x:Name="btnBack"
+                        Click="btnBack_Click"/>
             </StackPanel>
         </Grid>
     </Grid>
