@@ -27,6 +27,7 @@ namespace PsychoLab.Model
     
         public virtual DbSet<Client> Clients { get; set; }
         public virtual DbSet<ExportLog> ExportLogs { get; set; }
+        public virtual DbSet<Gender> Genders { get; set; }
         public virtual DbSet<PsychologicalTest> PsychologicalTests { get; set; }
         public virtual DbSet<PsychologistReport> PsychologistReports { get; set; }
         public virtual DbSet<Role> Roles { get; set; }

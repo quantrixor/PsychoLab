@@ -31,16 +31,17 @@ namespace PsychoLab.Views.Pages
             // Происходит аутентификация пользователя
             try
             {
-                switch(AuthenticateUser(txbUsername.Text, psbPassword.Password).role)
+                var currentUser = AuthenticateUser(txbUsername.Text, psbPassword.Password);
+                switch (currentUser.role)
                 {
                     case "Администратор":
                         NavigationService.Navigate(new AdminMainView());
                         break;
                     case "Психолог":
-                        NavigationService.Navigate(new UserMainView());
+                        NavigationService.Navigate(new UserMainView(currentUser.user.FullName));
                         break;
                     case null:
-                        MessageBox.Show("Пользователь с такими данными не найден! Пожалуйста, убедитесь, что вводите данные правильно и повторите попытку.",
+                        MessageBox.Show("Пользователь с такими данными не найден! Пожалуйста, убедитесь, что вы вводите данные правильно и повторите попытку.",
                             "Пользователь не найден.", MessageBoxButton.OK, MessageBoxImage.Warning);
                         break;
                 }

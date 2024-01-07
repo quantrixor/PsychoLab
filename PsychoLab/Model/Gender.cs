@@ -12,25 +12,18 @@ namespace PsychoLab.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Client
+    public partial class Gender
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Client()
+        public Gender()
         {
-            this.Schedules = new HashSet<Schedule>();
+            this.Clients = new HashSet<Client>();
         }
     
-        public int ClientID { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public string Phone { get; set; }
-        public string IDGender { get; set; }
+        public string ID { get; set; }
+        public string Title { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Schedule> Schedules { get; set; }
-        public virtual Gender Gender { get; set; }
-        
-
+        public virtual ICollection<Client> Clients { get; set; }
     }
 }

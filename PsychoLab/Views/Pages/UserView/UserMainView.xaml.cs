@@ -20,9 +20,22 @@ namespace PsychoLab.Views.Pages.UserView
     /// </summary>
     public partial class UserMainView : Page
     {
-        public UserMainView()
+        public string FullName { get; set; }
+        public UserMainView(string fullName)
         {
             InitializeComponent();
+            FullName = fullName;
+            this.DataContext = this;
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            lblCurrentUser.Content = FullName;
+        }
+
+        private void btnManageClients_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new ManageClientView());
         }
     }
 }
