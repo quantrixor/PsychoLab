@@ -5,29 +5,34 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:PsychoLab.Views.Pages.UserView"
       mc:Ignorable="d" 
+      FontSize="15"
       Loaded="Page_Loaded"
-      d:DesignHeight="500" d:DesignWidth="1080"
+      d:DesignHeight="600" d:DesignWidth="1080"
       Title="ManageClientView">
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.5*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <GroupBox Header="Обработка данных клиентов" 
                   Grid.Column="0"
                   Margin="10"
-                  Width="320"
-                  Height="320"
+                  Width="330"
+                  Height="520"
                   Padding="5">
             <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Width="200">
+                        Width="300">
 
                 <Label Content="Фамилия: "/>
                 <TextBox x:Name="txbLastname"/>
                 <Label Content="Имя: "/>
                 <TextBox x:Name="txbFirstname"/>
+                <Label Content="Отчество: "/>
+                <TextBox x:Name="txbMiddlename"/>
+                <Label Content="Дата рождения: "/>
+                <DatePicker x:Name="ptDateOfBirth"/>
                 <Label Content="Email: "/>
                 <TextBox x:Name="txbEmail"/>
                 <Label Content="Phone: "/>
@@ -62,16 +67,18 @@
             </StackPanel>
             
             <GroupBox Grid.Row="1" Header="Данные клиентов"
-                      Padding="10">
+                      Padding="5">
                 <DataGrid ColumnWidth="*" AutoGenerateColumns="False"
                           IsReadOnly="True" x:Name="listDataClient">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID" Binding="{Binding ClientID}"/>
+                        <DataGridTextColumn Header="ID" Binding="{Binding ClientID}" Width="40"/>
                         <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}"/>
                         <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}"/>
+                        <DataGridTextColumn Header="Отчество" Binding="{Binding MiddleName}"/>
                         <DataGridTextColumn Header="Почта" Binding="{Binding Email}"/>
                         <DataGridTextColumn Header="Телефон" Binding="{Binding Phone}"/>
                         <DataGridTextColumn Header="Пол" Binding="{Binding Gender.Title}"/>
+                        <DataGridTextColumn Header="Дата рождения" Binding="{Binding DateOfBirth}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </GroupBox>
