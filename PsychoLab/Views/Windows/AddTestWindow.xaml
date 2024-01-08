@@ -8,7 +8,10 @@
         FontSize="15"
         WindowStyle="ToolWindow"
         WindowStartupLocation="CenterScreen"
-        Title="Добавление теста" Height="200" Width="350">
+        Title="Добавление теста" 
+        Height="200" 
+        Width="350">
+    
     <StackPanel HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Width="300"
@@ -17,6 +20,7 @@
         <TextBox x:Name="TestNameTextBox"
                  Margin="0,5"/>
         <Button Content="Добавить"
+                Height="35"
                 Click="AddTest_Click"/>
     </StackPanel>
 </Window>

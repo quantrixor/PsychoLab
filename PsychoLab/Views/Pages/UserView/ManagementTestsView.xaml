@@ -39,18 +39,18 @@
                     VerticalAlignment="Center"
                     Orientation="Horizontal"
                     Grid.Row="2">
-            <Button Content="Добавить тест"
+            <Button Content="Добавить"
                     Width="250"
                     x:Name="btnAddTest"
                     Click="btnAddTest_Click"/>
             <Button Width="250"
                     Margin="5,0"
                     x:Name="btnEdit"
-                    Content="Редактировать тест" Click="btnEdit_Click"/>
+                    Content="Редактировать" Click="btnEdit_Click"/>
             <Button Width="250"
                     Margin="5,0"
                     x:Name="btnDelete"
-                    Content="Удалить тест" Click="btnDelete_Click"/>
+                    Content="Удалить" Click="btnDelete_Click"/>
         </StackPanel>
     </Grid>
 </Page>

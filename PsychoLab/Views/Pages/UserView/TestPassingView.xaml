@@ -7,6 +7,28 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="TestPassingView">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-    <Grid></Grid>
+        <!-- Current Question -->
+        <TextBlock x:Name="CurrentQuestionTextBlock" Grid.Row="0" FontSize="24" Margin="10" HorizontalAlignment="Center"/>
+
+        <!-- Possible Answers -->
+        <ListBox x:Name="AnswersListBox" Grid.Row="1" Margin="10">
+            <!-- DataTemplate for the ListBox to display radio buttons for answers -->
+            
+        </ListBox>
+
+        <!-- Navigation Buttons -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+            <Button x:Name="PreviousButton" Content="Назад" Width="75" Margin="5" Click="PreviousButton_Click"/>
+            <Button x:Name="NextButton" Content="Далее" Width="75" Margin="5" Click="NextButton_Click"/>
+            <Button x:Name="FinishButton" Content="Завершить тест" Width="150" Margin="5" Click="FinishButton_Click"/>
+        </StackPanel>
+    </Grid>
+
 </Page>

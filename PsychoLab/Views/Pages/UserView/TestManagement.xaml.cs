@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using PsychoLab.Context;
 using PsychoLab.Model;
 
@@ -22,15 +12,23 @@ namespace PsychoLab.Views.Pages.UserView
     /// </summary>
     public partial class TestManagement : Page
     {
-        public List<Client> listClients { get; set; }
-
         public TestManagement()
         {
             InitializeComponent();
-            listClients = AppData.db.Clients.ToList();
-            cmbListClient.ItemsSource = listClients.Select(item => item.GetData).ToList();
+            LoadClients();
+            LoadTests();
+        }
+        private void LoadClients()
+        {
+            // Загрузка клиентов из базы данных
+            cmbListClient.ItemsSource = AppData.db.Clients.ToList();
         }
 
+        private void LoadTests()
+        {
+            // Загрузка тестов из базы данных
+            cmbListTest.ItemsSource = AppData.db.PsychologicalTests.ToList();
+        }
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
 
@@ -39,6 +37,22 @@ namespace PsychoLab.Views.Pages.UserView
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.GoBack();
+        }
+
+        private void btnStartTesting_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedClient = cmbListClient.SelectedItem as Client;
+            var selectedTest = cmbListTest.SelectedItem as PsychologicalTest;
+
+            if (selectedClient == null || selectedTest == null)
+            {
+                MessageBox.Show("Необходимо выбрать клиента и тест.");
+                return;
+            }
+
+            // Открытие окна тестирования
+            NavigationService.Navigate(new TestPassingView(selectedClient.ClientID, selectedTest.TestID));
+
         }
     }
 }

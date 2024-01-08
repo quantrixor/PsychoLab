@@ -15,13 +15,13 @@
                     VerticalAlignment="Center"
                     Width="300">
             <Label Content="Выберите клиента: "/>
-            <ComboBox x:Name="cmbListClient"></ComboBox>
+            <ComboBox x:Name="cmbListClient" DisplayMemberPath="GetData"></ComboBox>
             <Label Content="Выберите тест: "/>
-            <ComboBox x:Name="cmbListTest"/>
+            <ComboBox x:Name="cmbListTest" DisplayMemberPath="TestName"/>
             <Button Content="Начать тестирование"
                     x:Name="btnStartTesting"
                     Padding="5"
-                    Margin="0,5"/>
+                    Margin="0,5" Click="btnStartTesting_Click"/>
             
             <Button Content="Назад"
                     x:Name="btnBack"
