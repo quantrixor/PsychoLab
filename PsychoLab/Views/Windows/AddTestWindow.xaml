@@ -5,13 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PsychoLab.Views.Windows"
         mc:Ignorable="d"
+        FontSize="15"
+        WindowStyle="ToolWindow"
         WindowStartupLocation="CenterScreen"
-        Title="Добавление теста" Height="200" Width="300">
+        Title="Добавление теста" Height="200" Width="350">
     <StackPanel HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Width="300">
+                Width="300"
+                Margin="10">
         <Label Content="Название теста:"/>
-        <TextBox x:Name="TestNameTextBox"/>
-        <Button Content="Добавить" Click="AddTest_Click"/>
+        <TextBox x:Name="TestNameTextBox"
+                 Margin="0,5"/>
+        <Button Content="Добавить"
+                Click="AddTest_Click"/>
     </StackPanel>
 </Window>

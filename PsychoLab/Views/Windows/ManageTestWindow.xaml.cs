@@ -1,17 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using PsychoLab.Context;
 using PsychoLab.Model;
 
@@ -22,6 +13,9 @@ namespace PsychoLab.Views.Windows
     /// </summary>
     public partial class ManageTestWindow : Window
     {
+        private TestQuestion selectedQuestion { get; set; }
+        private TestAnswer selectedAnswer { get; set; }
+
         private readonly int _testId;
         public ManageTestWindow(int testId)
         {
@@ -31,17 +25,29 @@ namespace PsychoLab.Views.Windows
         }
         private void AddQuestion_Click(object sender, RoutedEventArgs e)
         {
+            if(selectedQuestion != null)
+            {
+                if (QuestionTextBox.Text == "")
+                    return;
+                selectedQuestion.QuestionText = QuestionTextBox.Text;
+                AppData.db.SaveChanges();
+                GetData();
+                QuestionTextBox.Clear();
+                MessageBox.Show("Данные вопроса успешно сохранены.", "Успешно.", MessageBoxButton.OK, MessageBoxImage.Information);
+                selectedQuestion = null;
+                return;
+            }
             var questionText = QuestionTextBox.Text.Trim();
             if (string.IsNullOrEmpty(questionText))
             {
-                MessageBox.Show("Please enter a question text.");
+                MessageBox.Show("Пожалуйста, введите текст вопроса.", "Предупреждение.", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            var test = AppData.db.PsychologicalTests.Find(_testId); // Предполагая, что _testId уже задан
+            var test = AppData.db.PsychologicalTests.Find(_testId);
             if (test == null)
             {
-                MessageBox.Show("Test not found.");
+                MessageBox.Show("Тест ненайден.");
                 return;
             }
 
@@ -49,22 +55,37 @@ namespace PsychoLab.Views.Windows
             AppData.db.TestQuestions.Add(question);
             AppData.db.SaveChanges();
 
-            MessageBox.Show("Question has been added.");
+            MessageBox.Show("Вопрос добавлен.", "Успешно.", MessageBoxButton.OK, MessageBoxImage.Information);
             GetData();
+            QuestionTextBox.Text = "";
         }
         private void AddAnswerOption_Click(object sender, RoutedEventArgs e)
         {
             var selectedQuestion = QuestionsListView.SelectedItem as TestQuestion;
+            if(selectedAnswer!= null && selectedQuestion != null)
+            {
+                if (AnswerTextBox.Text == "")
+                    return;
+                selectedAnswer.AnswerText = AnswerTextBox.Text;
+                AppData.db.SaveChanges();
+                AnswersListView.ItemsSource = AppData.db.TestAnswers
+                    .Where(a => a.TestQuestion.QuestionID == selectedQuestion.QuestionID)
+                    .ToList();
+                AnswerTextBox.Clear();
+                MessageBox.Show("Данные ответа успешно сохранены.", "Успешно.", MessageBoxButton.OK, MessageBoxImage.Information);
+                selectedAnswer = null;
+                return;
+            }
             if (selectedQuestion == null)
             {
-                MessageBox.Show("Please select a question.");
+                MessageBox.Show("Пожалуйста, выберите вопрос из списка вопросов.", "Предупреждение.", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             var answerText = AnswerTextBox.Text.Trim();
             if (string.IsNullOrEmpty(answerText))
             {
-                MessageBox.Show("Please enter an answer text.");
+                MessageBox.Show("Пожалуйста, выберите ответ из списка ответов.", "Предупреждение.", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -72,12 +93,12 @@ namespace PsychoLab.Views.Windows
             AppData.db.TestAnswers.Add(answer);
             AppData.db.SaveChanges();
 
-            MessageBox.Show("Answer option has been added.");
+            MessageBox.Show("Вариант ответа успешно добавлен.", "Успешно.", MessageBoxButton.OK, MessageBoxImage.Information);
             AnswersListView.ItemsSource = AppData.db.TestAnswers
                     .Where(a => a.TestQuestion.QuestionID == selectedQuestion.QuestionID)
                     .ToList();
+            AnswerTextBox.Clear();
         }
-
         private void GetData()
         {
             // Для нового теста инициализируем пустой список вопросов
@@ -109,6 +130,64 @@ namespace PsychoLab.Views.Windows
                 AnswersListView.ItemsSource = null;
             }
         }
+        private void EditQuestion_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var button = sender as Button;
+                selectedQuestion = QuestionsListView.SelectedItem as TestQuestion;
+                if (selectedQuestion != null)
+                    QuestionTextBox.Text = selectedQuestion.QuestionText;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка: {ex.Message}");
+            }
+        }
+        private void DeleteQuestion_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var button = sender as Button;
+                var question = button.DataContext as TestQuestion;
+                AppData.db.TestAnswers.RemoveRange(question.TestAnswers);
+                AppData.db.TestQuestions.Remove(question);
+                AppData.db.SaveChanges();
+                GetData();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка: {ex.Message}");
+            }
+            
+        }
+        private void EditAnswer_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedQuestion = QuestionsListView.SelectedItem as TestQuestion;
+            if (selectedQuestion == null)
+                return;
+            selectedAnswer = AnswersListView.SelectedItem as TestAnswer;
+            if (selectedAnswer != null)
+                AnswerTextBox.Text = selectedAnswer.AnswerText;
+        }
+        private void DeleteAnswer_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var button = sender as Button;
+                var answer = button.DataContext as TestAnswer;
 
+                if (answer == null) return;
+
+                AppData.db.TestAnswers.Remove(answer);
+                AppData.db.SaveChanges();
+                // Обновить список ответов
+                QuestionsListView_SelectionChanged(null, null);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при удалении ответа: {ex.Message}");
+            }
+        }
     }
 }

@@ -50,7 +50,7 @@
             <Button Width="250"
                     Margin="5,0"
                     x:Name="btnDelete"
-                    Content="Удалить тест"/>
+                    Content="Удалить тест" Click="btnDelete_Click"/>
         </StackPanel>
     </Grid>
 </Page>
