@@ -17,13 +17,21 @@
                     Orientation="Horizontal">
             <Label x:Name="lblCurrentUser" 
                    FontSize="20"
+                   Foreground="Black"
                    Content="Test"
                    ContentStringFormat="Пользователь: {0}"/>
             <Button Content="Выйти"
-                    Margin="5,0"
+                    Margin="15,0"
+                    Height="30"
                     Width="150"
                     x:Name="btnExit"
-                    Click="btnExit_Click"/>
+                    Click="btnExit_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
         </StackPanel>
         <StackPanel HorizontalAlignment="Center"
                     VerticalAlignment="Center"
@@ -33,11 +41,10 @@
                     Click="btnManageClients_Click"
                     Height="40"/>
             <Button Content="Управление расписанием"
-                    Height="40" Margin="0,5"/>
+                    Height="40"/>
             <Button Content="Управление сеансами" 
                     Height="40"/>
-            <Button Content="Тестирование" 
-                    Margin="0,5"
+            <Button Content="Тестирование"
                     Height="40"
                     x:Name="btnTesting"
                     Click="btnTesting_Click"/>

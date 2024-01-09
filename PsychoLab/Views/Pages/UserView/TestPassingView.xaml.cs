@@ -88,6 +88,16 @@ namespace PsychoLab.Views.Pages.UserView
 
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
+            // Check if the current question has been answered
+            int currentQuestionId = _questions[_currentQuestionIndex].QuestionID;
+            if (!_selectedAnswers.ContainsKey(currentQuestionId))
+            {
+                // If the current question hasn't been answered, display a message or prevent navigation
+                MessageBox.Show("Please answer the question before proceeding.");
+                return;
+            }
+
+            // Proceed to the next question if the current one has been answered
             if (_currentQuestionIndex < _questions.Count - 1)
             {
                 _currentQuestionIndex++;
@@ -135,6 +145,7 @@ namespace PsychoLab.Views.Pages.UserView
                     // Сохранение данных в базу данных
                     AppData.db.SaveChanges();
                 }
+                MessageBox.Show("Ваши результаты сохранены!", "Тест завершен.", MessageBoxButton.OK, MessageBoxImage.Information);
                 NavigationService.GoBack();
             }
             catch (Exception ex)

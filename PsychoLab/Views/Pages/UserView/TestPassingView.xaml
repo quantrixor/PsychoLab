@@ -23,11 +23,28 @@
             
         </ListBox>
 
-        <!-- Navigation Buttons -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
-            <Button x:Name="PreviousButton" Content="Назад" Width="75" Margin="5" Click="PreviousButton_Click"/>
-            <Button x:Name="NextButton" Content="Далее" Width="75" Margin="5" Click="NextButton_Click"/>
-            <Button x:Name="FinishButton" Content="Завершить тест" Width="150" Margin="5" Click="FinishButton_Click"/>
+            <Button x:Name="PreviousButton" Width="150"  Content="Назад" Margin="5" Click="PreviousButton_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button x:Name="NextButton" Content="Далее" Width="150" Margin="5" Click="NextButton_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button x:Name="FinishButton" Content="Завершить тест" Width="200" Margin="5" Click="FinishButton_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
         </StackPanel>
     </Grid>
 

@@ -5,44 +5,9 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:PsychoLab.Views.Pages"
       mc:Ignorable="d" 
-      FontFamily="Segoe UI"
+      FontFamily="Segoe UI Bold"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Вход">
-
-    <Page.Resources>
-        <Style x:Key="TextBoxStyle" TargetType="TextBox">
-            <Setter Property="Margin" Value="0,10"/>
-            <Setter Property="Padding" Value="10"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="BorderBrush" Value="#D3D3D3"/>
-            <Setter Property="Height" Value="40"/>
-        </Style>
-
-        <Style x:Key="PasswordBoxStyle" TargetType="PasswordBox">
-            <Setter Property="Margin" Value="0,10"/>
-            <Setter Property="Padding" Value="10"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="BorderBrush" Value="#D3D3D3"/>
-            <Setter Property="Height" Value="40"/>
-        </Style>
-
-        <Style x:Key="ButtonStyle" TargetType="Button">
-            <Setter Property="Margin" Value="0,10,0,0"/>
-            <Setter Property="Background" Value="#0078D4"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Height" Value="40"/>
-            <Setter Property="FontSize" Value="14"/>
-        </Style>
-
-        <Style x:Key="LabelStyle" TargetType="Label">
-            <Setter Property="Foreground" Value="#FFC1C0C0"/>
-            <Setter Property="FontSize" Value="15"/>
-            <Setter Property="FontFamily" Value="Segoe UI"/>
-            <Setter Property="Padding" Value="5"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-        </Style>
-    </Page.Resources>
 
     <Grid>
         <Border Background="White" BorderBrush="#D3D3D3" BorderThickness="1" CornerRadius="10" Padding="20" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -55,8 +20,23 @@
                 <Label Content="Пароль:" Style="{StaticResource LabelStyle}"/>
                 <PasswordBox x:Name="psbPassword" Style="{StaticResource PasswordBoxStyle}"/>
 
-                <Button Content="Войти" Style="{StaticResource ButtonStyle}" Click="btnSignIn_Click"/>
-                <Button Content="Отмена" Style="{StaticResource ButtonStyle}" Click="btnCancel_Click" Background="#D3D3D3" Foreground="#333"/>
+                <Button Content="Войти" Height="40" Click="btnSignIn_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Content="Отмена" Height="40"
+                        Click="btnCancel_Click" 
+                        Background="#D3D3D3" 
+                        Foreground="#333">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
             </StackPanel>
         </Border>
     </Grid>
