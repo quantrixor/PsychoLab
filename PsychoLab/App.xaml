@@ -13,7 +13,9 @@
             <Setter Property="Margin" Value="10"/>
             <Setter Property="AutoGenerateColumns" Value="False"/>
             <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontFamily" Value="Segoe UI Bold"/>
             <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="ColumnWidth" Value="*"/>
         </Style>
 
         <Style x:Key="TextBoxStyle" TargetType="TextBox">

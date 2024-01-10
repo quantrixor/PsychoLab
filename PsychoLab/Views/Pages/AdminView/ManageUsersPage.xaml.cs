@@ -12,20 +12,25 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using PsychoLab.Context;
 
 namespace PsychoLab.Views.Pages.AdminView
 {
     /// <summary>
-    /// Interaction logic for AdminMainView.xaml
+    /// Interaction logic for ManageUsersPage.xaml
     /// </summary>
-    public partial class AdminMainView : Page
+    public partial class ManageUsersPage : Page
     {
-        public AdminMainView()
+        public ManageUsersPage()
         {
             InitializeComponent();
+            DataLoad();
         }
-
-        private void btnManageUser_Click(object sender, RoutedEventArgs e)
+        private void DataLoad()
+        {
+            dataUserListView.ItemsSource = AppData.db.Users.ToList();
+        }
+        private void txbSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }

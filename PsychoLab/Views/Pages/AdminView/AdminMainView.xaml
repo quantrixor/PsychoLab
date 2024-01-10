@@ -9,6 +9,58 @@
       Title="Режим Администратора">
 
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <StackPanel HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal"
+                        Margin="10">
+                <Label x:Name="currentUser"
+                       Foreground="Black"
+                       Content="Test"
+                       ContentStringFormat="Администратор: {0}">
+                </Label>
+                <Button Content="Выйти"
+                        Width="150"
+                        Margin="10,0,0,0">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1">
+
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <Button Width="280"
+                        Margin="5"
+                        Height="40"
+                        Padding="4"
+                        x:Name="btnManageUser"
+                        Click="btnManageUser_Click">
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center">
+                        <Image Margin="0,0,20,0" 
+                               Source="/Resources/icon-user.png"/>
+                        <TextBlock VerticalAlignment="Center" 
+                                   Text="Управление пользователями"/>
+                    </StackPanel>
+
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+
+        </Grid>
     </Grid>
 </Page>
