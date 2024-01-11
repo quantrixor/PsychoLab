@@ -15,5 +15,13 @@ namespace PsychoLab.Model
                 return $"{FirstName} {LastName} - {Phone} ";
             }
         }
+
+        public string FullName
+        {
+            get
+            {
+                return $"{FirstName} {LastName} {MiddleName} ";
+            }
+        }
     }
 }

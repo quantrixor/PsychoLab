@@ -17,6 +17,20 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
+            <StackPanel HorizontalAlignment="Left"
+                        VerticalAlignment="Center">
+                <Button Width="150"
+                        Margin="10,0,0,0"
+                        Content="Назад"
+                        x:Name="btnBack"
+                        Click="btnBack_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
             <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Orientation="Horizontal">

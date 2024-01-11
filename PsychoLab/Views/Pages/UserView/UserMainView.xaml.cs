@@ -52,5 +52,10 @@ namespace PsychoLab.Views.Pages.UserView
         {
             NavigationService.Navigate(new ManagementTestsView());
         }
+
+        private void btnManageSession_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new ManageSessionView());
+        }
     }
 }

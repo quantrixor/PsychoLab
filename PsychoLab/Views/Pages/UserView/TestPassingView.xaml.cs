@@ -21,6 +21,7 @@ namespace PsychoLab.Views.Pages.UserView
         private ObservableCollection<TestQuestion> _questions;
         private ObservableCollection<TestAnswer> _answers;
         private int _currentQuestionIndex;
+        private Session Session { get; set; }
         public TestPassingView(int clientId, int testId)
         {
             InitializeComponent();
@@ -30,7 +31,27 @@ namespace PsychoLab.Views.Pages.UserView
 
             LoadQuestions();
             UpdateQuestionDisplay();
+            Session = new Session();
+            var client = AppData.db.Clients.Find(_clientId);
+            if (client == null)
+            {
+                // Обработка ситуации, когда клиент не найден
+                MessageBox.Show("Клиент не найден.");
+                return;
+            }
 
+            // Создаем сессию и присваиваем найденного клиента
+            Session = new Session
+            {
+                Client = client,
+                StartTime = DateTime.Now.TimeOfDay,
+                SessionDate = DateTime.Now,
+                CreatedAt = DateTime.Now,
+                CreatedBy = clientId
+            };
+
+            AppData.db.Sessions.Add(Session);
+            AppData.db.SaveChanges();
         }
         private void LoadQuestions()
         {
@@ -88,16 +109,13 @@ namespace PsychoLab.Views.Pages.UserView
 
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
-            // Check if the current question has been answered
             int currentQuestionId = _questions[_currentQuestionIndex].QuestionID;
             if (!_selectedAnswers.ContainsKey(currentQuestionId))
             {
-                // If the current question hasn't been answered, display a message or prevent navigation
                 MessageBox.Show("Please answer the question before proceeding.");
                 return;
             }
 
-            // Proceed to the next question if the current one has been answered
             if (_currentQuestionIndex < _questions.Count - 1)
             {
                 _currentQuestionIndex++;
@@ -116,16 +134,7 @@ namespace PsychoLab.Views.Pages.UserView
 
                 if (client != null && psychologicalTest != null)
                 {
-                    // Create a new session and associate it with the found client
-                    Session session = new Session
-                    {
-                        Client = client, // This is the navigation property
-                        SessionDate = DateTime.Now,
-                    };
 
-                    AppData.db.Sessions.Add(session);
-
-                    // Now create TestResult entries for each answer
                     foreach (var entry in _selectedAnswers)
                     {
                         int questionId = entry.Key;
@@ -133,13 +142,16 @@ namespace PsychoLab.Views.Pages.UserView
 
                         TestResult testResult = new TestResult
                         {
-                            Session = session,
+                            Session = Session,
                             TestAnswer = AppData.db.TestAnswers.Find(answerId),
                             TestQuestion = AppData.db.TestQuestions.Find(questionId),
-                            PsychologicalTest = psychologicalTest, // Associate the PsychologicalTest
+                            PsychologicalTest = psychologicalTest,
                         };
 
                         AppData.db.TestResults.Add(testResult);
+                        TimeSpan timeSpan = DateTime.Now.TimeOfDay;
+                        Session.EndTime = timeSpan;
+
                     }
 
                     // Сохранение данных в базу данных
