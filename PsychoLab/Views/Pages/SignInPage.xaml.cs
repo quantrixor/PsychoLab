@@ -54,7 +54,7 @@ namespace PsychoLab.Views.Pages
                     switch (role) // Используйте переменную role для свитча
                     {
                         case "Administrator":
-                            NavigationService.Navigate(new AdminMainView());
+                            NavigationService.Navigate(new AdminMainView(user));
                             break;
                         case "Psychologist":
                             NavigationService.Navigate(new UserMainView(user.FullName)); // Используйте user.FullName

@@ -11,7 +11,7 @@
         <EntityTypeShape EntityType="dbPsychoLabAppModel.Permission" Width="1.5" PointX="12.5" PointY="1.625" IsExpanded="true" />
         <EntityTypeShape EntityType="dbPsychoLabAppModel.PsychologicalTest" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="dbPsychoLabAppModel.PsychologistReport" Width="1.5" PointX="7.5" PointY="7.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbPsychoLabAppModel.Role" Width="1.5" PointX="10.625" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbPsychoLabAppModel.Role" Width="1.5" PointX="9.875" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="dbPsychoLabAppModel.SessionArchive" Width="1.5" PointX="7.5" PointY="10.375" IsExpanded="true" />
         <EntityTypeShape EntityType="dbPsychoLabAppModel.Session" Width="1.5" PointX="6" PointY="3.125" IsExpanded="true" />
         <EntityTypeShape EntityType="dbPsychoLabAppModel.sysdiagram" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />

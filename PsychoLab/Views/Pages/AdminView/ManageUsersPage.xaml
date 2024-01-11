@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:PsychoLab.Views.Pages.AdminView"
       mc:Ignorable="d" 
+      Loaded="Page_Loaded"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Управление пользователями">
 
@@ -29,12 +30,23 @@
         <Grid Grid.Row="1">
             <DataGrid x:Name="dataUserListView"
                       ColumnWidth="*">
+                <DataGrid.RowStyle>
+                    <Style TargetType="{x:Type DataGridRow}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsAdmin}" Value="True">
+                                <Setter Property="Background" Value="LightBlue"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
+
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ID" Binding="{Binding UserID}" Width="40"/>
                     <DataGridTextColumn Header="E-mail" Binding="{Binding Email}"/>
                     <DataGridTextColumn Header="Имя пользователя" Binding="{Binding Username}"/>
                     <DataGridTextColumn Header="Пароль" Binding="{Binding Password}"/>
                     <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}"/>
+                    <DataGridTextColumn Header="Права" Binding="{Binding RolesDisplay}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
@@ -47,7 +59,8 @@
                 <Button Width="200"
                         Content="Зарегистрировать"
                         Margin="5"
-                        x:Name="btnRegistrationUser">
+                        x:Name="btnRegistrationUser"
+                        Click="btnRegistrationUser_Click">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="10"/>
@@ -58,7 +71,8 @@
                 <Button Content="Редактировать"
                         Margin="5"
                         x:Name="btnEditUser"
-                        Width="200">
+                        Width="200"
+                        Click="btnEditUser_Click">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="10"/>
@@ -68,6 +82,7 @@
                 <Button Content="Удалить"
                         Margin="5"
                         x:Name="btnRemoveUser"
+                        Click="btnRemoveUser_Click"
                         Width="200">
                     <Button.Resources>
                         <Style TargetType="Border">

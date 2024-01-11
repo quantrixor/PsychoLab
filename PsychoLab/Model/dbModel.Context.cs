@@ -39,5 +39,6 @@ namespace PsychoLab.Model
         public virtual DbSet<TestQuestion> TestQuestions { get; set; }
         public virtual DbSet<TestResult> TestResults { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserRole> UserRoles { get; set; }
     }
 }

@@ -148,6 +148,7 @@
     <Compile Include="Model\User.cs">
       <DependentUpon>dbModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\UserRole.cs" />
     <Compile Include="Views\Pages\AdminView\AdminMainView.xaml.cs">
       <DependentUpon>AdminMainView.xaml</DependentUpon>
     </Compile>
@@ -177,6 +178,9 @@
     </Compile>
     <Compile Include="Views\Windows\AddTestWindow.xaml.cs">
       <DependentUpon>AddTestWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Windows\AdminWindows\UserDataManageWindow.xaml.cs">
+      <DependentUpon>UserDataManageWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Windows\ManageTestWindow.xaml.cs">
       <DependentUpon>ManageTestWindow.xaml</DependentUpon>
@@ -230,6 +234,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Windows\AddTestWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\AdminWindows\UserDataManageWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

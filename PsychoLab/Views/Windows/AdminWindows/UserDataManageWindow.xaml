@@ -1,0 +1,63 @@
+﻿<Window x:Class="PsychoLab.Views.Windows.AdminWindows.UserDataManageWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PsychoLab.Views.Windows.AdminWindows"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        MaxHeight="550"
+        MaxWidth="600"
+        MinHeight="300"
+        MinWidth="400"
+        Title="Управление данными пользователя" 
+        Height="480" 
+        Width="400"
+        FontSize="15">
+
+    <Window.Resources>
+
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontFamily" Value="Segoe UI Bold"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+
+    </Window.Resources>
+    
+    <Grid>
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Width="300">
+            <Label Content="Имя пользователя:"/>
+            <TextBox x:Name="txbUsername"/>
+            <Label Content="E-mail"/>
+            <TextBox x:Name="txbEmail"/>
+            <Label Content="Придумайте пароль:"/>
+            <TextBox x:Name="txbPassword"/>
+            <Label Content="Выберите роль:"/>
+            <ComboBox x:Name="cmbRole"
+                      DisplayMemberPath="RoleName"/>
+            <Label Content="Имя: "/>
+            <TextBox x:Name="txbFirstname"/>
+            <Label Content="Фамилия: "/>
+            <TextBox x:Name="txbLastname"/>
+            <Label Content="Отчество: "/>
+            <TextBox x:Name="txbMiddlename"/>
+            <Button Content="Сохранить"
+                    x:Name="btnSave"
+                    Click="btnSave_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -19,5 +19,18 @@ namespace PsychoLab.Model
                 FullName = value;
             }
         }
+        public virtual ICollection<Role> Role { get; set; }
+
+        // Свойство, которое определяет, является ли пользователь администратором
+        public bool IsAdmin
+        {
+            get
+            {
+                return this.Roles.Any(r => r.RoleName == "Administrator");
+            }
+        }
+
+        public string RolesDisplay => string.Join(", ", this.Roles.Select(r => r.RoleName));
+
     }
 }
