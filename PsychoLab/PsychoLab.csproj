@@ -194,6 +194,9 @@
     <Compile Include="Views\Windows\ManageTestWindow.xaml.cs">
       <DependentUpon>ManageTestWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Windows\SessionNoteAddWindow.xaml.cs">
+      <DependentUpon>SessionNoteAddWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -255,6 +258,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Windows\ManageTestWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\SessionNoteAddWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

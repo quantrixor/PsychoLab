@@ -38,11 +38,9 @@ namespace PsychoLab.Views.Pages.AdminView
 
         private void btnRegistrationUser_Click(object sender, RoutedEventArgs e)
         {
-            if (selectedUser == null)
-            {
-                UserDataManageWindow userWindow = new UserDataManageWindow(new User());
-                userWindow.ShowDialog();
-            }
+            UserDataManageWindow userWindow = new UserDataManageWindow(new User());
+            userWindow.ShowDialog();
+
         }
 
         private void btnEditUser_Click(object sender, RoutedEventArgs e)
@@ -65,15 +63,15 @@ namespace PsychoLab.Views.Pages.AdminView
             try
             {
                 selectedUser = dataUserListView.SelectedItem as User;
-                if(selectedUser != null)
+                if (selectedUser != null)
                 {
-                    if(selectedUser.UserID == user.UserID)
+                    if (selectedUser.UserID == user.UserID)
                     {
                         MessageBox.Show($"Невозможно удалить выбранного пользователя {selectedUser.Username}, так как его сессия активна!",
                             "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Warning);
                         return;
                     }
-                    if(MessageBox.Show("Вы действительно хотите удалить данные выбранного пользователя? Учтите, что данные потеряются навсегда.", "Подтвердите действие.", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
+                    if (MessageBox.Show("Вы действительно хотите удалить данные выбранного пользователя? Учтите, что данные потеряются навсегда.", "Подтвердите действие.", MessageBoxButton.OKCancel, MessageBoxImage.Warning) == MessageBoxResult.OK)
                     {
                         AppData.db.Users.Remove(selectedUser);
                         AppData.db.SaveChanges();
@@ -93,6 +91,11 @@ namespace PsychoLab.Views.Pages.AdminView
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.GoBack();
+        }
+        // Обновление данных
+        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            Page_Loaded(null, null);
         }
     }
 }

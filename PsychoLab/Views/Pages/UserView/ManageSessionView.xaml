@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:PsychoLab.Views.Pages.UserView"
       mc:Ignorable="d" 
+      Loaded="Page_Loaded"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Управление сеансами">
 
@@ -17,12 +18,24 @@
 
         <StackPanel Grid.Row="0"
                     HorizontalAlignment="Left"
-                    VerticalAlignment="Center">
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
             <Button x:Name="btnBack"
                     Content="Назад"
                     Width="150"
                     Margin="10"
                     Click="btnBack_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="15"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button Width="150"
+                    Margin="10,0,0,0"
+                    Content="Обновить"
+                    x:Name="btnDataUpdate"
+                    Click="btnDataUpdate_Click">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="15"/>
@@ -60,6 +73,20 @@
             </ListView.View>
         </ListView>
 
-
+        <StackPanel Grid.Row="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <Button Width="200"
+                    Margin="5"
+                    Content="Добавить заметку"
+                    x:Name="btnAddNotes"
+                    Click="btnAddNotes_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="15"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </StackPanel>
     </Grid>
 </Page>

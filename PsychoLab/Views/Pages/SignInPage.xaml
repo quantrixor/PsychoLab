@@ -20,7 +20,7 @@
                 <Label Content="Пароль:" Style="{StaticResource LabelStyle}"/>
                 <PasswordBox x:Name="psbPassword" Style="{StaticResource PasswordBoxStyle}"/>
 
-                <Button Content="Войти" Height="40" Click="btnSignIn_Click">
+                <Button IsDefault="True" Content="Войти" Height="40" Click="btnSignIn_Click">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="10"/>

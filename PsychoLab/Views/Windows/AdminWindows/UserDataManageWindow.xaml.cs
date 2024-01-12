@@ -49,34 +49,48 @@ namespace PsychoLab.Views.Windows.AdminWindows
         }
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+            // Проверка на заполненность полей
             if (string.IsNullOrWhiteSpace(txbUsername.Text) || string.IsNullOrWhiteSpace(txbPassword.Text) ||
                 string.IsNullOrWhiteSpace(txbFirstname.Text) || string.IsNullOrWhiteSpace(txbLastname.Text) ||
-                string.IsNullOrWhiteSpace(txbEmail.Text))
+                string.IsNullOrWhiteSpace(txbEmail.Text) || !ValidateEmail(txbEmail.Text))
             {
-                MessageBox.Show("Пожалуйста, заполните поля ввода данных пользователя.", "Недопустимое значение!",
+                MessageBox.Show("Пожалуйста, заполните поля ввода данных пользователя и убедитесь, что формат электронной почты корректен.", "Недопустимое значение!",
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
+
             try
             {
-                if(AppData.db.Users.Count(item => item.Username == txbUsername.Text || item.Email == txbEmail.Text) > 0)
+                // Если пользователь уже существует (редактирование)
+                if (this.user.UserID > 0)
                 {
-                    MessageBox.Show($"Пользователь {txbUsername} уже существует в базы данных.", "Ошибка!", 
-                        MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-                if(ValidateEmail(txbEmail.Text) == false)
-                {
-                    MessageBox.Show("Некорректный формат электронной почты!", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-                // Прежде чем добавлять пользователя, получаем выбранную роль из этого же контекста
-                var selectedRole = (Role)cmbRole.SelectedItem;
-                var roleInCurrentContext = AppData.db.Roles.Find(selectedRole.RoleID);
+                    // Обновляем данные пользователя
+                    var userToUpdate = AppData.db.Users.Find(this.user.UserID);
+                    if (userToUpdate != null)
+                    {
+                        userToUpdate.Username = txbUsername.Text;
+                        userToUpdate.FirstName = txbFirstname.Text;
+                        userToUpdate.LastName = txbLastname.Text;
+                        userToUpdate.MiddleName = txbMiddlename.Text;
+                        userToUpdate.Email = txbEmail.Text;
+                        userToUpdate.Password = txbPassword.Text;
 
-                if (roleInCurrentContext != null)
+                        // Обновление ролей пользователя
+                        userToUpdate.Roles.Clear();
+                        var selectedRole = cmbRole.SelectedItem as Role;
+                        if (selectedRole != null)
+                        {
+                            userToUpdate.Roles.Add(selectedRole);
+                        }
+
+                        AppData.db.SaveChanges();
+                        MessageBox.Show("Данные пользователя обновлены.", "Операция прошла успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                }
+                else
                 {
-                    var user = new User
+                    // Создание нового пользователя (добавление)
+                    var newUser = new User
                     {
                         Username = txbUsername.Text,
                         FirstName = txbFirstname.Text,
@@ -84,14 +98,21 @@ namespace PsychoLab.Views.Windows.AdminWindows
                         MiddleName = txbMiddlename.Text,
                         Email = txbEmail.Text,
                         Password = txbPassword.Text,
-                        Roles = new HashSet<Role>() { roleInCurrentContext }
+                        Roles = new HashSet<Role>()
                     };
 
-                    AppData.db.Users.Add(user);
+                    var selectedRole = cmbRole.SelectedItem as Role;
+                    if (selectedRole != null)
+                    {
+                        newUser.Roles.Add(selectedRole);
+                    }
+
+                    AppData.db.Users.Add(newUser);
                     AppData.db.SaveChanges();
-                    MessageBox.Show("Пользователь зарегестрирован в базе данных.", "Операция прошла успешно", MessageBoxButton.OK, MessageBoxImage.Information);
-                    this.Close();
+                    MessageBox.Show("Пользователь зарегистрирован в базе данных.", "Операция прошла успешно", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
+
+                this.Close();
             }
             catch (Exception ex)
             {
@@ -100,5 +121,6 @@ namespace PsychoLab.Views.Windows.AdminWindows
                 MessageBox.Show($"{ex.Message}\nInner exception: {innerExceptionMessage}", ex.Source, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
     }
 }

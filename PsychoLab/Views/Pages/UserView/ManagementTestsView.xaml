@@ -19,12 +19,30 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <StackPanel HorizontalAlignment="Left"
-                        VerticalAlignment="Center">
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
                 <Button Content="Назад"
                         Width="150"
-                        Margin="10,0"
+                        Margin="10"
                         x:Name="btnBack"
-                        Click="btnBack_Click"/>
+                        Click="btnBack_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="15"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Content="Обновить"
+                        Width="150"
+                        Margin="10"
+                        x:Name="btnUpdate"
+                        Click="btnUpdate_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="15"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
             </StackPanel>
         </Grid>
         <ListView x:Name="TestViewList" 
@@ -41,16 +59,37 @@
                     Grid.Row="2">
             <Button Content="Добавить"
                     Width="250"
+                    Margin="5"
                     x:Name="btnAddTest"
-                    Click="btnAddTest_Click"/>
+                    Click="btnAddTest_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="15"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
             <Button Width="250"
-                    Margin="5,0"
+                    Margin="5"
                     x:Name="btnEdit"
-                    Content="Редактировать" Click="btnEdit_Click"/>
+                    Content="Редактировать" 
+                    Click="btnEdit_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="15"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
             <Button Width="250"
-                    Margin="5,0"
+                    Margin="5"
                     x:Name="btnDelete"
-                    Content="Удалить" Click="btnDelete_Click"/>
+                    Content="Удалить" 
+                    Click="btnDelete_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="15"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
         </StackPanel>
     </Grid>
 </Page>

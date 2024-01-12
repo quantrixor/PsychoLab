@@ -104,6 +104,17 @@
                         </Style>
                     </Button.Resources>
                 </Button>
+                <Button Content="Обновить"
+                        Margin="5"
+                        x:Name="btnUpdate"
+                        Click="btnUpdate_Click"
+                        Width="150">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
             </StackPanel>
             
         </Grid>

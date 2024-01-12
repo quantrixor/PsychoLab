@@ -21,11 +21,25 @@
             <Button Content="Начать тестирование"
                     x:Name="btnStartTesting"
                     Padding="5"
-                    Margin="0,5" Click="btnStartTesting_Click"/>
-            
+                    Margin="0,10,0,0"
+                    Click="btnStartTesting_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="15"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+
             <Button Content="Назад"
                     x:Name="btnBack"
-                    Click="btnBack_Click"/>
+                    Margin="0,5"
+                    Click="btnBack_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="15"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
         </StackPanel>
     </Grid>
 </Page>

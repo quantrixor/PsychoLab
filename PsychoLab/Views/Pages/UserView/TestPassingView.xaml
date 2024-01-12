@@ -19,8 +19,7 @@
 
         <!-- Possible Answers -->
         <ListBox x:Name="AnswersListBox" Grid.Row="1" Margin="10">
-            <!-- DataTemplate for the ListBox to display radio buttons for answers -->
-            
+
         </ListBox>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">

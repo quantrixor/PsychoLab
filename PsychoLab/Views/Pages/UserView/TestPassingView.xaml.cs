@@ -106,13 +106,12 @@ namespace PsychoLab.Views.Pages.UserView
                 UpdateQuestionDisplay();
             }
         }
-
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
             int currentQuestionId = _questions[_currentQuestionIndex].QuestionID;
             if (!_selectedAnswers.ContainsKey(currentQuestionId))
             {
-                MessageBox.Show("Please answer the question before proceeding.");
+                MessageBox.Show("Пожалуйста, ответьте на вопрос перед тем как продолжить.", "Вы не ответили на вопрос!", MessageBoxButton.OK, MessageBoxImage.Information); ;
                 return;
             }
 
@@ -121,8 +120,11 @@ namespace PsychoLab.Views.Pages.UserView
                 _currentQuestionIndex++;
                 UpdateQuestionDisplay();
             }
+            else
+            {
+                MessageBox.Show("Вы ответили на все вопросы. Тест завершен.", "Конец теста", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
-
         private void FinishButton_Click(object sender, RoutedEventArgs e)
         {
             try

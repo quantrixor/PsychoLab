@@ -39,21 +39,51 @@
             <Button Content="Управление клиентами"
                     x:Name="btnManageClients"
                     Click="btnManageClients_Click"
-                    Height="40"/>
+                    Height="40">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="15"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
             <Button Content="Управление расписанием"
-                    Height="40"/>
+                    Height="40">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="15"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
             <Button Content="Управление сеансами" 
                     Height="40"
                     x:Name="btnManageSession"
-                    Click="btnManageSession_Click"/>
+                    Click="btnManageSession_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="15"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
             <Button Content="Тестирование"
                     Height="40"
                     x:Name="btnTesting"
-                    Click="btnTesting_Click"/>
+                    Click="btnTesting_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="15"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
             <Button Content="Управление тестами"
                     Height="40"
                     x:Name="btnManagementTests"
-                    Click="btnManagementTests_Click"/>
+                    Click="btnManagementTests_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="15"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
         </StackPanel>
     </Grid>
 </Page>

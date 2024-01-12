@@ -7,6 +7,8 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using DocumentFormat.OpenXml;
 using PsychoLab.Context;
 using PsychoLab.Model;
+using System;
+using PsychoLab.Views.Windows;
 
 namespace PsychoLab.Views.Pages.UserView
 {
@@ -18,7 +20,6 @@ namespace PsychoLab.Views.Pages.UserView
         public ManageSessionView()
         {
             InitializeComponent();
-            DataLoad();
         }
 
         private void DataLoad()
@@ -72,20 +73,60 @@ namespace PsychoLab.Views.Pages.UserView
                 titleParagraph.AppendChild(new Run(new Text($"Пациент {session.Client.FullName}, тестирование от {session.SessionDate:dd.MM.yyyy}")));
 
                 // Время начала и конца теста
-                body.AppendChild(new Paragraph(new Run(new Text($"Начало теста - {session.StartTime}"))));
-                body.AppendChild(new Paragraph(new Run(new Text($"Конец - {session.EndTime}"))));
+                titleParagraph.AppendChild(new Run(new Text($"Начало теста - {session.StartTime.ToString("hh\\:mm\\:ss")}")));
+                titleParagraph.AppendChild(new Run(new Text($"Конец - {session.EndTime.ToString("hh\\:mm\\:ss")}")));
+                
 
-                // Вопросы и ответы
+
+                // Перебираем результаты теста и добавляем их в документ
                 foreach (var result in testResults)
                 {
-                    var questionParagraph = body.AppendChild(new Paragraph());
-                    questionParagraph.AppendChild(new Run(new Text($"Вопрос {result.TestQuestion.QuestionID}: {result.TestQuestion.QuestionText}")));
-                    questionParagraph.AppendChild(new Paragraph(new Run(new Text($"Ответ: {result.TestAnswer.AnswerText}"))));
+                    // Добавляем вопрос
+                    var questionParagraph = body.AppendChild(new Paragraph(new Run(new Text($"Вопрос {result.TestQuestion.QuestionID}: {result.TestQuestion.QuestionText}"))));
+                    questionParagraph.AppendChild(new Run(new Break())); // Разрыв строки после вопроса
+
+                    // Добавляем ответ
+                    var answerParagraph = body.AppendChild(new Paragraph(new Run(new Text($"Ответ: {result.TestAnswer.AnswerText}"))));
+                    answerParagraph.AppendChild(new Run(new Break())); // Разрыв строки после ответа
+
+                    // Добавляем пустой абзац для пространства между вопросами и ответами
+                    body.AppendChild(new Paragraph(new Run(new Text(""))));
                 }
+
             }
 
             MessageBox.Show($"Данные о тестах успешно экспортированы в файл '{fileName}'.", "Данные успешно выгружены.", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
+        private void btnAddNotes_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var selectedSession = listViewSessionData.SelectedItem as Session;
+                if(selectedSession != null)
+                {
+                    SessionNoteAddWindow sessionNote = new SessionNoteAddWindow(selectedSession);
+                    sessionNote.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Выберите сеанс, чтобы добавить заметку.", "Предупреждение!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка.", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            DataLoad();
+        }
+
+        private void btnDataUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            DataLoad();
+        }
     }
 }

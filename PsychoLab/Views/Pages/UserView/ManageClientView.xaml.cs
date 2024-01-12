@@ -181,6 +181,7 @@ namespace PsychoLab.Views.Pages.UserView
             ptDateOfBirth.SelectedDate = null;
             txbPhone.Text = "";
             cmbGender.Text = "";
+            client = null;
 
         }
         private void DeleteClient(Client client)

@@ -93,5 +93,10 @@ namespace PsychoLab.Views.Pages.UserView
                 Page_Loaded(null, null);
             }
         }
+
+        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            Page_Loaded(null, null);
+        }
     }
 }
