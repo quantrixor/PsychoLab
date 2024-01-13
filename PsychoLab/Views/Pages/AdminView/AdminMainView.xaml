@@ -26,7 +26,9 @@
                 </Label>
                 <Button Content="Выйти"
                         Width="150"
-                        Margin="10,0,0,0">
+                        Margin="10,0,0,0"
+                        x:Name="btnExit"
+                        Click="btnExit_Click">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="10"/>
@@ -42,20 +44,24 @@
                 <Button Width="280"
                         Margin="5"
                         Height="40"
+                        Content="Управление пользователями"
                         Padding="4"
                         x:Name="btnManageUser"
                         Click="btnManageUser_Click">
-                    <StackPanel Orientation="Horizontal"
-                                VerticalAlignment="Center">
-                        <Image Margin="0,0,20,0" 
-                               Source="/Resources/icon-user.png"/>
-                        <TextBlock VerticalAlignment="Center" 
-                                   Text="Управление пользователями"/>
-                    </StackPanel>
-
                     <Button.Resources>
                         <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="10"/>
+                            <Setter Property="CornerRadius" Value="15"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+                <Button Margin="5" 
+                        x:Name="btnManageTest"
+                        Click="btnManageTest_Click"
+                        Content="Управление тестами">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="15"/>
                         </Style>
                     </Button.Resources>
                 </Button>

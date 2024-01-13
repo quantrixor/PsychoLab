@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using PsychoLab.Model;
+using PsychoLab.Views.Pages.UserView;
+using PsychoLab.Views.Windows;
 
 namespace PsychoLab.Views.Pages.AdminView
 {
@@ -21,18 +12,28 @@ namespace PsychoLab.Views.Pages.AdminView
     /// </summary>
     public partial class AdminMainView : Page
     {
-        public User user { get; set; }
+        public User User { get; set; }
         public AdminMainView(User user)
         {
             InitializeComponent();
-            this.user = user;
+            this.User = user;
             this.DataContext = this;
             currentUser.Content = user.FullName;
         }
 
         private void btnManageUser_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new ManageUsersPage(user));
+            NavigationService.Navigate(new ManageUsersPage(User));
+        }
+
+        private void btnExit_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.GoBack();
+        }
+
+        private void btnManageTest_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new ManagementTestsView());
         }
     }
 }

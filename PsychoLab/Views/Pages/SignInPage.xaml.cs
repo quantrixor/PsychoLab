@@ -57,7 +57,7 @@ namespace PsychoLab.Views.Pages
                             NavigationService.Navigate(new AdminMainView(user));
                             break;
                         case "Psychologist":
-                            NavigationService.Navigate(new UserMainView(user.FullName)); // Используйте user.FullName
+                            NavigationService.Navigate(new UserMainView(user)); // Используйте user.FullName
                             break;
                         default:
                             MessageBox.Show("Пользователь с такими данными не найден! Пожалуйста, убедитесь, что вы вводите данные правильно и повторите попытку.",

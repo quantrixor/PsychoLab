@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using PsychoLab.Context;
 using PsychoLab.Model;
 
@@ -17,15 +18,18 @@ namespace PsychoLab.Views.Windows
         private TestAnswer selectedAnswer { get; set; }
 
         private readonly int _testId;
+        public User User { get; set; }
         public ManageTestWindow(int testId)
         {
-            InitializeComponent(); 
+            InitializeComponent();
             _testId = testId;
             GetData();
+
+
         }
         private void AddQuestion_Click(object sender, RoutedEventArgs e)
         {
-            if(selectedQuestion != null)
+            if (selectedQuestion != null)
             {
                 if (QuestionTextBox.Text == "")
                     return;
@@ -62,7 +66,7 @@ namespace PsychoLab.Views.Windows
         private void AddAnswerOption_Click(object sender, RoutedEventArgs e)
         {
             var selectedQuestion = QuestionsListView.SelectedItem as TestQuestion;
-            if(selectedAnswer!= null && selectedQuestion != null)
+            if (selectedAnswer != null && selectedQuestion != null)
             {
                 if (AnswerTextBox.Text == "")
                     return;
@@ -110,8 +114,8 @@ namespace PsychoLab.Views.Windows
             {
                 // Если тест уже существует, загружаем его вопросы
                 QuestionsListView.ItemsSource = AppData.db.TestQuestions
-    .           Where(q => q.PsychologicalTest.TestID == _testId)
-    .           ToList();
+    .Where(q => q.PsychologicalTest.TestID == _testId)
+    .ToList();
             }
         }
         private void QuestionsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -159,7 +163,7 @@ namespace PsychoLab.Views.Windows
             {
                 MessageBox.Show($"Ошибка: {ex.Message}");
             }
-            
+
         }
         private void EditAnswer_Click(object sender, RoutedEventArgs e)
         {

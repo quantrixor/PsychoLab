@@ -10,6 +10,7 @@ namespace PsychoLab.Views.Windows
     /// </summary>
     public partial class AddTestWindow : Window
     {
+        public User User { get; set; }
         public AddTestWindow()
         {
             InitializeComponent();

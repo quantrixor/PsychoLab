@@ -10,7 +10,17 @@
       Title="Вход">
 
     <Grid>
-        <Border Background="White" BorderBrush="#D3D3D3" BorderThickness="1" CornerRadius="10" Padding="20" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0"
+              Background="LightGray">
+            <Image Source="/Resources/logo.jpg" Margin="10"/>
+        </Grid>
+        
+        <Border Grid.Column="1" Background="White" BorderBrush="#D3D3D3" BorderThickness="1" CornerRadius="10" Padding="20" VerticalAlignment="Center" HorizontalAlignment="Center">
             <StackPanel Width="300">
                 <TextBlock Text="ВХОД" FontSize="24" FontWeight="Bold" Foreground="#333" HorizontalAlignment="Center" Margin="0,0,0,20"/>
 

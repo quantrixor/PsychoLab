@@ -10,6 +10,7 @@
         WindowStartupLocation="CenterScreen"
         Title="Добавление теста" 
         Height="200" 
+        Icon="/Resources/icon_ps.jpeg"
         Width="350">
     
     <StackPanel HorizontalAlignment="Center"

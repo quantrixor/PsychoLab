@@ -10,7 +10,8 @@
         Loaded="Window_Loaded"
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
-        Title="{Binding ElementName=MainFrame, Path=Content.Title}" Height="550" Width="1080">
+        Icon="/Resources/icon_ps.jpeg"
+        Title="PsychoLab" Height="550" Width="1080">
     <Grid>
         <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
     </Grid>

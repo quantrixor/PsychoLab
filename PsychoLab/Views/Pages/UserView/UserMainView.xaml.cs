@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using PsychoLab.Model;
 
 namespace PsychoLab.Views.Pages.UserView
 {
@@ -20,17 +21,17 @@ namespace PsychoLab.Views.Pages.UserView
     /// </summary>
     public partial class UserMainView : Page
     {
-        public string FullName { get; set; }
-        public UserMainView(string fullName)
+        public User User { get; set; }
+        public UserMainView(User user)
         {
             InitializeComponent();
-            FullName = fullName;
+            User = user;
             this.DataContext = this;
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            lblCurrentUser.Content = FullName;
+            lblCurrentUser.Content = User.FullName;
         }
 
         private void btnManageClients_Click(object sender, RoutedEventArgs e)

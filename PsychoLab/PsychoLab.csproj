@@ -314,8 +314,9 @@
       <DependentUpon>dbModel.edmx</DependentUpon>
       <LastGenOutput>dbModel.cs</LastGenOutput>
     </Content>
-    <Resource Include="Resources\icon-user-blue.png" />
-    <Resource Include="Resources\icon-user.png" />
+    <Resource Include="Resources\icon_ps.jpeg" />
+    <Resource Include="Resources\logo.jpg" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

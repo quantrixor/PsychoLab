@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
+using DocumentFormat.OpenXml.Spreadsheet;
 using PsychoLab.Context;
 using PsychoLab.Model;
 using PsychoLab.Views.Windows;
@@ -12,13 +13,12 @@ namespace PsychoLab.Views.Pages.UserView
     /// <summary>
     /// Interaction logic for ManagementTestsView.xaml
     /// </summary>
-    public partial class ManagementTestsView : Page
+    public partial class ManagementTestsView : System.Windows.Controls.Page
     {
         public ManagementTestsView()
         {
             InitializeComponent();
         }
-
         private void btnAddTest_Click(object sender, RoutedEventArgs e)
         {
             AddTestWindow window = new AddTestWindow();

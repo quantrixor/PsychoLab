@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PsychoLab.Views.Windows"
         mc:Ignorable="d"
+        Icon="/Resources/icon_ps.jpeg"
         WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
         Title="Управление вопросами" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
@@ -41,8 +43,20 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Content="Редактировать" Width="150" Click="EditQuestion_Click"/>
-                                    <Button Content="Удалить" Width="150" Click="DeleteQuestion_Click"/>
+                                    <Button Content="Редактировать" Width="150" Margin="5" Click="EditQuestion_Click">
+                                        <Button.Resources>
+                                            <Style TargetType="Border">
+                                                <Setter Property="CornerRadius" Value="15"/>
+                                            </Style>
+                                        </Button.Resources>
+                                    </Button>
+                                    <Button Content="Удалить" Width="150" Margin="5" Click="DeleteQuestion_Click">
+                                        <Button.Resources>
+                                            <Style TargetType="Border">
+                                                <Setter Property="CornerRadius" Value="15"/>
+                                            </Style>
+                                        </Button.Resources>
+                                    </Button>
                                 </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -61,8 +75,20 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Content="Редактировать" Width="150" Click="EditAnswer_Click"/>
-                                    <Button Content="Удалить" Width="150" Click="DeleteAnswer_Click"/>
+                                    <Button Content="Редактировать" Width="150" Margin="5" Click="EditAnswer_Click">
+                                        <Button.Resources>
+                                            <Style TargetType="Border">
+                                                <Setter Property="CornerRadius" Value="15"/>
+                                            </Style>
+                                        </Button.Resources>
+                                    </Button>
+                                    <Button Content="Удалить" Width="150" Margin="5" Click="DeleteAnswer_Click">
+                                        <Button.Resources>
+                                            <Style TargetType="Border">
+                                                <Setter Property="CornerRadius" Value="15"/>
+                                            </Style>
+                                        </Button.Resources>
+                                    </Button>
                                 </StackPanel>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
