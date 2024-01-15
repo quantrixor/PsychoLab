@@ -9,6 +9,7 @@ using PsychoLab.Context;
 using PsychoLab.Model;
 using System;
 using PsychoLab.Views.Windows;
+using System.Collections.Generic;
 
 namespace PsychoLab.Views.Pages.UserView
 {
@@ -24,13 +25,35 @@ namespace PsychoLab.Views.Pages.UserView
 
         private void DataLoad()
         {
-            listViewSessionData.ItemsSource = AppData.db.Sessions.ToList();
+            listViewSessionData.ItemsSource = GetPastSessions();
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.GoBack();
         }
+
+        public IEnumerable<Session> GetPastSessions()
+        {
+            // Получаем текущую дату и время в UTC, если данные в базе в UTC, иначе используйте DateTime.Now
+            var currentDateTime = DateTime.UtcNow;
+
+            // Подготавливаем текущую дату и время для сравнения
+            var currentDate = currentDateTime.Date;
+            var currentTime = currentDateTime.TimeOfDay;
+
+
+            // Извлекаем сеансы, у которых дата меньше текущей, или дата совпадает, но время окончания меньше текущего времени
+            var pastSessions = AppData.db.Sessions
+                .Where(s => s.SessionDate < currentDate ||
+                            (s.SessionDate == currentDate && s.EndTime < currentTime))
+                .ToList();
+
+            return pastSessions;
+
+        }
+
+
         private void ListViewSessionData_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             ListView listView = sender as ListView;
@@ -75,7 +98,7 @@ namespace PsychoLab.Views.Pages.UserView
                 // Время начала и конца теста
                 titleParagraph.AppendChild(new Run(new Text($"Начало теста - {session.StartTime.ToString("hh\\:mm\\:ss")}")));
                 titleParagraph.AppendChild(new Run(new Text($"Конец - {session.EndTime.ToString("hh\\:mm\\:ss")}")));
-                
+
 
 
                 // Перебираем результаты теста и добавляем их в документ
@@ -103,7 +126,7 @@ namespace PsychoLab.Views.Pages.UserView
             try
             {
                 var selectedSession = listViewSessionData.SelectedItem as Session;
-                if(selectedSession != null)
+                if (selectedSession != null)
                 {
                     SessionNoteAddWindow sessionNote = new SessionNoteAddWindow(selectedSession);
                     sessionNote.ShowDialog();

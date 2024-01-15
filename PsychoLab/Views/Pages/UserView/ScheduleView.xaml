@@ -1,0 +1,69 @@
+﻿<Page x:Class="PsychoLab.Views.Pages.UserView.ScheduleView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PsychoLab.Views.Pages.UserView"
+      mc:Ignorable="d" 
+      Loaded="Page_Loaded"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ScheduleView">
+
+    <Grid>
+
+        <StackPanel HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Margin="10">
+            <Button Content="Назад"
+                    Margin="5"
+                    Width="150"
+                    x:Name="btnBack"
+                    Click="btnBack_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="15"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </StackPanel>
+        
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <Label Content="Дата сеанса:"/>
+            <Calendar Width="300" x:Name="clSessionDate"
+                        Margin="0,5"/>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Время начала:"/>
+                <TextBox x:Name="txbStartTime" 
+                         MaxLength="5"
+                         PreviewTextInput="txbStartTime_PreviewTextInput"
+                         TextChanged="txbStartTime_TextChanged"
+                         Margin="5,0,0,0" Width="120"/>
+            </StackPanel>
+            <Label Content="Выберите клиента:"/>
+            <ComboBox x:Name="cmbListClient" 
+                      VerticalContentAlignment="Center"
+                      FontSize="14"
+                      Width="300"
+                      FontFamily="Segoe UI Bold"
+                      DisplayMemberPath="GetData"
+                      Height="30"/>
+            <Label Content="Заметка:"/>
+            <TextBox TextWrapping="Wrap"
+                     Height="50"
+                     Width="300"
+                     x:Name="txbSessionNote"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto">
+            </TextBox>
+            <Button Content="Сохранить"
+                    x:Name="btnSaveSession"
+                    Click="btnSaveSession_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="15"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </StackPanel>
+    </Grid>
+</Page>

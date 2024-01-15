@@ -5,8 +5,97 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:PsychoLab.Views.Pages.UserView"
       mc:Ignorable="d" 
+      Loaded="Page_Loaded"
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="ManageScheduleView">
+      Title="Управление расписанием">
 
-    <Grid></Grid>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"
+                    Margin="10,0,0,0">
+            <Button Width="150"
+                    x:Name="btnBack"
+                    Click="btnBack_Click"
+                    Content="Назад"
+                    Margin="5">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="15"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+
+            <ListView x:Name="listViewSchedule">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsSessionStartingInTwoHours}" Value="True">
+                                <Setter Property="Background" Value="LightCoral"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Дата" DisplayMemberBinding="{Binding SessionDate, StringFormat='{}{0:dd.MM.yy}'}" Width="200"/>
+                        <GridViewColumn Header="Время начала" DisplayMemberBinding="{Binding StartTime, StringFormat='{}{0:hh\\:mm}'}" Width="200"/>
+                        <GridViewColumn Header="Пациент" DisplayMemberBinding="{Binding Client.GetData}" Width="250"/>
+                        <GridViewColumn Header="Заметка" DisplayMemberBinding="{Binding SessionNote}" Width="200"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                <Button Content="Добавить"
+                        x:Name="btnAddSchedul"
+                        Click="btnAddSchedul_Click"
+                        Margin="5"
+                        Width="200">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="15"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Content="Редактировать"
+                        Margin="5"
+                        x:Name="btnEditSchedule"
+                        Click="btnEditSchedule_Click"
+                        Width="200">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="15"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Content="Удалить"
+                        Margin="5"
+                        x:Name="btnDeleteSchedule"
+                        Click="btnDeleteSchedule_Click"
+                        Width="200">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="15"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+        </Grid>
+        
+    </Grid>
 </Page>

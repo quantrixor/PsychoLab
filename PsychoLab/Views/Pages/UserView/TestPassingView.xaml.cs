@@ -44,9 +44,9 @@ namespace PsychoLab.Views.Pages.UserView
             Session = new Session
             {
                 Client = client,
-                StartTime = DateTime.Now.TimeOfDay,
-                SessionDate = DateTime.Now,
-                CreatedAt = DateTime.Now,
+                StartTime = DateTime.Today.TimeOfDay,
+                SessionDate = DateTime.Today,
+                CreatedAt = DateTime.Today,
                 CreatedBy = clientId
             };
 

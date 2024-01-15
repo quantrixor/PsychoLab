@@ -120,6 +120,7 @@
       <DependentUpon>dbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\PartialClient.cs" />
+    <Compile Include="Model\PartialSession.cs" />
     <Compile Include="Model\PartialUser.cs" />
     <Compile Include="Model\Permission.cs">
       <DependentUpon>dbModel.tt</DependentUpon>
@@ -175,6 +176,9 @@
     </Compile>
     <Compile Include="Views\Pages\UserView\ManageSessionView.xaml.cs">
       <DependentUpon>ManageSessionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\UserView\ScheduleView.xaml.cs">
+      <DependentUpon>ScheduleView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Pages\UserView\TestManagement.xaml.cs">
       <DependentUpon>TestManagement.xaml</DependentUpon>
@@ -234,6 +238,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Pages\UserView\ManageSessionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\UserView\ScheduleView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

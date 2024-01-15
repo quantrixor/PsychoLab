@@ -47,6 +47,8 @@
                 </Button.Resources>
             </Button>
             <Button Content="Управление расписанием"
+                    x:Name="btnManageSchedulen"
+                    Click="btnManageSchedulen_Click"
                     Height="40">
                 <Button.Resources>
                     <Style TargetType="Border">

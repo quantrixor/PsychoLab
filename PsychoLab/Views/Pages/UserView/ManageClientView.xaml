@@ -17,6 +17,7 @@
         </Grid.ColumnDefinitions>
         <GroupBox Header="Обработка данных клиентов" 
                   Grid.Column="0"
+                  FontFamily="Segoe UI Bold"
                   Margin="10"
                   Width="330"
                   Height="520"
