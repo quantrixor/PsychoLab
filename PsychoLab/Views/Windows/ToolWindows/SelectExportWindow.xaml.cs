@@ -9,8 +9,9 @@ using DocumentFormat.OpenXml;
 using PsychoLab.Context;
 using PsychoLab.Model;
 using System.ComponentModel;
-using System.Windows.Controls;
-
+using OfficeOpenXml;
+using System.IO;
+using System.IO.Packaging;
 
 
 namespace PsychoLab.Views.Windows.ToolWindows
@@ -27,7 +28,7 @@ namespace PsychoLab.Views.Windows.ToolWindows
             Client = client;
         }
 
-        public void CreateClientSessionReport(Client client, BackgroundWorker worker)
+        public void CreateClientSessionReport(Client client, BackgroundWorker worker, string filePath = null)
         {
 
             if (client == null)
@@ -37,11 +38,11 @@ namespace PsychoLab.Views.Windows.ToolWindows
             }
 
             var sessions = AppData.db.Sessions.Where(s => s.Client.ClientID == client.ClientID).ToList();
-            int totalOperations = sessions.Count() * 2; // Example: calculate total steps for progress
+            int totalOperations = sessions.Count(); // Пример: подсчитать общее количество шагов для прогресса
             int completedOperations = 0;
 
 
-            using (WordprocessingDocument document = WordprocessingDocument.Create($"ClientSessionReport.docx", WordprocessingDocumentType.Document))
+            using (WordprocessingDocument document = WordprocessingDocument.Create(filePath, WordprocessingDocumentType.Document))
             {
                 MainDocumentPart mainPart = document.AddMainDocumentPart();
                 mainPart.Document = new Document();
@@ -78,6 +79,7 @@ namespace PsychoLab.Views.Windows.ToolWindows
 
                 // Сохранение документа
                 mainPart.Document.Save();
+                MessageBox.Show($"Файл сохранен в: {filePath}", "Экспорт в Word", MessageBoxButton.OK, MessageBoxImage.Information);
             }
 
 
@@ -88,8 +90,9 @@ namespace PsychoLab.Views.Windows.ToolWindows
             WRun run = para.AppendChild(new WRun());
             run.AppendChild(new Text(text));
         }
+        
         private volatile bool isCompleted = false;
-        public void StartCreateClientSessionReport(Client client)
+        public void StartCreateClientSessionReport(Client client, string type, string filePath = null)
         {
             BackgroundWorker worker = new BackgroundWorker();
             worker.WorkerReportsProgress = true;
@@ -106,8 +109,12 @@ namespace PsychoLab.Views.Windows.ToolWindows
                             worker.ReportProgress(percent);
                         }
                     });
-
-                    CreateClientSessionReport(client, worker);
+                    if (type == "Word")
+                        CreateClientSessionReport(client, worker, filePath);
+                    else if (type == "Excel")
+                        CreateClientExcelReport(client, worker, filePath);
+                    else
+                        return;
                 }
                 catch (Exception ex)
                 {
@@ -132,30 +139,132 @@ namespace PsychoLab.Views.Windows.ToolWindows
                 else
                 {
                     // Обновить TextBlock, чтобы показать завершение.
-                    progressText.Text = "Report creation completed!";
-                    MessageBox.Show("Report creation completed!");
+                    progressText.Text = "Создание отчета завершено!";
+                    MessageBox.Show("Создание отчета завершено!", "Уведомление.", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 ExportToWord.IsEnabled = true;
             };
 
             worker.RunWorkerAsync();
         }
+
         // Экспортируем данные в формат Word
         private void ExportToWord_Click(object sender, RoutedEventArgs e)
         {
-            StartCreateClientSessionReport(Client);
+            Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
+            saveFileDialog.FileName = "ClientSessionReport"; // FileName по умолчанию
+            saveFileDialog.DefaultExt = ".docx"; // Расширение по умолчанию
+            saveFileDialog.Filter = "Word documents (.docx)|*.docx"; // Фильтр по расширению
+
+            // Открыть файловое окно проводника
+            bool? result = saveFileDialog.ShowDialog();
+
+            if (result == true)
+            {
+                // Получить выбранное имя файла и начать процесс экспорта.
+                string filename = saveFileDialog.FileName;
+                StartCreateClientSessionReport(Client, "Word", filename);
+            }
         }
+        public void CreateClientExcelReport(Client client, BackgroundWorker worker, string filePath)
+        {
+            if (client == null)
+            {
+                // Если клиент не найден, вернуться
+                return;
+            }
+
+            var sessions = AppData.db.Sessions.Where(s => s.Client.ClientID == client.ClientID).ToList();
+            int totalOperations = sessions.Count(); // For progress calculation
+            int completedOperations = 0;
+
+            using (ExcelPackage package = new ExcelPackage())
+            {
+                // Создать эксель документ
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Client Data");
+
+                // Добавить заголовки
+                worksheet.Cells["A1"].Value = "Client ID";
+                worksheet.Cells["B1"].Value = "Name";
+                worksheet.Cells["C1"].Value = "Email";
+                worksheet.Cells["D1"].Value = "Phone";
+                worksheet.Cells["E1"].Value = "Date of Birth";
+                worksheet.Cells["F1"].Value = "Client Since";
+                worksheet.Cells["G1"].Value = "Session Date";
+                worksheet.Cells["H1"].Value = "Start Time";
+                worksheet.Cells["I1"].Value = "End Time";
+                worksheet.Cells["J1"].Value = "Session Note";
+                worksheet.Cells["K1"].Value = "Test Name";
+                worksheet.Cells["L1"].Value = "Question";
+                worksheet.Cells["M1"].Value = "Answer";
+
+                int row = 2;
+
+                foreach (var session in sessions)
+                {
+                    // Информация о клиенте и сеансе должна записываться один раз за сеанс.
+                    worksheet.Cells[row, 1].Value = client.ClientID;
+                    worksheet.Cells[row, 2].Value = client.FirstName + " " + client.LastName;
+                    worksheet.Cells[row, 3].Value = client.Email;
+                    worksheet.Cells[row, 4].Value = client.Phone;
+                    worksheet.Cells[row, 5].Value = client.DateOfBirth?.ToString("d") ?? "N/A";
+                    worksheet.Cells[row, 6].Value = client.CreatedAt.ToString("d");
+                    worksheet.Cells[row, 7].Value = session.SessionDate.ToString("d");
+                    worksheet.Cells[row, 8].Value = session.StartTime;
+                    worksheet.Cells[row, 9].Value = session.EndTime;
+                    worksheet.Cells[row, 10].Value = session.SessionNote;
+
+                    var testResults = session.TestResults;
+                    if (testResults.Any())
+                    {
+                        // Здесь записываем только информацию о результатах теста, а не статическую информацию о клиенте/сеансе.
+                        foreach (var result in testResults)
+                        {
+                            worksheet.Cells[row, 11].Value = result.PsychologicalTest.TestName;
+                            worksheet.Cells[row, 12].Value = result.TestQuestion.QuestionText;
+                            worksheet.Cells[row, 13].Value = result.TestAnswer.AnswerText;
+                            row++; // Переход к следующей строке для получения следующего результата теста
+                        }
+                    }
+                    else
+                    {
+                        row++; // Переход к следующей строке для следующего сеанса, если результатов теста нет.
+                    }
+
+                    completedOperations++;
+                    int percentComplete = (int)((double)completedOperations / totalOperations * 100);
+                    worker.ReportProgress(percentComplete);
+                }
+
+
+                var fileInfo = new FileInfo(filePath);
+                package.SaveAs(fileInfo);
+                MessageBox.Show($"Файл сохранен в: {filePath}", "Экспорт в Excel", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
 
         // Экспортируем данные в формат Excel
         private void ExportToExcel_Click(object sender, RoutedEventArgs e)
         {
+            Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
+            saveFileDialog.FileName = $"ClientSessionReport_{Client.ClientID}"; // Default file name
+            saveFileDialog.DefaultExt = ".xlsx"; // Default file extension
+            saveFileDialog.Filter = "Excel documents (.xlsx)|*.xlsx";
+            bool? resultDialog = saveFileDialog.ShowDialog();
 
+            if (resultDialog == true)
+            {
+                // Получить выбранное имя файла и начать процесс экспорта.
+                string filename = saveFileDialog.FileName;
+                StartCreateClientSessionReport(Client, "Excel", filename);
+            }
         }
 
         // Экспортируем данные в формат JSON
         private void ExportToJson_Click(object sender, RoutedEventArgs e)
         {
-
+            MessageBox.Show("Данная функция находится в разработке.", "В разработке!", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }
