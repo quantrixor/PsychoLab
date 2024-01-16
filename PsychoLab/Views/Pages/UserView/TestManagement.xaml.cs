@@ -12,11 +12,19 @@ namespace PsychoLab.Views.Pages.UserView
     /// </summary>
     public partial class TestManagement : Page
     {
-        public TestManagement()
+        public Client Client { get; set; }
+        public Session Session { get; set; }
+        public TestManagement(Client client, Session session)
         {
             InitializeComponent();
             LoadClients();
             LoadTests();
+            Client = client;
+            Session = session;
+            if(Client.ClientID != 0)
+            {
+                cmbListClient.SelectedItem = Client;
+            }
         }
         private void LoadClients()
         {
@@ -51,7 +59,7 @@ namespace PsychoLab.Views.Pages.UserView
             }
 
             // Открытие окна тестирования
-            NavigationService.Navigate(new TestPassingView(selectedClient.ClientID, selectedTest.TestID));
+            NavigationService.Navigate(new TestPassingView(selectedClient.ClientID, selectedTest.TestID, Session));
 
         }
     }

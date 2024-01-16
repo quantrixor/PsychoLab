@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Navigation;
+using DocumentFormat.OpenXml.Office2016.Drawing.Command;
 using PsychoLab.Context;
 using PsychoLab.Model;
 
@@ -19,39 +20,28 @@ namespace PsychoLab.Views.Pages.UserView
         private readonly int _clientId;
         private readonly int _testId;
         private ObservableCollection<TestQuestion> _questions;
-        private ObservableCollection<TestAnswer> _answers;
+        private TimeSpan _startTime { get; set; }
+        public Session Session { get; set; }
         private int _currentQuestionIndex;
-        private Session Session { get; set; }
-        public TestPassingView(int clientId, int testId)
+        public TestPassingView(int clientId, int testId, Session session)
         {
             InitializeComponent();
             _clientId = clientId;
             _testId = testId;
             _currentQuestionIndex = 0;
-
+            Session = session;
             LoadQuestions();
             UpdateQuestionDisplay();
-            Session = new Session();
             var client = AppData.db.Clients.Find(_clientId);
             if (client == null)
             {
                 // Обработка ситуации, когда клиент не найден
-                MessageBox.Show("Клиент не найден.");
+                MessageBox.Show("Клиент не найден.", "Внимание.", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            // Создаем сессию и присваиваем найденного клиента
-            Session = new Session
-            {
-                Client = client,
-                StartTime = DateTime.Today.TimeOfDay,
-                SessionDate = DateTime.Today,
-                CreatedAt = DateTime.Today,
-                CreatedBy = clientId
-            };
 
-            AppData.db.Sessions.Add(Session);
-            AppData.db.SaveChanges();
+            _startTime = DateTime.Now.TimeOfDay;
         }
         private void LoadQuestions()
         {
@@ -66,7 +56,7 @@ namespace PsychoLab.Views.Pages.UserView
             if (_questions.Count > 0)
             {
                 var currentQuestion = _questions[_currentQuestionIndex];
-                CurrentQuestionTextBlock.Text = currentQuestion.QuestionText;
+                CurrentQuestionTextBlock.Content = currentQuestion.QuestionText;
 
                 AnswersListBox.Items.Clear();
                 foreach (var answer in currentQuestion.TestAnswers)
@@ -136,12 +126,34 @@ namespace PsychoLab.Views.Pages.UserView
 
                 if (client != null && psychologicalTest != null)
                 {
+                    if (Session.SessionID != 0)
+                    {
+                        
+                        Session.StartTime = _startTime;
+                        Session.EndTime = DateTime.Now.TimeOfDay;
+                        Session.IsTestCompleted = true;
+                    }
+                    else
+                    {
+                        Session = new Session
+                        {
+                            StartTime = _startTime,
+                            SessionDate = DateTime.Today,
+                            EndTime = DateTime.Now.TimeOfDay,
+                            CreatedAt = DateTime.Today,
+                            CreatedBy = client.ClientID,
+                            Client = client,
+                            IsTestCompleted = true
+                        };
 
+                        // Добавляем новый сеанс в базу данных
+                        AppData.db.Sessions.Add(Session);
+                    }
+                    // Добавляем результаты теста для нового сеанса
                     foreach (var entry in _selectedAnswers)
                     {
                         int questionId = entry.Key;
                         int answerId = entry.Value;
-
                         TestResult testResult = new TestResult
                         {
                             Session = Session,
@@ -149,14 +161,10 @@ namespace PsychoLab.Views.Pages.UserView
                             TestQuestion = AppData.db.TestQuestions.Find(questionId),
                             PsychologicalTest = psychologicalTest,
                         };
-
                         AppData.db.TestResults.Add(testResult);
-                        TimeSpan timeSpan = DateTime.Now.TimeOfDay;
-                        Session.EndTime = timeSpan;
-
                     }
 
-                    // Сохранение данных в базу данных
+                    // Сохранение всех изменений в базу данных
                     AppData.db.SaveChanges();
                 }
                 MessageBox.Show("Ваши результаты сохранены!", "Тест завершен.", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -167,6 +175,7 @@ namespace PsychoLab.Views.Pages.UserView
                 MessageBox.Show(ex.Message, ex.Source, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
 
         private T FindVisualChild<T>(DependencyObject parent) where T : DependencyObject
         {

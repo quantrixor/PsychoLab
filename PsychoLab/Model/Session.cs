@@ -31,6 +31,7 @@ namespace PsychoLab.Model
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<System.DateTime> UpdatedAt { get; set; }
         public Nullable<int> UpdatedBy { get; set; }
+        public Nullable<bool> IsTestCompleted { get; set; }
     
         public virtual Client Client { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

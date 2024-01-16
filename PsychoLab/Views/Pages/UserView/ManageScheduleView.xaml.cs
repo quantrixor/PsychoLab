@@ -1,18 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using PsychoLab.Context;
 using PsychoLab.Model;
 
@@ -50,14 +41,14 @@ namespace PsychoLab.Views.Pages.UserView
         {
             try
             {
-                var currentDateTime = DateTime.UtcNow; // или DateTime.Now, в зависимости от того, как вы сохраняете время в БД
+                var currentDateTime = DateTime.UtcNow;
                 var currentDate = currentDateTime.Date;
                 var currentTime = currentDateTime.TimeOfDay;
 
 
                 var upcomingSessions = AppData.db.Sessions
                                               .Where(s => s.SessionDate > currentDate ||
-                                                          (s.SessionDate == currentDate && s.StartTime > currentTime))
+                                                          (s.SessionDate == currentDate && s.StartTime > currentTime)).Where(s => (bool)!s.IsTestCompleted)
                                               .ToList();
                 return upcomingSessions;
 
@@ -96,6 +87,36 @@ namespace PsychoLab.Views.Pages.UserView
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             listViewSchedule.ItemsSource = GetUpcomingSessions();
+        }
+        // Метод для вызова перед началом тестирования
+        public bool ConfirmTestStart(Session session)
+        {
+            var sessionStartDateTime = session.SessionDate.Add(session.StartTime);
+            if (DateTime.Now < sessionStartDateTime)
+            {
+                // Предупреждение, что тестирование начинается раньше запланированного времени
+                MessageBoxResult result = MessageBox.Show("Тестирование запланировано на " + sessionStartDateTime.ToString() + ". Вы действительно хотите начать тестирование сейчас ? ", "Предупреждение", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                return result == MessageBoxResult.OK;
+            }
+            return true; // Если текущее время соответствует или больше времени начала, начинаем без предупреждения
+        }
+        private void StartTesting_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var selectedItem = listViewSchedule.SelectedItem as Session;
+                if (selectedItem != null)
+                {
+                    if (ConfirmTestStart(selectedItem))
+                    {
+                        NavigationService.Navigate(new TestManagement(selectedItem.Client, selectedItem));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

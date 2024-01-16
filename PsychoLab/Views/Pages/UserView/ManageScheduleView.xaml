@@ -51,6 +51,22 @@
                         <GridViewColumn Header="Время начала" DisplayMemberBinding="{Binding StartTime, StringFormat='{}{0:hh\\:mm}'}" Width="200"/>
                         <GridViewColumn Header="Пациент" DisplayMemberBinding="{Binding Client.GetData}" Width="250"/>
                         <GridViewColumn Header="Заметка" DisplayMemberBinding="{Binding SessionNote}" Width="200"/>
+
+                        <GridViewColumn Header="Действия" Width="400">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Content="Начать тестирование" Width="200" Foreground="Black" Background="#D3D3D3" Margin="5" Click="StartTesting_Click">
+                                            <Button.Resources>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="CornerRadius" Value="15"/>
+                                                </Style>
+                                            </Button.Resources>
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>

@@ -3,7 +3,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
-using DocumentFormat.OpenXml.Drawing;
 using PsychoLab.Context;
 using PsychoLab.Model;
 
@@ -29,8 +28,6 @@ namespace PsychoLab.Views.Pages.UserView
                 cmbListClient.SelectedItem = Session.Client;
             }
         }
-
-
         private bool IsNullTextBox()
         {
              if(string.IsNullOrWhiteSpace(txbSessionNote.Text) ||
@@ -42,11 +39,11 @@ namespace PsychoLab.Views.Pages.UserView
              else 
                 return false;
         }
-
         private void btnSaveSession_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                var client = cmbListClient.SelectedItem as Client;
                 if (IsNullTextBox())
                 {
                     MessageBox.Show("Все поля должны быть заполнены.", "Внимание!", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -67,10 +64,11 @@ namespace PsychoLab.Views.Pages.UserView
                     {
                         SessionDate = clSessionDate.SelectedDate.Value,
                         StartTime = startTime,
-                        Client = cmbListClient.SelectedItem as Client,
+                        Client = client,
                         SessionNote = txbSessionNote.Text,
                         CreatedAt = DateTime.Today,
-                        UpdatedAt = DateTime.Today
+                        CreatedBy = client.ClientID,
+                        IsTestCompleted = false
                     };
                     AppData.db.Sessions.Add(Session);
                 }
@@ -80,6 +78,7 @@ namespace PsychoLab.Views.Pages.UserView
                     Session.StartTime = startTime;
                     Session.Client = cmbListClient.SelectedItem as Client;
                     Session.SessionNote = txbSessionNote.Text;
+                    Session.UpdatedAt = DateTime.Today;
                 }
                 AppData.db.SaveChanges();
                 MessageBox.Show("Сеанс успешно добавлен!", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -90,12 +89,10 @@ namespace PsychoLab.Views.Pages.UserView
                 MessageBox.Show(ex.Message, ex.Source, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.GoBack();
         }
-
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             if(Session.SessionID == 0)
@@ -105,7 +102,6 @@ namespace PsychoLab.Views.Pages.UserView
                 cmbListClient.SelectedItem = Session.Client;
             }
         }
-
         private void txbStartTime_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             // Разрешаем только цифры
@@ -122,7 +118,6 @@ namespace PsychoLab.Views.Pages.UserView
                 textBox.CaretIndex = textBox.Text.Length;
             }
         }
-
         private void txbStartTime_TextChanged(object sender, TextChangedEventArgs e)
         {
             var textBox = sender as TextBox;

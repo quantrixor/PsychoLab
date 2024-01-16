@@ -38,7 +38,7 @@ namespace PsychoLab.Views.Pages.UserView
         // Переход на страницу управления тестированием пациентов
         private void btnTesting_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new TestManagement());
+            NavigationService.Navigate(new TestManagement(new Client(), new Session()));
         }
         // Переход на страницу управления тестами
         private void btnManagementTests_Click(object sender, RoutedEventArgs e)

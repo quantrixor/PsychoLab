@@ -43,14 +43,14 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Content="Редактировать" Width="150" Margin="5" Click="EditQuestion_Click">
+                                    <Button Content="Редактировать" Width="150" Foreground="Black" Background="#D3D3D3" Margin="5" Click="EditQuestion_Click">
                                         <Button.Resources>
                                             <Style TargetType="Border">
                                                 <Setter Property="CornerRadius" Value="15"/>
                                             </Style>
                                         </Button.Resources>
                                     </Button>
-                                    <Button Content="Удалить" Width="150" Margin="5" Click="DeleteQuestion_Click">
+                                    <Button Content="Удалить" Width="150" Margin="5" Foreground="Black" Background="#D3D3D3" Click="DeleteQuestion_Click">
                                         <Button.Resources>
                                             <Style TargetType="Border">
                                                 <Setter Property="CornerRadius" Value="15"/>
@@ -75,14 +75,14 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Content="Редактировать" Width="150" Margin="5" Click="EditAnswer_Click">
+                                    <Button Content="Редактировать" Width="150" Foreground="Black" Margin="5" Background="#D3D3D3" Click="EditAnswer_Click">
                                         <Button.Resources>
                                             <Style TargetType="Border">
                                                 <Setter Property="CornerRadius" Value="15"/>
                                             </Style>
                                         </Button.Resources>
                                     </Button>
-                                    <Button Content="Удалить" Width="150" Margin="5" Click="DeleteAnswer_Click">
+                                    <Button Content="Удалить" Width="150" Margin="5" Foreground="Black" Background="#D3D3D3" Click="DeleteAnswer_Click">
                                         <Button.Resources>
                                             <Style TargetType="Border">
                                                 <Setter Property="CornerRadius" Value="15"/>

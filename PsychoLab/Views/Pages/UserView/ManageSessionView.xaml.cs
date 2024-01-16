@@ -46,7 +46,7 @@ namespace PsychoLab.Views.Pages.UserView
             // Извлекаем сеансы, у которых дата меньше текущей, или дата совпадает, но время окончания меньше текущего времени
             var pastSessions = AppData.db.Sessions
                 .Where(s => s.SessionDate < currentDate ||
-                            (s.SessionDate == currentDate && s.EndTime < currentTime))
+                            (s.SessionDate == currentDate && s.EndTime < currentTime) || (bool)s.IsTestCompleted)
                 .ToList();
 
             return pastSessions;
@@ -74,7 +74,7 @@ namespace PsychoLab.Views.Pages.UserView
         private void ExportToWord_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
-            var session = button.DataContext as Session; // Убедитесь, что DataContext содержит объект Session
+            var session = button.DataContext as Session;
 
             // Строим название файла
             string fileName = $"{session.Client.FullName} результаты тестирования от {session.SessionDate:dd.MM.yyyy}.docx";

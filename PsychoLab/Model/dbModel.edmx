@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="dbPsychoLabAppModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="dbPsychoLabAppModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Clients">
           <Key>
             <PropertyRef Name="ClientID" />
@@ -98,6 +98,7 @@
           <Property Name="CreatedBy" Type="int" />
           <Property Name="UpdatedAt" Type="datetime2" Precision="7" />
           <Property Name="UpdatedBy" Type="int" />
+          <Property Name="IsTestCompleted" Type="bit" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -416,8 +417,7 @@
             <End Role="Clients" EntitySet="Clients" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="dbPsychoLabAppModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -516,6 +516,7 @@
           <NavigationProperty Name="PsychologistReports" Relationship="Self.FK__Psycholog__Sessi__4CA06362" FromRole="Sessions" ToRole="PsychologistReports" />
           <NavigationProperty Name="SessionArchives" Relationship="Self.FK__SessionAr__Sessi__619B8048" FromRole="Sessions" ToRole="SessionArchives" />
           <NavigationProperty Name="TestResults" Relationship="Self.FK__TestResul__Sessi__571DF1D5" FromRole="Sessions" ToRole="TestResults" />
+          <Property Name="IsTestCompleted" Type="Boolean" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -777,6 +778,7 @@
           <EntitySetMapping Name="Sessions">
             <EntityTypeMapping TypeName="dbPsychoLabAppModel.Session">
               <MappingFragment StoreEntitySet="Sessions">
+                <ScalarProperty Name="IsTestCompleted" ColumnName="IsTestCompleted" />
                 <ScalarProperty Name="SessionID" ColumnName="SessionID" />
                 <ScalarProperty Name="SessionDate" ColumnName="SessionDate" />
                 <ScalarProperty Name="StartTime" ColumnName="StartTime" />
