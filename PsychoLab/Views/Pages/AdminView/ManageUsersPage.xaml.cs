@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using PsychoLab.Context;
 using PsychoLab.Model;
 using PsychoLab.Views.Windows.AdminWindows;
+using PsychoLab.Views.Windows.AdminWindows.ToolWindows;
 
 namespace PsychoLab.Views.Pages.AdminView
 {
@@ -96,6 +97,26 @@ namespace PsychoLab.Views.Pages.AdminView
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
             Page_Loaded(null, null);
+        }
+
+        private void OpenProfileButton_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedUser = dataUserListView.SelectedItem as User;
+            if(selectedUser != null)
+            {
+                ProfileUserView userView = new ProfileUserView(selectedUser);
+                userView.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Пожалуйста, выберите пользователя из списка.", "Внимание!", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private void ButtonExport_Click(object sender, RoutedEventArgs e)
+        {
+            SelectExportUserWindow exportUserWindow = new SelectExportUserWindow();
+            exportUserWindow.ShowDialog();
         }
     }
 }

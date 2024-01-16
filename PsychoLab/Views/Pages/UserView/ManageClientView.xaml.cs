@@ -317,6 +317,10 @@ namespace PsychoLab.Views.Pages.UserView
                 SelectExportWindow selectExportWindow = new SelectExportWindow(selectedClient);
                 selectExportWindow.ShowDialog();
             }
+            else
+            {
+                MessageBox.Show("Пожалуйста, выберите клиента из списка.", "Внимание!", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
     }
 }

@@ -25,7 +25,7 @@
                 <TextBlock Text="ВХОД" FontSize="24" FontWeight="Bold" Foreground="#333" HorizontalAlignment="Center" Margin="0,0,0,20"/>
 
                 <Label Content="Имя пользователя:" Style="{StaticResource LabelStyle}"/>
-                <TextBox x:Name="txbUsername" Style="{StaticResource TextBoxStyle}"/>
+                <TextBox x:Name="txbUsername" Focusable="True" Style="{StaticResource TextBoxStyle}"/>
 
                 <Label Content="Пароль:" Style="{StaticResource LabelStyle}"/>
                 <PasswordBox x:Name="psbPassword" Style="{StaticResource PasswordBoxStyle}"/>

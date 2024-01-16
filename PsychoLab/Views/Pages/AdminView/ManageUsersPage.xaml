@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:PsychoLab.Views.Pages.AdminView"
       mc:Ignorable="d" 
       Loaded="Page_Loaded"
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="450" d:DesignWidth="1080"
       Title="Управление пользователями">
 
     <Grid>
@@ -24,6 +24,24 @@
                         Content="Назад"
                         x:Name="btnBack"
                         Click="btnBack_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+            <StackPanel Grid.Row="0" HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Margin="0,0,10,0">
+                <Button Width="150"
+                        x:Name="ButtonExport"
+                        Click="ButtonExport_Click"
+                        Margin="0,0,0,5" 
+                        Background="#D3D3D3" 
+                        Foreground="#333"
+                        Content="Экспорт"
+                        BorderThickness="1">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="10"/>
@@ -109,6 +127,17 @@
                         x:Name="btnUpdate"
                         Click="btnUpdate_Click"
                         Width="150">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button x:Name="OpenProfileButton"
+                        Content="Открыть профиль"
+                        Margin="5"
+                        Width="200"
+                        Click="OpenProfileButton_Click">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="10"/>

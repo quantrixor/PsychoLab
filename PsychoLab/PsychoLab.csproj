@@ -221,6 +221,12 @@
     <Compile Include="Views\Windows\AddTestWindow.xaml.cs">
       <DependentUpon>AddTestWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Windows\AdminWindows\ProfileUserView.xaml.cs">
+      <DependentUpon>ProfileUserView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Windows\AdminWindows\ToolWindows\SelectExportUserWindow.xaml.cs">
+      <DependentUpon>SelectExportUserWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Windows\AdminWindows\UserDataManageWindow.xaml.cs">
       <DependentUpon>UserDataManageWindow.xaml</DependentUpon>
     </Compile>
@@ -290,6 +296,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Windows\AddTestWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\AdminWindows\ProfileUserView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\AdminWindows\ToolWindows\SelectExportUserWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
