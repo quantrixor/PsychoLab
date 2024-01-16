@@ -39,6 +39,7 @@
                 </Button>
                 <Button Content="Отмена" Height="40"
                         Click="btnCancel_Click" 
+                        BorderThickness="2"
                         Background="#D3D3D3" 
                         Foreground="#333">
                     <Button.Resources>

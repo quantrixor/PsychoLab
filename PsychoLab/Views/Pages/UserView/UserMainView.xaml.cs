@@ -23,7 +23,9 @@ namespace PsychoLab.Views.Pages.UserView
         // Определяем авторизованного пользователя
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            lblCurrentUser.Content = User.FullName;
+            currentUserFirstname.Content = User.FirstName;
+            currentUserLastname.Content = User.LastName;
+            currentUserPhone.Content = User.Email;
         }
         // Переход на страницу управления клиентами
         private void btnManageClients_Click(object sender, RoutedEventArgs e)

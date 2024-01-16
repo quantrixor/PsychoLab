@@ -9,31 +9,58 @@
       Loaded="Page_Loaded"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Окно Психолога">
-    
+
     <Grid>
-        <StackPanel HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Margin="10"
-                    Orientation="Horizontal">
-            <Label x:Name="lblCurrentUser" 
-                   FontSize="20"
-                   Foreground="Black"
-                   Content="Test"
-                   ContentStringFormat="Пользователь: {0}"/>
-            <Button Content="Выйти"
-                    Margin="15,0"
-                    Height="30"
-                    Width="150"
-                    x:Name="btnExit"
-                    Click="btnExit_Click">
-                <Button.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="10"/>
-                    </Style>
-                </Button.Resources>
-            </Button>
-        </StackPanel>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Vertical"
+                        Margin="10"
+                        Width="300">
+                <Border BorderBrush="LightGray"
+                        BorderThickness="2"
+                        Width="200"
+                        CornerRadius="10">
+                    <Image Width="200"
+                           x:Name="picCurrentUser"
+                           Height="200"/>
+                </Border>
+                <Label Content="Психолог"/>
+                <Label x:Name="currentUserFirstname"
+                       Foreground="Black"
+                       Content="Ivan"
+                       ContentStringFormat="Имя: {0}"/>
+                <Label x:Name="currentUserLastname"
+                       Foreground="Black"
+                       Content="Ivanov"
+                       ContentStringFormat="Фамилия: {0}"/>
+                <Label x:Name="currentUserEmail"
+                       Foreground="Black"
+                       Content="example@example.com"
+                       ContentStringFormat="Почта: {0}"/>
+
+                <Button Content="Выйти"
+                        Width="300"
+                        x:Name="btnExit"
+                        BorderThickness="2"
+                        Background="#D3D3D3" 
+                        Foreground="#333"
+                        Click="btnExit_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+        </Grid>
         <StackPanel HorizontalAlignment="Center"
+                    Grid.Column="1"
                     VerticalAlignment="Center"
                     Width="300">
             <Button Content="Управление клиентами"

@@ -18,7 +18,9 @@ namespace PsychoLab.Views.Pages.AdminView
             InitializeComponent();
             this.User = user;
             this.DataContext = this;
-            currentUser.Content = user.FullName;
+            currentUserFirstname.Content = user.FirstName;
+            currentUserLastname.Content = user.LastName;
+            currentUserEmail.Content = user.Email;
         }
 
         private void btnManageUser_Click(object sender, RoutedEventArgs e)

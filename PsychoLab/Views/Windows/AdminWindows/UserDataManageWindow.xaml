@@ -8,12 +8,12 @@
         Icon="/Resources/icon_ps.jpeg"
         WindowStartupLocation="CenterScreen"
         MaxHeight="550"
-        MaxWidth="600"
+        MaxWidth="800"
         MinHeight="300"
-        MinWidth="400"
+        MinWidth="800"
         Title="Управление данными пользователя" 
         Height="480" 
-        Width="400"
+        Width="800"
         FontSize="15">
 
     <Window.Resources>
@@ -32,7 +32,12 @@
     </Window.Resources>
     
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
         <StackPanel HorizontalAlignment="Center"
+                    Grid.Column="1"
                     VerticalAlignment="Center"
                     Width="300">
             <Label Content="Имя пользователя:"/>
@@ -60,5 +65,29 @@
                 </Button.Resources>
             </Button>
         </StackPanel>
+
+        <Grid Grid.Column="0">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <Border BorderBrush="LightGray"
+                        BorderThickness="2"
+                        CornerRadius="10">
+                    <Image Width="200"
+                           x:Name="picUser"
+                           Height="200"/>
+                </Border>
+                <Button Content="Выбрать"
+                        Name="btnSelectImage"
+                        Background="#D3D3D3" 
+                        Foreground="#333"
+                        BorderThickness="2">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

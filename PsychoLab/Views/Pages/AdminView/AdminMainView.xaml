@@ -9,25 +9,45 @@
       Title="Режим Администратора">
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="80"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <Grid Grid.Row="0">
-            <StackPanel HorizontalAlignment="Left"
+        <Grid Grid.Column="0">
+            <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Orientation="Horizontal"
-                        Margin="10">
-                <Label x:Name="currentUser"
+                        Orientation="Vertical"
+                        Margin="10"
+                        Width="300">
+                <Border BorderBrush="LightGray"
+                        BorderThickness="2"
+                        Width="200"
+                        CornerRadius="10">
+                    <Image Width="200"
+                           x:Name="picCurrentUser"
+                           Height="200"/>
+                </Border>
+                <Label Content="Администратор"/>
+                <Label x:Name="currentUserFirstname"
                        Foreground="Black"
-                       Content="Test"
-                       ContentStringFormat="Администратор: {0}">
-                </Label>
+                       Content="Ivan"
+                       ContentStringFormat="Имя: {0}"/>
+                <Label x:Name="currentUserLastname"
+                       Foreground="Black"
+                       Content="Ivanov"
+                       ContentStringFormat="Фамилия: {0}"/>
+                <Label x:Name="currentUserEmail"
+                       Foreground="Black"
+                       Content="example@example.com"
+                       ContentStringFormat="Почта: {0}"/>
+
                 <Button Content="Выйти"
-                        Width="150"
-                        Margin="10,0,0,0"
+                        Width="300"
                         x:Name="btnExit"
+                        BorderThickness="2"
+                        Background="#D3D3D3" 
+                        Foreground="#333"
                         Click="btnExit_Click">
                     <Button.Resources>
                         <Style TargetType="Border">
@@ -37,7 +57,7 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <Grid Grid.Row="1">
+        <Grid Grid.Column="1">
 
             <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center">
