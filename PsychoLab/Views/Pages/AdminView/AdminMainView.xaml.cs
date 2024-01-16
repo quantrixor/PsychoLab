@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using PsychoLab.Model;
 using PsychoLab.Views.Pages.UserView;
@@ -21,6 +23,25 @@ namespace PsychoLab.Views.Pages.AdminView
             currentUserFirstname.Content = user.FirstName;
             currentUserLastname.Content = user.LastName;
             currentUserEmail.Content = user.Email;
+            LoadImageFromDatabase(user);
+        }
+        private void LoadImageFromDatabase(User user)
+        {
+            if (user.PicUser != null && user.PicUser.Length > 0)
+            {
+                using (MemoryStream ms = new MemoryStream(user.PicUser))
+                {
+                    BitmapImage image = new BitmapImage();
+                    image.BeginInit();
+                    image.CacheOption = BitmapCacheOption.OnLoad;
+                    image.StreamSource = ms;
+                    image.EndInit();
+
+                    Dispatcher.Invoke(() => {
+                        picCurrentUser.Source = image;
+                    });
+                }
+            }
         }
 
         private void btnManageUser_Click(object sender, RoutedEventArgs e)

@@ -79,6 +79,7 @@
                 <Button Content="Выбрать"
                         Name="btnSelectImage"
                         Background="#D3D3D3" 
+                        Click="btnSelectImage_Click"
                         Foreground="#333"
                         BorderThickness="2">
                     <Button.Resources>

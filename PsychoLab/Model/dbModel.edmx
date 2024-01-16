@@ -158,6 +158,7 @@
           <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CreatedAt" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="UpdatedAt" Type="datetime2" Precision="7" />
+          <Property Name="PicUser" Type="varbinary(max)" />
         </EntityType>
         <Association Name="FK__ExportLog__UserI__5DCAEF64">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
@@ -573,6 +574,7 @@
           <Property Name="UpdatedAt" Type="DateTime" Precision="7" />
           <NavigationProperty Name="ExportLogs" Relationship="Self.FK__ExportLog__UserI__5DCAEF64" FromRole="Users" ToRole="ExportLogs" />
           <NavigationProperty Name="Roles" Relationship="Self.UserRoles" FromRole="Users" ToRole="Roles" />
+          <Property Name="PicUser" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <Association Name="FK__Sessions__Client__48CFD27E">
           <End Role="Clients" Type="Self.Client" Multiplicity="1" />
@@ -829,6 +831,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="dbPsychoLabAppModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="PicUser" ColumnName="PicUser" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="Password" ColumnName="Password" />

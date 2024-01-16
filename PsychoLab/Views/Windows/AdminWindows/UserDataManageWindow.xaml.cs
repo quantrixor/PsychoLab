@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Remoting.Contexts;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using PsychoLab.Context;
 using PsychoLab.Model;
 
@@ -37,6 +39,10 @@ namespace PsychoLab.Views.Windows.AdminWindows
                     var userRole = this.user.Roles.FirstOrDefault(); // Получаем первую роль пользователя
                     cmbRole.SelectedItem = userRole; // Устанавливаем выбранную роль в ComboBox
                 }
+                if(user.PicUser != null)
+                {
+                    LoadImageFromDatabase(user);
+                }
             }
         }
         public bool ValidateEmail(string email)
@@ -47,6 +53,27 @@ namespace PsychoLab.Views.Windows.AdminWindows
 
             return isValid;
         }
+
+        private void LoadImageFromDatabase(User user)
+        {
+            if (user.PicUser != null && user.PicUser.Length > 0)
+            {
+                using (MemoryStream ms = new MemoryStream(user.PicUser))
+                {
+                    BitmapImage image = new BitmapImage();
+                    image.BeginInit();
+                    image.CacheOption = BitmapCacheOption.OnLoad;
+                    image.StreamSource = ms;
+                    image.EndInit();
+
+                    // Make sure we're on the UI thread when setting the image source
+                    Dispatcher.Invoke(() => {
+                        picUser.Source = image; // 'picUser' is the name of your Image control
+                    });
+                }
+            }
+        }
+
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             // Проверка на заполненность полей
@@ -59,6 +86,11 @@ namespace PsychoLab.Views.Windows.AdminWindows
                 return;
             }
 
+            if (picUser.Source == null)
+            {
+                MessageBox.Show("Недопустимое значение, выберите фотографию.", "Внимание!", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             try
             {
                 // Если пользователь уже существует (редактирование)
@@ -74,6 +106,8 @@ namespace PsychoLab.Views.Windows.AdminWindows
                         userToUpdate.MiddleName = txbMiddlename.Text;
                         userToUpdate.Email = txbEmail.Text;
                         userToUpdate.Password = txbPassword.Text;
+                        userToUpdate.PicUser = GetImageAsByteArray();
+                        userToUpdate.UpdatedAt = DateTime.Today;
 
                         // Обновление ролей пользователя
                         userToUpdate.Roles.Clear();
@@ -98,7 +132,9 @@ namespace PsychoLab.Views.Windows.AdminWindows
                         MiddleName = txbMiddlename.Text,
                         Email = txbEmail.Text,
                         Password = txbPassword.Text,
-                        Roles = new HashSet<Role>()
+                        Roles = new HashSet<Role>(),
+                        PicUser = GetImageAsByteArray(),
+                        CreatedAt = DateTime.Today
                     };
 
                     var selectedRole = cmbRole.SelectedItem as Role;
@@ -121,6 +157,36 @@ namespace PsychoLab.Views.Windows.AdminWindows
                 MessageBox.Show($"{ex.Message}\nInner exception: {innerExceptionMessage}", ex.Source, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        private void SelectAndDisplayImage()
+        {
+            Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.jpg;*.jpeg;*.png)|*.jpg;*.jpeg;*.png";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                // Load the image and display it
+                BitmapImage bitmap = new BitmapImage(new Uri(openFileDialog.FileName));
+                picUser.Source = bitmap; // 'picUser' is the name of your Image control
+            }
+        }
+        private byte[] GetImageAsByteArray()
+        {
+            if (picUser.Source is BitmapImage bitmapImage)
+            {
+                JpegBitmapEncoder encoder = new JpegBitmapEncoder(); // or PngBitmapEncoder, depending on the format
+                encoder.Frames.Add(BitmapFrame.Create(bitmapImage));
 
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    encoder.Save(ms);
+                    return ms.ToArray();
+                }
+            }
+            return null; // Return null if no image is set
+        }
+
+        private void btnSelectImage_Click(object sender, RoutedEventArgs e)
+        {
+            SelectAndDisplayImage();
+        }
     }
 }
