@@ -64,7 +64,25 @@
                 <RowDefinition Height="100"/>
             </Grid.RowDefinitions>
 
-            <StackPanel HorizontalAlignment="Center"
+            <StackPanel VerticalAlignment="Center"
+                        HorizontalAlignment="Right">
+                <Button Width="150"
+                        Margin="0,0,10,0" 
+                        Background="#D3D3D3" 
+                        Foreground="#333"
+                        Content="Экспорт"
+                        x:Name="ButtonExportWindow"
+                        Click="ButtonExportWindow_Click"
+                        BorderThickness="1">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Left"
+                        Margin="10,0,0,0"
                         VerticalAlignment="Center"
                         Orientation="Horizontal">
                 <Label Content="Поиск: "/>

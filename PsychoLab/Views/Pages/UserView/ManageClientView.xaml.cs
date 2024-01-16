@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using PsychoLab.Context;
 using PsychoLab.Model;
+using PsychoLab.Views.Windows.ToolWindows;
 
 namespace PsychoLab.Views.Pages.UserView
 {
@@ -306,6 +307,16 @@ namespace PsychoLab.Views.Pages.UserView
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.GoBack();
+        }
+
+        private void ButtonExportWindow_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedClient = listDataClient.SelectedItem as Client;
+            if(selectedClient != null)
+            {
+                SelectExportWindow selectExportWindow = new SelectExportWindow(selectedClient);
+                selectExportWindow.ShowDialog();
+            }
         }
     }
 }
