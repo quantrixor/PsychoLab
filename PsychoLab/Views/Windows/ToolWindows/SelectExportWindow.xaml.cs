@@ -12,6 +12,7 @@ using System.ComponentModel;
 using OfficeOpenXml;
 using System.IO;
 using System.IO.Packaging;
+using Newtonsoft.Json;
 
 
 namespace PsychoLab.Views.Windows.ToolWindows
@@ -37,49 +38,59 @@ namespace PsychoLab.Views.Windows.ToolWindows
                 return;
             }
 
-            var sessions = AppData.db.Sessions.Where(s => s.Client.ClientID == client.ClientID).ToList();
-            int totalOperations = sessions.Count(); // Пример: подсчитать общее количество шагов для прогресса
-            int completedOperations = 0;
-
-
-            using (WordprocessingDocument document = WordprocessingDocument.Create(filePath, WordprocessingDocumentType.Document))
+            try
             {
-                MainDocumentPart mainPart = document.AddMainDocumentPart();
-                mainPart.Document = new Document();
-                Body body = mainPart.Document.AppendChild(new Body());    // Добавление информации о клиенте
-                AddTextToBody(body, $"ID клиента: {client.ClientID}");
-                AddTextToBody(body, $"ФИО клиента: {client.FirstName} {client.LastName}");
-                AddTextToBody(body, $"Почта и телефон: {client.Email}, {client.Phone}");
-                AddTextToBody(body, $"Дата рождения: {client.DateOfBirth:d}");
-                AddTextToBody(body, $"Дата создания клиента: {client.CreatedAt:d}");
 
-                // Добавление информации о сеансах и тестах
-                foreach (var session in sessions)
+                var sessions = AppData.db.Sessions.Where(s => s.Client.ClientID == client.ClientID).ToList();
+                int totalOperations = sessions.Count(); // Пример: подсчитать общее количество шагов для прогресса
+                int completedOperations = 0;
+
+
+                using (WordprocessingDocument document = WordprocessingDocument.Create(filePath, WordprocessingDocumentType.Document))
                 {
-                    AddTextToBody(body, $"Дата сеанса: {session.SessionDate:d}");
-                    AddTextToBody(body, $"Время начала: {session.StartTime}");
-                    AddTextToBody(body, $"Время окончания: {session.EndTime}");
-                    AddTextToBody(body, $"Заметка сеанса: {session.SessionNote}");
+                    MainDocumentPart mainPart = document.AddMainDocumentPart();
+                    mainPart.Document = new Document();
+                    Body body = mainPart.Document.AppendChild(new Body());    // Добавление информации о клиенте
+                    AddTextToBody(body, $"ID клиента: {client.ClientID}");
+                    AddTextToBody(body, $"ФИО клиента: {client.FirstName} {client.LastName}");
+                    AddTextToBody(body, $"Почта и телефон: {client.Email}, {client.Phone}");
+                    AddTextToBody(body, $"Дата рождения: {client.DateOfBirth:d}");
+                    AddTextToBody(body, $"Дата создания клиента: {client.CreatedAt:d}");
 
-                    var testResults = session.TestResults;
-                    if (testResults.Any())
+                    // Добавление информации о сеансах и тестах
+                    foreach (var session in sessions)
                     {
-                        var firstResult = testResults.First();
-                        AddTextToBody(body, $"Название теста: {firstResult.PsychologicalTest.TestName}");
+                        AddTextToBody(body, $"Дата сеанса: {session.SessionDate:d}");
+                        AddTextToBody(body, $"Время начала: {session.StartTime}");
+                        AddTextToBody(body, $"Время окончания: {session.EndTime}");
+                        AddTextToBody(body, $"Заметка сеанса: {session.SessionNote}");
 
-                        foreach (var result in testResults)
+                        var testResults = session.TestResults;
+                        if (testResults.Any())
                         {
-                            AddTextToBody(body, $"Вопрос: {result.TestQuestion.QuestionText}");
-                            AddTextToBody(body, $"Ответ: {result.TestAnswer.AnswerText}");
-                        }
-                    }
-                    int percentComplete = (int)((double)completedOperations / totalOperations * 100);
-                    worker.ReportProgress(percentComplete);
-                }
+                            var firstResult = testResults.First();
+                            AddTextToBody(body, $"Название теста: {firstResult.PsychologicalTest.TestName}");
 
-                // Сохранение документа
-                mainPart.Document.Save();
-                MessageBox.Show($"Файл сохранен в: {filePath}", "Экспорт в Word", MessageBoxButton.OK, MessageBoxImage.Information);
+                            foreach (var result in testResults)
+                            {
+                                AddTextToBody(body, $"Вопрос: {result.TestQuestion.QuestionText}");
+                                AddTextToBody(body, $"Ответ: {result.TestAnswer.AnswerText}");
+                            }
+                        }
+                        int percentComplete = (int)((double)completedOperations / totalOperations * 100);
+                        worker.ReportProgress(percentComplete);
+                    }
+
+                    // Сохранение документа
+                    mainPart.Document.Save();
+                    MessageBox.Show($"Файл сохранен в: {filePath}", "Экспорт в Word", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message, "Что-то пошло не так.", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
 
 
@@ -90,7 +101,7 @@ namespace PsychoLab.Views.Windows.ToolWindows
             WRun run = para.AppendChild(new WRun());
             run.AppendChild(new Text(text));
         }
-        
+
         private volatile bool isCompleted = false;
         public void StartCreateClientSessionReport(Client client, string type, string filePath = null)
         {
@@ -113,12 +124,15 @@ namespace PsychoLab.Views.Windows.ToolWindows
                         CreateClientSessionReport(client, worker, filePath);
                     else if (type == "Excel")
                         CreateClientExcelReport(client, worker, filePath);
+                    if (type == "JSON")
+                        CreateClientJsonReport(client, worker, filePath, Client.DateOfBirth?.ToString("d"));
                     else
                         return;
                 }
                 catch (Exception ex)
                 {
                     e.Result = ex; // Сохранить исключение для события RunWorkerCompleted.
+                    Console.WriteLine(e.Result);
                 }
             };
 
@@ -140,7 +154,6 @@ namespace PsychoLab.Views.Windows.ToolWindows
                 {
                     // Обновить TextBlock, чтобы показать завершение.
                     progressText.Text = "Создание отчета завершено!";
-                    MessageBox.Show("Создание отчета завершено!", "Уведомление.", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 ExportToWord.IsEnabled = true;
             };
@@ -173,73 +186,91 @@ namespace PsychoLab.Views.Windows.ToolWindows
                 // Если клиент не найден, вернуться
                 return;
             }
-
-            var sessions = AppData.db.Sessions.Where(s => s.Client.ClientID == client.ClientID).ToList();
-            int totalOperations = sessions.Count(); // For progress calculation
-            int completedOperations = 0;
-
-            using (ExcelPackage package = new ExcelPackage())
+            try
             {
-                // Создать эксель документ
-                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Client Data");
+                var sessions = AppData.db.Sessions.Where(s => s.Client.ClientID == client.ClientID).ToList();
+                int totalOperations = sessions.Count(); // For progress calculation
+                int completedOperations = 0;
 
-                // Добавить заголовки
-                worksheet.Cells["A1"].Value = "Client ID";
-                worksheet.Cells["B1"].Value = "Name";
-                worksheet.Cells["C1"].Value = "Email";
-                worksheet.Cells["D1"].Value = "Phone";
-                worksheet.Cells["E1"].Value = "Date of Birth";
-                worksheet.Cells["F1"].Value = "Client Since";
-                worksheet.Cells["G1"].Value = "Session Date";
-                worksheet.Cells["H1"].Value = "Start Time";
-                worksheet.Cells["I1"].Value = "End Time";
-                worksheet.Cells["J1"].Value = "Session Note";
-                worksheet.Cells["K1"].Value = "Test Name";
-                worksheet.Cells["L1"].Value = "Question";
-                worksheet.Cells["M1"].Value = "Answer";
-
-                int row = 2;
-
-                foreach (var session in sessions)
+                using (ExcelPackage package = new ExcelPackage())
                 {
-                    // Информация о клиенте и сеансе должна записываться один раз за сеанс.
-                    worksheet.Cells[row, 1].Value = client.ClientID;
-                    worksheet.Cells[row, 2].Value = client.FirstName + " " + client.LastName;
-                    worksheet.Cells[row, 3].Value = client.Email;
-                    worksheet.Cells[row, 4].Value = client.Phone;
-                    worksheet.Cells[row, 5].Value = client.DateOfBirth?.ToString("d") ?? "N/A";
-                    worksheet.Cells[row, 6].Value = client.CreatedAt.ToString("d");
-                    worksheet.Cells[row, 7].Value = session.SessionDate.ToString("d");
-                    worksheet.Cells[row, 8].Value = session.StartTime;
-                    worksheet.Cells[row, 9].Value = session.EndTime;
-                    worksheet.Cells[row, 10].Value = session.SessionNote;
+                    // Создать эксель документ
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Client Data");
 
-                    var testResults = session.TestResults;
-                    if (testResults.Any())
+                    // Добавить заголовки
+                    worksheet.Cells["A1"].Value = "ID Клиента";
+                    worksheet.Cells["B1"].Value = "Клиент";
+                    worksheet.Cells["C1"].Value = "Почта";
+                    worksheet.Cells["D1"].Value = "Номер телефона";
+                    worksheet.Cells["E1"].Value = "Дата рождения";
+                    worksheet.Cells["F1"].Value = "Дата создания";
+                    worksheet.Cells["G1"].Value = "Дата сеанса";
+                    worksheet.Cells["H1"].Value = "Начало сеанса";
+                    worksheet.Cells["I1"].Value = "Конец сеанса";
+                    worksheet.Cells["J1"].Value = "Заметка";
+                    worksheet.Cells["K1"].Value = "Название теста";
+                    worksheet.Cells["L1"].Value = "Вопрос";
+                    worksheet.Cells["M1"].Value = "Ответ клиента";
+
+                    bool clientInfoWritten = false;
+                    int row = 2;
+
+                    foreach (var session in sessions)
                     {
-                        // Здесь записываем только информацию о результатах теста, а не статическую информацию о клиенте/сеансе.
-                        foreach (var result in testResults)
+                        if (!clientInfoWritten)
+                        {
+                            // Информация о клиенте записывается один раз
+                            worksheet.Cells[row, 1].Value = client.ClientID;
+                            worksheet.Cells[row, 2].Value = client.FirstName + " " + client.LastName;
+                            worksheet.Cells[row, 3].Value = client.Email;
+                            worksheet.Cells[row, 4].Value = client.Phone;
+                            worksheet.Cells[row, 5].Value = client.DateOfBirth?.ToString("d") ?? "N/A";
+                            worksheet.Cells[row, 6].Value = client.CreatedAt.ToString("d");
+                            clientInfoWritten = true; // Устанавливаем флаг в true
+                        }
+                        // Добавляем информацию о сеансе
+                        worksheet.Cells[row, 7].Value = session.SessionDate.ToString("d");
+                        string startTimeFormatted = session.StartTime.ToString(@"hh\:mm\:ss");
+                        string endTimeFormatted = session.EndTime.ToString(@"hh\:mm\:ss");
+
+                        worksheet.Cells[row, 8].Value = startTimeFormatted;
+                        worksheet.Cells[row, 8].Style.Numberformat.Format = "hh:mm:ss";
+
+                        worksheet.Cells[row, 9].Value = endTimeFormatted;
+                        worksheet.Cells[row, 9].Style.Numberformat.Format = "hh:mm:ss";
+                        worksheet.Cells[row, 10].Value = session.SessionNote;
+
+                        // Записываем результаты тестов
+                        foreach (var result in session.TestResults)
                         {
                             worksheet.Cells[row, 11].Value = result.PsychologicalTest.TestName;
                             worksheet.Cells[row, 12].Value = result.TestQuestion.QuestionText;
                             worksheet.Cells[row, 13].Value = result.TestAnswer.AnswerText;
-                            row++; // Переход к следующей строке для получения следующего результата теста
+                            row++; // Переходим к следующей строке для нового результата
                         }
-                    }
-                    else
-                    {
-                        row++; // Переход к следующей строке для следующего сеанса, если результатов теста нет.
+
+                        if (session.TestResults.Count == 0)
+                        {
+                            // Если нет результатов теста, все равно переходим к новой строке
+                            row++;
+                        }
+
+                        completedOperations++;
+                        int percentComplete = (int)((double)completedOperations / totalOperations * 100);
+                        worker.ReportProgress(percentComplete);
                     }
 
-                    completedOperations++;
-                    int percentComplete = (int)((double)completedOperations / totalOperations * 100);
-                    worker.ReportProgress(percentComplete);
+
+                    var fileInfo = new FileInfo(filePath);
+                    package.SaveAs(fileInfo);
+                    MessageBox.Show($"Файл сохранен в: {filePath}", "Экспорт в Excel", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
 
-
-                var fileInfo = new FileInfo(filePath);
-                package.SaveAs(fileInfo);
-                MessageBox.Show($"Файл сохранен в: {filePath}", "Экспорт в Excel", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Что-то пошло не так.", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
             }
         }
 
@@ -260,11 +291,79 @@ namespace PsychoLab.Views.Windows.ToolWindows
                 StartCreateClientSessionReport(Client, "Excel", filename);
             }
         }
+        // Метод экспорта данных в Json
+        public void CreateClientJsonReport(Client client, BackgroundWorker worker, string filePath, string v)
+        {
+            if (client == null)
+            {
+                // Если клиент не найден, вернуться
+                return;
+            }
+            try
+            {
+                // Загружаем сессии в память
+                var sessionsQuery = AppData.db.Sessions
+                                    .Where(s => s.Client.ClientID == client.ClientID)
+                                    .ToList();
+
+                // Теперь, когда данные в памяти, мы можем использовать ToString
+                var sessionsData = sessionsQuery
+                                    .Select(s => new
+                                    {
+                                        SessionDate = s.SessionDate.ToString("d"),
+                                        StartTime = s.StartTime.ToString(@"hh\:mm\:ss"),
+                                        EndTime = s.EndTime.ToString(@"hh\:mm\:ss"),
+                                        SessionNote = s.SessionNote,
+                                        TestResults = s.TestResults.Select(tr => new
+                                        {
+                                            TestName = tr.PsychologicalTest.TestName,
+                                            Question = tr.TestQuestion.QuestionText,
+                                            Answer = tr.TestAnswer.AnswerText
+                                        }).ToList()
+                                    }).ToList();
+
+                var clientData = new
+                {
+                    ClientID = client.ClientID,
+                    Name = client.FirstName + " " + client.LastName,
+                    Email = client.Email,
+                    Phone = client.Phone,
+                    DateOfBirth = client.DateOfBirth.HasValue ? client.DateOfBirth.Value.ToString("d") : "N/A",
+                    ClientSince = client.CreatedAt.ToString("d"),
+                };
+
+                var report = new
+                {
+                    Client = clientData,
+                    Sessions = sessionsData
+                };
+
+                string json = JsonConvert.SerializeObject(report, Formatting.Indented);
+                File.WriteAllText(filePath, json);
+
+                worker.ReportProgress(100);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Что-то пошло не так.", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
 
         // Экспортируем данные в формат JSON
         private void ExportToJson_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Данная функция находится в разработке.", "В разработке!", MessageBoxButton.OK, MessageBoxImage.Information);
+            Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
+            saveFileDialog.FileName = $"ClientSessionReport_{Client.ClientID}"; // Default file name
+            saveFileDialog.DefaultExt = ".json"; // Default file extension
+            saveFileDialog.Filter = "Json documents (.json)|*.json";
+            bool? resultDialog = saveFileDialog.ShowDialog();
+
+            if (resultDialog == true)
+            {
+                // Получить выбранное имя файла и начать процесс экспорта.
+                string filename = saveFileDialog.FileName;
+                StartCreateClientSessionReport(Client, "JSON", filename);
+            }
         }
     }
 }

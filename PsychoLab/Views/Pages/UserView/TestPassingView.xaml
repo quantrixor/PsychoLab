@@ -15,7 +15,7 @@
         </Grid.RowDefinitions>
 
         <!-- Current Question -->
-        <Label x:Name="CurrentQuestionTextBlock" Content="Test" ContentStringFormat="Question: {0}" Grid.Row="0" FontSize="24" Margin="10" HorizontalAlignment="Center"/>
+        <Label x:Name="CurrentQuestionTextBlock" Content="Test" ContentStringFormat="Вопрос: {0}" Grid.Row="0" FontSize="24" Margin="10" HorizontalAlignment="Center"/>
 
         <!-- Possible Answers -->
         <ListBox x:Name="AnswersListBox" Grid.Row="1" Margin="10">

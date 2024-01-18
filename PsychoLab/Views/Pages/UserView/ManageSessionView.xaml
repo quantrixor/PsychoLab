@@ -54,8 +54,8 @@
                     <GridViewColumn Header="Старт" DisplayMemberBinding="{Binding StartTime, StringFormat='{}{0:hh\\:mm\\:ss}'}" />
                     <GridViewColumn Header="Конец" DisplayMemberBinding="{Binding EndTime, StringFormat='{}{0:hh\\:mm\\:ss}'}"/>
                     <GridViewColumn Header="Пациент" DisplayMemberBinding="{Binding Client.FullName}"/>
-                    <GridViewColumn Header="Пациент" DisplayMemberBinding="{Binding Client.Phone}"/>
-                    <GridViewColumn Header="Пациент" DisplayMemberBinding="{Binding Client.Email}"/>
+                    <GridViewColumn Header="Номер телефон" DisplayMemberBinding="{Binding Client.Phone}"/>
+                    <GridViewColumn Header="Почта" DisplayMemberBinding="{Binding Client.Email}"/>
                     <GridViewColumn Header="Запись создана" DisplayMemberBinding="{Binding CreatedAt, StringFormat='{}{0:dd.MM.yy}'}"/>
                     <GridViewColumn Header="Заметка" DisplayMemberBinding="{Binding SessionNote}"/>
                     <GridViewColumn Header="Экспорт в Word">

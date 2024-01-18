@@ -10,6 +10,7 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using PsychoLab.Context;
 using PsychoLab.Model;
 using Microsoft.Win32;
+using OfficeOpenXml;
 
 namespace PsychoLab.Views.Windows.AdminWindows.ToolWindows
 {
@@ -24,12 +25,13 @@ namespace PsychoLab.Views.Windows.AdminWindows.ToolWindows
             InitializeComponent();
             _users = AppData.db.Users.ToList();
         }
-        public string ChooseSaveLocation()
+        //$"Word Document (*.docx)|*.docx";
+        public string ChooseSaveLocation(string formatFile, string filterFile)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.FileName = "UserData";
-            saveFileDialog.Filter = "Word Document (*.docx)|*.docx";
-            saveFileDialog.DefaultExt = "docx";
+            saveFileDialog.Filter = filterFile;
+            saveFileDialog.DefaultExt = formatFile;
             saveFileDialog.AddExtension = true;
 
             bool? result = saveFileDialog.ShowDialog();
@@ -45,7 +47,7 @@ namespace PsychoLab.Views.Windows.AdminWindows.ToolWindows
         }
         private async void ExportToWord_Click(object sender, RoutedEventArgs e)
         {
-            string filePath = ChooseSaveLocation();
+            string filePath = ChooseSaveLocation("docx", "Word Document (*.docx)|*.docx");
             if(filePath != null)
                 await Task.Run(() => ExportUsersToWord(_users, filePath));
         }
@@ -97,9 +99,50 @@ namespace PsychoLab.Views.Windows.AdminWindows.ToolWindows
             return paragraph;
         }
 
-        private void ExportToExcel_Click(object sender, RoutedEventArgs e)
+        public void ExportUsersToExcel(List<User> users, string filePath)
         {
+            using (ExcelPackage package = new ExcelPackage())
+            {
+                // Добавление нового листа в Excel файл
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Users");
 
+                // Заголовки столбцов
+                string[] columnHeaders = { "ID", "Имя", "Фамилия", "Отчество", "Почта", "Дата создания", "Дата обновления" };
+                for (int i = 0; i < columnHeaders.Length; i++)
+                {
+                    worksheet.Cells[1, i + 1].Value = columnHeaders[i];
+                }
+
+                int row = 2; // Стартовая строка для данных пользователей
+                foreach (User user in users)
+                {
+                    // Заполнение ячеек данными пользователя
+                    worksheet.Cells[row, 1].Value = user.UserID;
+                    worksheet.Cells[row, 2].Value = user.FirstName;
+                    worksheet.Cells[row, 3].Value = user.LastName;
+                    worksheet.Cells[row, 4].Value = user.MiddleName;
+                    worksheet.Cells[row, 5].Value = user.Email;
+                    worksheet.Cells[row, 6].Value = user.CreatedAt.ToString("dd.MM.yyyy HH:mm");
+                    worksheet.Cells[row, 7].Value = user.UpdatedAt.HasValue ? user.UpdatedAt.Value.ToString("dd.MM.yyyy HH:mm") : "Не обновлялось";
+
+                    row++;
+                }
+
+                // Автоматическое изменение ширины столбцов по содержимому
+                worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
+
+                // Сохранение Excel файла
+                FileInfo fileInfo = new FileInfo(filePath);
+                package.SaveAs(fileInfo);
+            }
+
+            MessageBox.Show("Данные успешно экспортированы в Excel.", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        private async void ExportToExcel_Click(object sender, RoutedEventArgs e)
+        {
+            string filePath = ChooseSaveLocation("xlsx", "Excel documents (.xlsx)|*.xlsx");
+            if (filePath != null)
+                await Task.Run(() => ExportUsersToExcel(_users, filePath));
         }
     }
 }
