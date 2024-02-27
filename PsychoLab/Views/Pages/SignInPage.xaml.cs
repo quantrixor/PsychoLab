@@ -81,5 +81,10 @@ namespace PsychoLab.Views.Pages
                 }
             }
         }
+
+        private void GuideButton_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start($@"{Environment.CurrentDirectory}\GuideDocs\Guide.pdf");
+        }
     }
 }

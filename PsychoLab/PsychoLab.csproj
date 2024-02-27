@@ -375,6 +375,8 @@
       <DependentUpon>dbModel.edmx</DependentUpon>
       <LastGenOutput>dbModel.cs</LastGenOutput>
     </Content>
+    <Resource Include="Resources\questionmark48x.png" />
+    <Resource Include="Resources\questionmark96x.png" />
     <Resource Include="Resources\icon_ps.jpeg" />
     <Resource Include="Resources\logo.jpg" />
   </ItemGroup>
