@@ -9,9 +9,9 @@
         WindowStartupLocation="CenterScreen"
         WindowStyle="ToolWindow"
         MaxWidth="450"
-        MinWidth="400"
-        MaxHeight="500"
-        MinHeight="440"
+        MinWidth="420"
+        MaxHeight="510"
+        MinHeight="480"
         Title="Профиль пользователя" Height="440" Width="400">
 
     <Window.Resources>
@@ -20,7 +20,7 @@
             <Setter Property="FontSize" Value="14"/>
         </Style>
     </Window.Resources>
-    
+
     <Grid>
         <StackPanel HorizontalAlignment="Center"
                     VerticalAlignment="Center"
@@ -52,7 +52,9 @@
                 </Button.Resources>
 
             </Button>
-
+        </StackPanel>
+        <StackPanel Margin="10" Grid.Row="4" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+            <Label Content="version 1.4" FontSize="10" Opacity="0.5"/>
         </StackPanel>
     </Grid>
 </Window>

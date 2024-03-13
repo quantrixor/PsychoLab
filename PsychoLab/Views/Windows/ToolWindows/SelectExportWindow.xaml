@@ -76,5 +76,8 @@
                        FontFamily="Segoe UI Bold"/>
 
         </StackPanel>
+        <StackPanel Grid.Row="4" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+            <Label Content="version 1.4" FontSize="10" Opacity="0.5"/>
+        </StackPanel>
     </Grid>
 </Window>

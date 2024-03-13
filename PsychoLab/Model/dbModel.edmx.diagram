@@ -5,33 +5,33 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="19f0097252284b68b100cc00f3189ac0" Name="Diagram1">
-        <EntityTypeShape EntityType="dbPsychoLabAppModel.Client" Width="1.5" PointX="3.75" PointY="3.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbPsychoLabAppModel.ExportLog" Width="1.5" PointX="14.5" PointY="4.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbPsychoLabAppModel.Gender" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbPsychoLabAppModel.Permission" Width="1.5" PointX="12.5" PointY="1.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbPsychoLabAppModel.PsychologicalTest" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbPsychoLabAppModel.PsychologistReport" Width="1.5" PointX="7.5" PointY="7.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbPsychoLabAppModel.Role" Width="1.5" PointX="9.875" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbPsychoLabAppModel.SessionArchive" Width="1.5" PointX="7.5" PointY="10.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbPsychoLabAppModel.Session" Width="1.5" PointX="6" PointY="3.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbPsychoLabAppModel.sysdiagram" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbPsychoLabAppModel.TestAnswer" Width="1.5" PointX="5.25" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbPsychoLabAppModel.TestQuestion" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbPsychoLabAppModel.TestResult" Width="1.5" PointX="8.125" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbPsychoLabAppModel.User" Width="1.5" PointX="12.25" PointY="4" IsExpanded="true" />
-        <AssociationConnector Association="dbPsychoLabAppModel.FK__Sessions__Client__48CFD27E" ManuallyRouted="false" />
-        <AssociationConnector Association="dbPsychoLabAppModel.FK_Clients_Gender" ManuallyRouted="false" />
-        <AssociationConnector Association="dbPsychoLabAppModel.FK__ExportLog__UserI__5DCAEF64" ManuallyRouted="false" />
-        <AssociationConnector Association="dbPsychoLabAppModel.FK__TestQuest__TestI__5165187F" ManuallyRouted="false" />
-        <AssociationConnector Association="dbPsychoLabAppModel.FK__TestResul__TestI__5812160E" ManuallyRouted="false" />
-        <AssociationConnector Association="dbPsychoLabAppModel.FK__Psycholog__Sessi__4CA06362" ManuallyRouted="false" />
-        <AssociationConnector Association="dbPsychoLabAppModel.FK__SessionAr__Sessi__619B8048" ManuallyRouted="false" />
-        <AssociationConnector Association="dbPsychoLabAppModel.FK__TestResul__Sessi__571DF1D5" ManuallyRouted="false" />
-        <AssociationConnector Association="dbPsychoLabAppModel.FK__TestAnswe__Quest__5441852A" ManuallyRouted="false" />
-        <AssociationConnector Association="dbPsychoLabAppModel.FK__TestResul__Answe__59FA5E80" ManuallyRouted="false" />
-        <AssociationConnector Association="dbPsychoLabAppModel.FK__TestResul__Quest__59063A47" ManuallyRouted="false" />
-        <AssociationConnector Association="dbPsychoLabAppModel.RolePermissions" ManuallyRouted="false" />
-        <AssociationConnector Association="dbPsychoLabAppModel.UserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="dbPsychoLabAppModel.Client" Width="1.5" PointX="3" PointY="6.5" />
+        <EntityTypeShape EntityType="dbPsychoLabAppModel.ExportLog" Width="1.5" PointX="14.5" PointY="4.75" />
+        <EntityTypeShape EntityType="dbPsychoLabAppModel.Gender" Width="1.5" PointX="0.75" PointY="7.375" />
+        <EntityTypeShape EntityType="dbPsychoLabAppModel.Permission" Width="1.5" PointX="7.75" PointY="4.875" />
+        <EntityTypeShape EntityType="dbPsychoLabAppModel.PsychologicalTest" Width="1.5" PointX="0.75" PointY="1" />
+        <EntityTypeShape EntityType="dbPsychoLabAppModel.PsychologistReport" Width="1.5" PointX="7.5" PointY="10.5" />
+        <EntityTypeShape EntityType="dbPsychoLabAppModel.Role" Width="1.5" PointX="10" PointY="4.75" />
+        <EntityTypeShape EntityType="dbPsychoLabAppModel.SessionArchive" Width="1.5" PointX="7.5" PointY="8.125" />
+        <EntityTypeShape EntityType="dbPsychoLabAppModel.Session" Width="1.5" PointX="5.25" PointY="6.375" />
+        <EntityTypeShape EntityType="dbPsychoLabAppModel.sysdiagram" Width="1.5" PointX="9.75" PointY="0.75" />
+        <EntityTypeShape EntityType="dbPsychoLabAppModel.TestAnswer" Width="1.5" PointX="5.25" PointY="0.875" />
+        <EntityTypeShape EntityType="dbPsychoLabAppModel.TestQuestion" Width="1.5" PointX="3" PointY="0.875" />
+        <EntityTypeShape EntityType="dbPsychoLabAppModel.TestResult" Width="1.5" PointX="7.5" PointY="0.875" />
+        <EntityTypeShape EntityType="dbPsychoLabAppModel.User" Width="1.5" PointX="12.25" PointY="4" />
+        <AssociationConnector Association="dbPsychoLabAppModel.FK__Sessions__Client__48CFD27E" />
+        <AssociationConnector Association="dbPsychoLabAppModel.FK_Clients_Gender" />
+        <AssociationConnector Association="dbPsychoLabAppModel.FK__ExportLog__UserI__5DCAEF64" />
+        <AssociationConnector Association="dbPsychoLabAppModel.FK__TestQuest__TestI__5165187F" />
+        <AssociationConnector Association="dbPsychoLabAppModel.FK__TestResul__TestI__5812160E" />
+        <AssociationConnector Association="dbPsychoLabAppModel.FK__Psycholog__Sessi__4CA06362" />
+        <AssociationConnector Association="dbPsychoLabAppModel.FK__SessionAr__Sessi__619B8048" />
+        <AssociationConnector Association="dbPsychoLabAppModel.FK__TestResul__Sessi__571DF1D5" />
+        <AssociationConnector Association="dbPsychoLabAppModel.FK__TestAnswe__Quest__5441852A" />
+        <AssociationConnector Association="dbPsychoLabAppModel.FK__TestResul__Answe__59FA5E80" />
+        <AssociationConnector Association="dbPsychoLabAppModel.FK__TestResul__Quest__59063A47" />
+        <AssociationConnector Association="dbPsychoLabAppModel.RolePermissions" />
+        <AssociationConnector Association="dbPsychoLabAppModel.UserRoles" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

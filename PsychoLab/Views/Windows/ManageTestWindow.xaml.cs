@@ -163,7 +163,6 @@ namespace PsychoLab.Views.Windows
             {
                 MessageBox.Show($"Ошибка: {ex.Message}");
             }
-
         }
         private void EditAnswer_Click(object sender, RoutedEventArgs e)
         {

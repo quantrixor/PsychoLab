@@ -233,7 +233,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__TestAnswe__Quest__5441852A">
-          <End Role="TestQuestions" Type="Self.TestQuestions" Multiplicity="1" />
+          <End Role="TestQuestions" Type="Self.TestQuestions" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="TestAnswers" Type="Self.TestAnswers" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TestQuestions">
@@ -245,7 +247,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__TestQuest__TestI__5165187F">
-          <End Role="PsychologicalTests" Type="Self.PsychologicalTests" Multiplicity="1" />
+          <End Role="PsychologicalTests" Type="Self.PsychologicalTests" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="TestQuestions" Type="Self.TestQuestions" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PsychologicalTests">
@@ -422,23 +426,91 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="dbPsychoLabAppModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="dbPsychoLabAppEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Clients" EntityType="dbPsychoLabAppModel.Client" />
+          <EntitySet Name="ExportLogs" EntityType="dbPsychoLabAppModel.ExportLog" />
+          <EntitySet Name="Genders" EntityType="dbPsychoLabAppModel.Gender" />
+          <EntitySet Name="Permissions" EntityType="dbPsychoLabAppModel.Permission" />
+          <EntitySet Name="PsychologicalTests" EntityType="dbPsychoLabAppModel.PsychologicalTest" />
+          <EntitySet Name="PsychologistReports" EntityType="dbPsychoLabAppModel.PsychologistReport" />
+          <EntitySet Name="Roles" EntityType="dbPsychoLabAppModel.Role" />
+          <EntitySet Name="SessionArchives" EntityType="dbPsychoLabAppModel.SessionArchive" />
+          <EntitySet Name="Sessions" EntityType="dbPsychoLabAppModel.Session" />
+          <EntitySet Name="sysdiagrams" EntityType="dbPsychoLabAppModel.sysdiagram" />
+          <EntitySet Name="TestAnswers" EntityType="dbPsychoLabAppModel.TestAnswer" />
+          <EntitySet Name="TestQuestions" EntityType="dbPsychoLabAppModel.TestQuestion" />
+          <EntitySet Name="TestResults" EntityType="dbPsychoLabAppModel.TestResult" />
+          <EntitySet Name="Users" EntityType="dbPsychoLabAppModel.User" />
+          <AssociationSet Name="FK__Sessions__Client__48CFD27E" Association="dbPsychoLabAppModel.FK__Sessions__Client__48CFD27E">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Session" EntitySet="Sessions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Clients_Gender" Association="dbPsychoLabAppModel.FK_Clients_Gender">
+            <End Role="Gender" EntitySet="Genders" />
+            <End Role="Client" EntitySet="Clients" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ExportLog__UserI__5DCAEF64" Association="dbPsychoLabAppModel.FK__ExportLog__UserI__5DCAEF64">
+            <End Role="User" EntitySet="Users" />
+            <End Role="ExportLog" EntitySet="ExportLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TestQuest__TestI__5165187F" Association="dbPsychoLabAppModel.FK__TestQuest__TestI__5165187F">
+            <End Role="PsychologicalTest" EntitySet="PsychologicalTests" />
+            <End Role="TestQuestion" EntitySet="TestQuestions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TestResul__TestI__5812160E" Association="dbPsychoLabAppModel.FK__TestResul__TestI__5812160E">
+            <End Role="PsychologicalTest" EntitySet="PsychologicalTests" />
+            <End Role="TestResult" EntitySet="TestResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Psycholog__Sessi__4CA06362" Association="dbPsychoLabAppModel.FK__Psycholog__Sessi__4CA06362">
+            <End Role="Session" EntitySet="Sessions" />
+            <End Role="PsychologistReport" EntitySet="PsychologistReports" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SessionAr__Sessi__619B8048" Association="dbPsychoLabAppModel.FK__SessionAr__Sessi__619B8048">
+            <End Role="Session" EntitySet="Sessions" />
+            <End Role="SessionArchive" EntitySet="SessionArchives" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TestResul__Sessi__571DF1D5" Association="dbPsychoLabAppModel.FK__TestResul__Sessi__571DF1D5">
+            <End Role="Session" EntitySet="Sessions" />
+            <End Role="TestResult" EntitySet="TestResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TestAnswe__Quest__5441852A" Association="dbPsychoLabAppModel.FK__TestAnswe__Quest__5441852A">
+            <End Role="TestQuestion" EntitySet="TestQuestions" />
+            <End Role="TestAnswer" EntitySet="TestAnswers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TestResul__Answe__59FA5E80" Association="dbPsychoLabAppModel.FK__TestResul__Answe__59FA5E80">
+            <End Role="TestAnswer" EntitySet="TestAnswers" />
+            <End Role="TestResult" EntitySet="TestResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TestResul__Quest__59063A47" Association="dbPsychoLabAppModel.FK__TestResul__Quest__59063A47">
+            <End Role="TestQuestion" EntitySet="TestQuestions" />
+            <End Role="TestResult" EntitySet="TestResults" />
+          </AssociationSet>
+          <AssociationSet Name="RolePermissions" Association="dbPsychoLabAppModel.RolePermissions">
+            <End Role="Permission" EntitySet="Permissions" />
+            <End Role="Role" EntitySet="Roles" />
+          </AssociationSet>
+          <AssociationSet Name="UserRoles" Association="dbPsychoLabAppModel.UserRoles">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Client">
           <Key>
             <PropertyRef Name="ClientID" />
           </Key>
           <Property Name="ClientID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
           <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="CreatedBy" Type="Int32" />
           <Property Name="UpdatedAt" Type="DateTime" Precision="7" />
           <Property Name="UpdatedBy" Type="Int32" />
-          <NavigationProperty Name="Sessions" Relationship="Self.FK__Sessions__Client__48CFD27E" FromRole="Clients" ToRole="Sessions" />
-          <NavigationProperty Name="Gender" Relationship="Self.FK_Clients_Gender" FromRole="Clients" ToRole="Gender" />
+          <NavigationProperty Name="Sessions" Relationship="dbPsychoLabAppModel.FK__Sessions__Client__48CFD27E" FromRole="Client" ToRole="Session" />
+          <NavigationProperty Name="Gender" Relationship="dbPsychoLabAppModel.FK_Clients_Gender" FromRole="Client" ToRole="Gender" />
         </EntityType>
         <EntityType Name="ExportLog">
           <Key>
@@ -446,51 +518,51 @@
           </Key>
           <Property Name="LogID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ExportDate" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="FormatExported" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="User" Relationship="Self.FK__ExportLog__UserI__5DCAEF64" FromRole="ExportLogs" ToRole="Users" />
+          <Property Name="FormatExported" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="User" Relationship="dbPsychoLabAppModel.FK__ExportLog__UserI__5DCAEF64" FromRole="ExportLog" ToRole="User" />
         </EntityType>
         <EntityType Name="Gender">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Clients" Relationship="Self.FK_Clients_Gender" FromRole="Gender" ToRole="Clients" />
+          <Property Name="ID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Clients" Relationship="dbPsychoLabAppModel.FK_Clients_Gender" FromRole="Gender" ToRole="Client" />
         </EntityType>
         <EntityType Name="Permission">
           <Key>
             <PropertyRef Name="PermissionID" />
           </Key>
           <Property Name="PermissionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PermissionName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Roles" Relationship="Self.RolePermissions" FromRole="Permissions" ToRole="Roles" />
+          <Property Name="PermissionName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Roles" Relationship="dbPsychoLabAppModel.RolePermissions" FromRole="Permission" ToRole="Role" />
         </EntityType>
         <EntityType Name="PsychologicalTest">
           <Key>
             <PropertyRef Name="TestID" />
           </Key>
           <Property Name="TestID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TestName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="TestQuestions" Relationship="Self.FK__TestQuest__TestI__5165187F" FromRole="PsychologicalTests" ToRole="TestQuestions" />
-          <NavigationProperty Name="TestResults" Relationship="Self.FK__TestResul__TestI__5812160E" FromRole="PsychologicalTests" ToRole="TestResults" />
+          <Property Name="TestName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TestQuestions" Relationship="dbPsychoLabAppModel.FK__TestQuest__TestI__5165187F" FromRole="PsychologicalTest" ToRole="TestQuestion" />
+          <NavigationProperty Name="TestResults" Relationship="dbPsychoLabAppModel.FK__TestResul__TestI__5812160E" FromRole="PsychologicalTest" ToRole="TestResult" />
         </EntityType>
         <EntityType Name="PsychologistReport">
           <Key>
             <PropertyRef Name="ReportID" />
           </Key>
           <Property Name="ReportID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ReportContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ReportContent" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="PrintDate" Type="DateTime" Nullable="false" Precision="7" />
-          <NavigationProperty Name="Session" Relationship="Self.FK__Psycholog__Sessi__4CA06362" FromRole="PsychologistReports" ToRole="Sessions" />
+          <NavigationProperty Name="Session" Relationship="dbPsychoLabAppModel.FK__Psycholog__Sessi__4CA06362" FromRole="PsychologistReport" ToRole="Session" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
             <PropertyRef Name="RoleID" />
           </Key>
           <Property Name="RoleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Permissions" Relationship="Self.RolePermissions" FromRole="Roles" ToRole="Permissions" />
-          <NavigationProperty Name="Users" Relationship="Self.UserRoles" FromRole="Roles" ToRole="Users" />
+          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Permissions" Relationship="dbPsychoLabAppModel.RolePermissions" FromRole="Role" ToRole="Permission" />
+          <NavigationProperty Name="Users" Relationship="dbPsychoLabAppModel.UserRoles" FromRole="Role" ToRole="User" />
         </EntityType>
         <EntityType Name="SessionArchive">
           <Key>
@@ -498,7 +570,7 @@
           </Key>
           <Property Name="ArchiveID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ArchivedDate" Type="DateTime" Nullable="false" Precision="7" />
-          <NavigationProperty Name="Session" Relationship="Self.FK__SessionAr__Sessi__619B8048" FromRole="SessionArchives" ToRole="Sessions" />
+          <NavigationProperty Name="Session" Relationship="dbPsychoLabAppModel.FK__SessionAr__Sessi__619B8048" FromRole="SessionArchive" ToRole="Session" />
         </EntityType>
         <EntityType Name="Session">
           <Key>
@@ -513,17 +585,17 @@
           <Property Name="CreatedBy" Type="Int32" />
           <Property Name="UpdatedAt" Type="DateTime" Precision="7" />
           <Property Name="UpdatedBy" Type="Int32" />
-          <NavigationProperty Name="Client" Relationship="Self.FK__Sessions__Client__48CFD27E" FromRole="Sessions" ToRole="Clients" />
-          <NavigationProperty Name="PsychologistReports" Relationship="Self.FK__Psycholog__Sessi__4CA06362" FromRole="Sessions" ToRole="PsychologistReports" />
-          <NavigationProperty Name="SessionArchives" Relationship="Self.FK__SessionAr__Sessi__619B8048" FromRole="Sessions" ToRole="SessionArchives" />
-          <NavigationProperty Name="TestResults" Relationship="Self.FK__TestResul__Sessi__571DF1D5" FromRole="Sessions" ToRole="TestResults" />
           <Property Name="IsTestCompleted" Type="Boolean" />
+          <NavigationProperty Name="Client" Relationship="dbPsychoLabAppModel.FK__Sessions__Client__48CFD27E" FromRole="Session" ToRole="Client" />
+          <NavigationProperty Name="PsychologistReports" Relationship="dbPsychoLabAppModel.FK__Psycholog__Sessi__4CA06362" FromRole="Session" ToRole="PsychologistReport" />
+          <NavigationProperty Name="SessionArchives" Relationship="dbPsychoLabAppModel.FK__SessionAr__Sessi__619B8048" FromRole="Session" ToRole="SessionArchive" />
+          <NavigationProperty Name="TestResults" Relationship="dbPsychoLabAppModel.FK__TestResul__Sessi__571DF1D5" FromRole="Session" ToRole="TestResult" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
             <PropertyRef Name="diagram_id" />
           </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="principal_id" Type="Int32" Nullable="false" />
           <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="version" Type="Int32" />
@@ -534,169 +606,105 @@
             <PropertyRef Name="AnswerID" />
           </Key>
           <Property Name="AnswerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AnswerText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AnswerText" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IsCorrect" Type="Boolean" />
-          <NavigationProperty Name="TestQuestion" Relationship="Self.FK__TestAnswe__Quest__5441852A" FromRole="TestAnswers" ToRole="TestQuestions" />
-          <NavigationProperty Name="TestResults" Relationship="Self.FK__TestResul__Answe__59FA5E80" FromRole="TestAnswers" ToRole="TestResults" />
+          <NavigationProperty Name="TestQuestion" Relationship="dbPsychoLabAppModel.FK__TestAnswe__Quest__5441852A" FromRole="TestAnswer" ToRole="TestQuestion" />
+          <NavigationProperty Name="TestResults" Relationship="dbPsychoLabAppModel.FK__TestResul__Answe__59FA5E80" FromRole="TestAnswer" ToRole="TestResult" />
         </EntityType>
         <EntityType Name="TestQuestion">
           <Key>
             <PropertyRef Name="QuestionID" />
           </Key>
           <Property Name="QuestionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="QuestionText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="PsychologicalTest" Relationship="Self.FK__TestQuest__TestI__5165187F" FromRole="TestQuestions" ToRole="PsychologicalTests" />
-          <NavigationProperty Name="TestAnswers" Relationship="Self.FK__TestAnswe__Quest__5441852A" FromRole="TestQuestions" ToRole="TestAnswers" />
-          <NavigationProperty Name="TestResults" Relationship="Self.FK__TestResul__Quest__59063A47" FromRole="TestQuestions" ToRole="TestResults" />
+          <Property Name="QuestionText" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PsychologicalTest" Relationship="dbPsychoLabAppModel.FK__TestQuest__TestI__5165187F" FromRole="TestQuestion" ToRole="PsychologicalTest" />
+          <NavigationProperty Name="TestAnswers" Relationship="dbPsychoLabAppModel.FK__TestAnswe__Quest__5441852A" FromRole="TestQuestion" ToRole="TestAnswer" />
+          <NavigationProperty Name="TestResults" Relationship="dbPsychoLabAppModel.FK__TestResul__Quest__59063A47" FromRole="TestQuestion" ToRole="TestResult" />
         </EntityType>
         <EntityType Name="TestResult">
           <Key>
             <PropertyRef Name="ResultID" />
           </Key>
           <Property Name="ResultID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="PsychologicalTest" Relationship="Self.FK__TestResul__TestI__5812160E" FromRole="TestResults" ToRole="PsychologicalTests" />
-          <NavigationProperty Name="Session" Relationship="Self.FK__TestResul__Sessi__571DF1D5" FromRole="TestResults" ToRole="Sessions" />
-          <NavigationProperty Name="TestAnswer" Relationship="Self.FK__TestResul__Answe__59FA5E80" FromRole="TestResults" ToRole="TestAnswers" />
-          <NavigationProperty Name="TestQuestion" Relationship="Self.FK__TestResul__Quest__59063A47" FromRole="TestResults" ToRole="TestQuestions" />
+          <NavigationProperty Name="PsychologicalTest" Relationship="dbPsychoLabAppModel.FK__TestResul__TestI__5812160E" FromRole="TestResult" ToRole="PsychologicalTest" />
+          <NavigationProperty Name="Session" Relationship="dbPsychoLabAppModel.FK__TestResul__Sessi__571DF1D5" FromRole="TestResult" ToRole="Session" />
+          <NavigationProperty Name="TestAnswer" Relationship="dbPsychoLabAppModel.FK__TestResul__Answe__59FA5E80" FromRole="TestResult" ToRole="TestAnswer" />
+          <NavigationProperty Name="TestQuestion" Relationship="dbPsychoLabAppModel.FK__TestResul__Quest__59063A47" FromRole="TestResult" ToRole="TestQuestion" />
         </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="UserID" />
           </Key>
           <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="MiddleName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="UpdatedAt" Type="DateTime" Precision="7" />
-          <NavigationProperty Name="ExportLogs" Relationship="Self.FK__ExportLog__UserI__5DCAEF64" FromRole="Users" ToRole="ExportLogs" />
-          <NavigationProperty Name="Roles" Relationship="Self.UserRoles" FromRole="Users" ToRole="Roles" />
           <Property Name="PicUser" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="ExportLogs" Relationship="dbPsychoLabAppModel.FK__ExportLog__UserI__5DCAEF64" FromRole="User" ToRole="ExportLog" />
+          <NavigationProperty Name="Roles" Relationship="dbPsychoLabAppModel.UserRoles" FromRole="User" ToRole="Role" />
         </EntityType>
         <Association Name="FK__Sessions__Client__48CFD27E">
-          <End Role="Clients" Type="Self.Client" Multiplicity="1" />
-          <End Role="Sessions" Type="Self.Session" Multiplicity="*" />
+          <End Type="dbPsychoLabAppModel.Client" Role="Client" Multiplicity="1" />
+          <End Type="dbPsychoLabAppModel.Session" Role="Session" Multiplicity="*" />
         </Association>
         <Association Name="FK_Clients_Gender">
-          <End Role="Gender" Type="Self.Gender" Multiplicity="0..1" />
-          <End Role="Clients" Type="Self.Client" Multiplicity="*" />
+          <End Type="dbPsychoLabAppModel.Gender" Role="Gender" Multiplicity="0..1" />
+          <End Type="dbPsychoLabAppModel.Client" Role="Client" Multiplicity="*" />
         </Association>
         <Association Name="FK__ExportLog__UserI__5DCAEF64">
-          <End Role="Users" Type="Self.User" Multiplicity="1" />
-          <End Role="ExportLogs" Type="Self.ExportLog" Multiplicity="*" />
+          <End Type="dbPsychoLabAppModel.User" Role="User" Multiplicity="1" />
+          <End Type="dbPsychoLabAppModel.ExportLog" Role="ExportLog" Multiplicity="*" />
         </Association>
         <Association Name="FK__TestQuest__TestI__5165187F">
-          <End Role="PsychologicalTests" Type="Self.PsychologicalTest" Multiplicity="1" />
-          <End Role="TestQuestions" Type="Self.TestQuestion" Multiplicity="*" />
+          <End Type="dbPsychoLabAppModel.PsychologicalTest" Role="PsychologicalTest" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="dbPsychoLabAppModel.TestQuestion" Role="TestQuestion" Multiplicity="*" />
         </Association>
         <Association Name="FK__TestResul__TestI__5812160E">
-          <End Role="PsychologicalTests" Type="Self.PsychologicalTest" Multiplicity="1" />
-          <End Role="TestResults" Type="Self.TestResult" Multiplicity="*" />
+          <End Type="dbPsychoLabAppModel.PsychologicalTest" Role="PsychologicalTest" Multiplicity="1" />
+          <End Type="dbPsychoLabAppModel.TestResult" Role="TestResult" Multiplicity="*" />
         </Association>
         <Association Name="FK__Psycholog__Sessi__4CA06362">
-          <End Role="Sessions" Type="Self.Session" Multiplicity="1" />
-          <End Role="PsychologistReports" Type="Self.PsychologistReport" Multiplicity="*" />
+          <End Type="dbPsychoLabAppModel.Session" Role="Session" Multiplicity="1" />
+          <End Type="dbPsychoLabAppModel.PsychologistReport" Role="PsychologistReport" Multiplicity="*" />
         </Association>
         <Association Name="FK__SessionAr__Sessi__619B8048">
-          <End Role="Sessions" Type="Self.Session" Multiplicity="1" />
-          <End Role="SessionArchives" Type="Self.SessionArchive" Multiplicity="*" />
+          <End Type="dbPsychoLabAppModel.Session" Role="Session" Multiplicity="1" />
+          <End Type="dbPsychoLabAppModel.SessionArchive" Role="SessionArchive" Multiplicity="*" />
         </Association>
         <Association Name="FK__TestResul__Sessi__571DF1D5">
-          <End Role="Sessions" Type="Self.Session" Multiplicity="1" />
-          <End Role="TestResults" Type="Self.TestResult" Multiplicity="*" />
+          <End Type="dbPsychoLabAppModel.Session" Role="Session" Multiplicity="1" />
+          <End Type="dbPsychoLabAppModel.TestResult" Role="TestResult" Multiplicity="*" />
         </Association>
         <Association Name="FK__TestAnswe__Quest__5441852A">
-          <End Role="TestQuestions" Type="Self.TestQuestion" Multiplicity="1" />
-          <End Role="TestAnswers" Type="Self.TestAnswer" Multiplicity="*" />
+          <End Type="dbPsychoLabAppModel.TestQuestion" Role="TestQuestion" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="dbPsychoLabAppModel.TestAnswer" Role="TestAnswer" Multiplicity="*" />
         </Association>
         <Association Name="FK__TestResul__Answe__59FA5E80">
-          <End Role="TestAnswers" Type="Self.TestAnswer" Multiplicity="1" />
-          <End Role="TestResults" Type="Self.TestResult" Multiplicity="*" />
+          <End Type="dbPsychoLabAppModel.TestAnswer" Role="TestAnswer" Multiplicity="1" />
+          <End Type="dbPsychoLabAppModel.TestResult" Role="TestResult" Multiplicity="*" />
         </Association>
         <Association Name="FK__TestResul__Quest__59063A47">
-          <End Role="TestQuestions" Type="Self.TestQuestion" Multiplicity="1" />
-          <End Role="TestResults" Type="Self.TestResult" Multiplicity="*" />
+          <End Type="dbPsychoLabAppModel.TestQuestion" Role="TestQuestion" Multiplicity="1" />
+          <End Type="dbPsychoLabAppModel.TestResult" Role="TestResult" Multiplicity="*" />
         </Association>
         <Association Name="RolePermissions">
-          <End Role="Permissions" Type="Self.Permission" Multiplicity="*" />
-          <End Role="Roles" Type="Self.Role" Multiplicity="*" />
+          <End Type="dbPsychoLabAppModel.Permission" Role="Permission" Multiplicity="*" />
+          <End Type="dbPsychoLabAppModel.Role" Role="Role" Multiplicity="*" />
         </Association>
         <Association Name="UserRoles">
-          <End Role="Roles" Type="Self.Role" Multiplicity="*" />
-          <End Role="Users" Type="Self.User" Multiplicity="*" />
+          <End Type="dbPsychoLabAppModel.Role" Role="Role" Multiplicity="*" />
+          <End Type="dbPsychoLabAppModel.User" Role="User" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="dbPsychoLabAppEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Clients" EntityType="Self.Client" />
-          <EntitySet Name="ExportLogs" EntityType="Self.ExportLog" />
-          <EntitySet Name="Genders" EntityType="Self.Gender" />
-          <EntitySet Name="Permissions" EntityType="Self.Permission" />
-          <EntitySet Name="PsychologicalTests" EntityType="Self.PsychologicalTest" />
-          <EntitySet Name="PsychologistReports" EntityType="Self.PsychologistReport" />
-          <EntitySet Name="Roles" EntityType="Self.Role" />
-          <EntitySet Name="SessionArchives" EntityType="Self.SessionArchive" />
-          <EntitySet Name="Sessions" EntityType="Self.Session" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
-          <EntitySet Name="TestAnswers" EntityType="Self.TestAnswer" />
-          <EntitySet Name="TestQuestions" EntityType="Self.TestQuestion" />
-          <EntitySet Name="TestResults" EntityType="Self.TestResult" />
-          <EntitySet Name="Users" EntityType="Self.User" />
-          <AssociationSet Name="FK__Sessions__Client__48CFD27E" Association="Self.FK__Sessions__Client__48CFD27E">
-            <End Role="Clients" EntitySet="Clients" />
-            <End Role="Sessions" EntitySet="Sessions" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Clients_Gender" Association="Self.FK_Clients_Gender">
-            <End Role="Gender" EntitySet="Genders" />
-            <End Role="Clients" EntitySet="Clients" />
-          </AssociationSet>
-          <AssociationSet Name="FK__ExportLog__UserI__5DCAEF64" Association="Self.FK__ExportLog__UserI__5DCAEF64">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="ExportLogs" EntitySet="ExportLogs" />
-          </AssociationSet>
-          <AssociationSet Name="FK__TestQuest__TestI__5165187F" Association="Self.FK__TestQuest__TestI__5165187F">
-            <End Role="PsychologicalTests" EntitySet="PsychologicalTests" />
-            <End Role="TestQuestions" EntitySet="TestQuestions" />
-          </AssociationSet>
-          <AssociationSet Name="FK__TestResul__TestI__5812160E" Association="Self.FK__TestResul__TestI__5812160E">
-            <End Role="PsychologicalTests" EntitySet="PsychologicalTests" />
-            <End Role="TestResults" EntitySet="TestResults" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Psycholog__Sessi__4CA06362" Association="Self.FK__Psycholog__Sessi__4CA06362">
-            <End Role="Sessions" EntitySet="Sessions" />
-            <End Role="PsychologistReports" EntitySet="PsychologistReports" />
-          </AssociationSet>
-          <AssociationSet Name="FK__SessionAr__Sessi__619B8048" Association="Self.FK__SessionAr__Sessi__619B8048">
-            <End Role="Sessions" EntitySet="Sessions" />
-            <End Role="SessionArchives" EntitySet="SessionArchives" />
-          </AssociationSet>
-          <AssociationSet Name="FK__TestResul__Sessi__571DF1D5" Association="Self.FK__TestResul__Sessi__571DF1D5">
-            <End Role="Sessions" EntitySet="Sessions" />
-            <End Role="TestResults" EntitySet="TestResults" />
-          </AssociationSet>
-          <AssociationSet Name="FK__TestAnswe__Quest__5441852A" Association="Self.FK__TestAnswe__Quest__5441852A">
-            <End Role="TestQuestions" EntitySet="TestQuestions" />
-            <End Role="TestAnswers" EntitySet="TestAnswers" />
-          </AssociationSet>
-          <AssociationSet Name="FK__TestResul__Answe__59FA5E80" Association="Self.FK__TestResul__Answe__59FA5E80">
-            <End Role="TestAnswers" EntitySet="TestAnswers" />
-            <End Role="TestResults" EntitySet="TestResults" />
-          </AssociationSet>
-          <AssociationSet Name="FK__TestResul__Quest__59063A47" Association="Self.FK__TestResul__Quest__59063A47">
-            <End Role="TestQuestions" EntitySet="TestQuestions" />
-            <End Role="TestResults" EntitySet="TestResults" />
-          </AssociationSet>
-          <AssociationSet Name="RolePermissions" Association="Self.RolePermissions">
-            <End Role="Permissions" EntitySet="Permissions" />
-            <End Role="Roles" EntitySet="Roles" />
-          </AssociationSet>
-          <AssociationSet Name="UserRoles" Association="Self.UserRoles">
-            <End Role="Roles" EntitySet="Roles" />
-            <End Role="Users" EntitySet="Users" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -705,75 +713,75 @@
           <EntitySetMapping Name="Clients">
             <EntityTypeMapping TypeName="dbPsychoLabAppModel.Client">
               <MappingFragment StoreEntitySet="Clients">
-                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ExportLogs">
             <EntityTypeMapping TypeName="dbPsychoLabAppModel.ExportLog">
               <MappingFragment StoreEntitySet="ExportLogs">
-                <ScalarProperty Name="LogID" ColumnName="LogID" />
-                <ScalarProperty Name="ExportDate" ColumnName="ExportDate" />
                 <ScalarProperty Name="FormatExported" ColumnName="FormatExported" />
+                <ScalarProperty Name="ExportDate" ColumnName="ExportDate" />
+                <ScalarProperty Name="LogID" ColumnName="LogID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Genders">
             <EntityTypeMapping TypeName="dbPsychoLabAppModel.Gender">
               <MappingFragment StoreEntitySet="Gender">
-                <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Permissions">
             <EntityTypeMapping TypeName="dbPsychoLabAppModel.Permission">
               <MappingFragment StoreEntitySet="Permissions">
-                <ScalarProperty Name="PermissionID" ColumnName="PermissionID" />
                 <ScalarProperty Name="PermissionName" ColumnName="PermissionName" />
+                <ScalarProperty Name="PermissionID" ColumnName="PermissionID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PsychologicalTests">
             <EntityTypeMapping TypeName="dbPsychoLabAppModel.PsychologicalTest">
               <MappingFragment StoreEntitySet="PsychologicalTests">
-                <ScalarProperty Name="TestID" ColumnName="TestID" />
                 <ScalarProperty Name="TestName" ColumnName="TestName" />
+                <ScalarProperty Name="TestID" ColumnName="TestID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="PsychologistReports">
             <EntityTypeMapping TypeName="dbPsychoLabAppModel.PsychologistReport">
               <MappingFragment StoreEntitySet="PsychologistReports">
-                <ScalarProperty Name="ReportID" ColumnName="ReportID" />
-                <ScalarProperty Name="ReportContent" ColumnName="ReportContent" />
                 <ScalarProperty Name="PrintDate" ColumnName="PrintDate" />
+                <ScalarProperty Name="ReportContent" ColumnName="ReportContent" />
+                <ScalarProperty Name="ReportID" ColumnName="ReportID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Roles">
             <EntityTypeMapping TypeName="dbPsychoLabAppModel.Role">
               <MappingFragment StoreEntitySet="Roles">
-                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="SessionArchives">
             <EntityTypeMapping TypeName="dbPsychoLabAppModel.SessionArchive">
               <MappingFragment StoreEntitySet="SessionArchives">
-                <ScalarProperty Name="ArchiveID" ColumnName="ArchiveID" />
                 <ScalarProperty Name="ArchivedDate" ColumnName="ArchivedDate" />
+                <ScalarProperty Name="ArchiveID" ColumnName="ArchiveID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -781,43 +789,43 @@
             <EntityTypeMapping TypeName="dbPsychoLabAppModel.Session">
               <MappingFragment StoreEntitySet="Sessions">
                 <ScalarProperty Name="IsTestCompleted" ColumnName="IsTestCompleted" />
-                <ScalarProperty Name="SessionID" ColumnName="SessionID" />
-                <ScalarProperty Name="SessionDate" ColumnName="SessionDate" />
-                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
-                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
-                <ScalarProperty Name="SessionNote" ColumnName="SessionNote" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="SessionNote" ColumnName="SessionNote" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="SessionDate" ColumnName="SessionDate" />
+                <ScalarProperty Name="SessionID" ColumnName="SessionID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
             <EntityTypeMapping TypeName="dbPsychoLabAppModel.sysdiagram">
               <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
                 <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TestAnswers">
             <EntityTypeMapping TypeName="dbPsychoLabAppModel.TestAnswer">
               <MappingFragment StoreEntitySet="TestAnswers">
-                <ScalarProperty Name="AnswerID" ColumnName="AnswerID" />
-                <ScalarProperty Name="AnswerText" ColumnName="AnswerText" />
                 <ScalarProperty Name="IsCorrect" ColumnName="IsCorrect" />
+                <ScalarProperty Name="AnswerText" ColumnName="AnswerText" />
+                <ScalarProperty Name="AnswerID" ColumnName="AnswerID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TestQuestions">
             <EntityTypeMapping TypeName="dbPsychoLabAppModel.TestQuestion">
               <MappingFragment StoreEntitySet="TestQuestions">
-                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
                 <ScalarProperty Name="QuestionText" ColumnName="QuestionText" />
+                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -832,121 +840,121 @@
             <EntityTypeMapping TypeName="dbPsychoLabAppModel.User">
               <MappingFragment StoreEntitySet="Users">
                 <ScalarProperty Name="PicUser" ColumnName="PicUser" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="Username" ColumnName="Username" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
                 <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <AssociationSetMapping Name="FK__Sessions__Client__48CFD27E" TypeName="dbPsychoLabAppModel.FK__Sessions__Client__48CFD27E" StoreEntitySet="Sessions">
-            <EndProperty Name="Clients">
-              <ScalarProperty Name="ClientID" ColumnName="ClientID" />
-            </EndProperty>
-            <EndProperty Name="Sessions">
+            <EndProperty Name="Session">
               <ScalarProperty Name="SessionID" ColumnName="SessionID" />
+            </EndProperty>
+            <EndProperty Name="Client">
+              <ScalarProperty Name="ClientID" ColumnName="ClientID" />
             </EndProperty>
           </AssociationSetMapping>
           <AssociationSetMapping Name="FK_Clients_Gender" TypeName="dbPsychoLabAppModel.FK_Clients_Gender" StoreEntitySet="Clients">
+            <EndProperty Name="Client">
+              <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+            </EndProperty>
             <EndProperty Name="Gender">
               <ScalarProperty Name="ID" ColumnName="IDGender" />
             </EndProperty>
-            <EndProperty Name="Clients">
-              <ScalarProperty Name="ClientID" ColumnName="ClientID" />
-            </EndProperty>
-            <Condition IsNull="false" ColumnName="IDGender" />
+            <Condition ColumnName="IDGender" IsNull="false" />
           </AssociationSetMapping>
           <AssociationSetMapping Name="FK__ExportLog__UserI__5DCAEF64" TypeName="dbPsychoLabAppModel.FK__ExportLog__UserI__5DCAEF64" StoreEntitySet="ExportLogs">
-            <EndProperty Name="Users">
-              <ScalarProperty Name="UserID" ColumnName="UserID" />
-            </EndProperty>
-            <EndProperty Name="ExportLogs">
+            <EndProperty Name="ExportLog">
               <ScalarProperty Name="LogID" ColumnName="LogID" />
+            </EndProperty>
+            <EndProperty Name="User">
+              <ScalarProperty Name="UserID" ColumnName="UserID" />
             </EndProperty>
           </AssociationSetMapping>
           <AssociationSetMapping Name="FK__TestQuest__TestI__5165187F" TypeName="dbPsychoLabAppModel.FK__TestQuest__TestI__5165187F" StoreEntitySet="TestQuestions">
-            <EndProperty Name="PsychologicalTests">
-              <ScalarProperty Name="TestID" ColumnName="TestID" />
-            </EndProperty>
-            <EndProperty Name="TestQuestions">
+            <EndProperty Name="TestQuestion">
               <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+            </EndProperty>
+            <EndProperty Name="PsychologicalTest">
+              <ScalarProperty Name="TestID" ColumnName="TestID" />
             </EndProperty>
           </AssociationSetMapping>
           <AssociationSetMapping Name="FK__TestResul__TestI__5812160E" TypeName="dbPsychoLabAppModel.FK__TestResul__TestI__5812160E" StoreEntitySet="TestResults">
-            <EndProperty Name="PsychologicalTests">
-              <ScalarProperty Name="TestID" ColumnName="TestID" />
-            </EndProperty>
-            <EndProperty Name="TestResults">
+            <EndProperty Name="TestResult">
               <ScalarProperty Name="ResultID" ColumnName="ResultID" />
+            </EndProperty>
+            <EndProperty Name="PsychologicalTest">
+              <ScalarProperty Name="TestID" ColumnName="TestID" />
             </EndProperty>
           </AssociationSetMapping>
           <AssociationSetMapping Name="FK__Psycholog__Sessi__4CA06362" TypeName="dbPsychoLabAppModel.FK__Psycholog__Sessi__4CA06362" StoreEntitySet="PsychologistReports">
-            <EndProperty Name="Sessions">
-              <ScalarProperty Name="SessionID" ColumnName="SessionID" />
-            </EndProperty>
-            <EndProperty Name="PsychologistReports">
+            <EndProperty Name="PsychologistReport">
               <ScalarProperty Name="ReportID" ColumnName="ReportID" />
+            </EndProperty>
+            <EndProperty Name="Session">
+              <ScalarProperty Name="SessionID" ColumnName="SessionID" />
             </EndProperty>
           </AssociationSetMapping>
           <AssociationSetMapping Name="FK__SessionAr__Sessi__619B8048" TypeName="dbPsychoLabAppModel.FK__SessionAr__Sessi__619B8048" StoreEntitySet="SessionArchives">
-            <EndProperty Name="Sessions">
-              <ScalarProperty Name="SessionID" ColumnName="SessionID" />
-            </EndProperty>
-            <EndProperty Name="SessionArchives">
+            <EndProperty Name="SessionArchive">
               <ScalarProperty Name="ArchiveID" ColumnName="ArchiveID" />
+            </EndProperty>
+            <EndProperty Name="Session">
+              <ScalarProperty Name="SessionID" ColumnName="SessionID" />
             </EndProperty>
           </AssociationSetMapping>
           <AssociationSetMapping Name="FK__TestResul__Sessi__571DF1D5" TypeName="dbPsychoLabAppModel.FK__TestResul__Sessi__571DF1D5" StoreEntitySet="TestResults">
-            <EndProperty Name="Sessions">
-              <ScalarProperty Name="SessionID" ColumnName="SessionID" />
-            </EndProperty>
-            <EndProperty Name="TestResults">
+            <EndProperty Name="TestResult">
               <ScalarProperty Name="ResultID" ColumnName="ResultID" />
+            </EndProperty>
+            <EndProperty Name="Session">
+              <ScalarProperty Name="SessionID" ColumnName="SessionID" />
             </EndProperty>
           </AssociationSetMapping>
           <AssociationSetMapping Name="FK__TestAnswe__Quest__5441852A" TypeName="dbPsychoLabAppModel.FK__TestAnswe__Quest__5441852A" StoreEntitySet="TestAnswers">
-            <EndProperty Name="TestQuestions">
-              <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
-            </EndProperty>
-            <EndProperty Name="TestAnswers">
+            <EndProperty Name="TestAnswer">
               <ScalarProperty Name="AnswerID" ColumnName="AnswerID" />
+            </EndProperty>
+            <EndProperty Name="TestQuestion">
+              <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
             </EndProperty>
           </AssociationSetMapping>
           <AssociationSetMapping Name="FK__TestResul__Answe__59FA5E80" TypeName="dbPsychoLabAppModel.FK__TestResul__Answe__59FA5E80" StoreEntitySet="TestResults">
-            <EndProperty Name="TestAnswers">
-              <ScalarProperty Name="AnswerID" ColumnName="AnswerID" />
-            </EndProperty>
-            <EndProperty Name="TestResults">
+            <EndProperty Name="TestResult">
               <ScalarProperty Name="ResultID" ColumnName="ResultID" />
+            </EndProperty>
+            <EndProperty Name="TestAnswer">
+              <ScalarProperty Name="AnswerID" ColumnName="AnswerID" />
             </EndProperty>
           </AssociationSetMapping>
           <AssociationSetMapping Name="FK__TestResul__Quest__59063A47" TypeName="dbPsychoLabAppModel.FK__TestResul__Quest__59063A47" StoreEntitySet="TestResults">
-            <EndProperty Name="TestQuestions">
-              <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
-            </EndProperty>
-            <EndProperty Name="TestResults">
+            <EndProperty Name="TestResult">
               <ScalarProperty Name="ResultID" ColumnName="ResultID" />
+            </EndProperty>
+            <EndProperty Name="TestQuestion">
+              <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
             </EndProperty>
           </AssociationSetMapping>
           <AssociationSetMapping Name="RolePermissions" TypeName="dbPsychoLabAppModel.RolePermissions" StoreEntitySet="RolePermissions">
-            <EndProperty Name="Permissions">
-              <ScalarProperty Name="PermissionID" ColumnName="PermissionID" />
-            </EndProperty>
-            <EndProperty Name="Roles">
+            <EndProperty Name="Role">
               <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+            </EndProperty>
+            <EndProperty Name="Permission">
+              <ScalarProperty Name="PermissionID" ColumnName="PermissionID" />
             </EndProperty>
           </AssociationSetMapping>
           <AssociationSetMapping Name="UserRoles" TypeName="dbPsychoLabAppModel.UserRoles" StoreEntitySet="UserRoles">
-            <EndProperty Name="Roles">
-              <ScalarProperty Name="RoleID" ColumnName="RoleID" />
-            </EndProperty>
-            <EndProperty Name="Users">
+            <EndProperty Name="User">
               <ScalarProperty Name="UserID" ColumnName="UserID" />
+            </EndProperty>
+            <EndProperty Name="Role">
+              <ScalarProperty Name="RoleID" ColumnName="RoleID" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>
@@ -963,7 +971,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="false" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />

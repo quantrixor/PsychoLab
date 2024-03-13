@@ -17,6 +17,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0">
+            
             <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Orientation="Vertical"
@@ -59,10 +60,14 @@
                 </Button>
             </StackPanel>
         </Grid>
+        <StackPanel HorizontalAlignment="Center" Grid.Column="1">
+            <Label Content="Главное меню" Margin="10" Foreground="Black" FontSize="24"/>
+        </StackPanel>
         <StackPanel HorizontalAlignment="Center"
                     Grid.Column="1"
                     VerticalAlignment="Center"
                     Width="300">
+            
             <Button Content="Управление клиентами"
                     x:Name="btnManageClients"
                     Click="btnManageClients_Click"
@@ -113,6 +118,9 @@
                     </Style>
                 </Button.Resources>
             </Button>
+        </StackPanel>
+        <StackPanel Grid.Row="4" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+            <Label Content="version 1.4" FontSize="10" Opacity="0.5"/>
         </StackPanel>
     </Grid>
 </Page>

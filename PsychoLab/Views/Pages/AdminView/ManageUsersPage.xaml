@@ -6,17 +6,20 @@
       xmlns:local="clr-namespace:PsychoLab.Views.Pages.AdminView"
       mc:Ignorable="d" 
       Loaded="Page_Loaded"
-      d:DesignHeight="450" d:DesignWidth="1080"
+      d:DesignHeight="500" d:DesignWidth="1100"
       Title="Управление пользователями">
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="5*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
-        <Grid Grid.Row="0">
+        <StackPanel HorizontalAlignment="Center">
+            <Label Content="Управление пользователями" Foreground="Black" FontSize="30" Margin="10"/>
+        </StackPanel>
+        <Grid Grid.Row="1">
             <StackPanel HorizontalAlignment="Left"
                         VerticalAlignment="Center">
                 <Button Width="150"
@@ -59,7 +62,7 @@
                          TextChanged="txbSearch_TextChanged"/>
             </StackPanel>
         </Grid>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="2">
             <DataGrid x:Name="dataUserListView"
                       ColumnWidth="*">
                 <DataGrid.RowStyle>
@@ -82,7 +85,7 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="3">
 
             <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center"
@@ -147,5 +150,8 @@
             </StackPanel>
             
         </Grid>
+        <StackPanel Grid.Row="4" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+            <Label Content="version 1.4" FontSize="10" Opacity="0.5"/>
+        </StackPanel>
     </Grid>
 </Page>

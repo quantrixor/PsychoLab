@@ -12,16 +12,25 @@
         Height="200" 
         Icon="/Resources/icon_ps.jpeg"
         Width="350">
-    
-    <StackPanel HorizontalAlignment="Center"
+    <Grid>
+
+        <StackPanel HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Width="300"
                 Margin="10">
-        <Label Content="Название теста:"/>
-        <TextBox x:Name="TestNameTextBox"
+            <Label Content="Название теста:"/>
+            <TextBox x:Name="TestNameTextBox"
                  Margin="0,5"/>
-        <Button Content="Добавить"
+            <Button Content="Добавить"
                 Height="35"
                 Click="AddTest_Click"/>
-    </StackPanel>
+
+        </StackPanel>
+        <StackPanel VerticalAlignment="Bottom"
+                    HorizontalAlignment="Left">
+            <Label Content="version 1.4"
+                   FontSize="8"
+                   Opacity="0.5"/>
+        </StackPanel>
+    </Grid>
 </Window>

@@ -56,9 +56,15 @@
                     </Button.Resources>
                 </Button>
             </StackPanel>
+            <StackPanel Grid.Row="4" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                <Label Content="version 1.4" FontSize="10" Opacity="0.5"/>
+            </StackPanel>
         </Grid>
         <Grid Grid.Column="1">
 
+            <StackPanel HorizontalAlignment="Center">
+                <Label Content="Главное меню" Foreground="Black" FontSize="30" Margin="10"/>
+            </StackPanel>
             <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center">
                 <Button Width="280"

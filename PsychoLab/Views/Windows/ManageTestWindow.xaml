@@ -10,15 +10,22 @@
         WindowState="Maximized"
         Title="Управление вопросами" Height="450" Width="800">
     <Grid>
+       
         <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+        <StackPanel HorizontalAlignment="Center">
+            <Label Content="Управление вопросами" Foreground="Black" FontSize="24"/>
+        </StackPanel>
+        <StackPanel Grid.Row="5" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+            <Label Content="version 1.4" FontSize="10" Opacity="0.5"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10">
             <Label Content="Новый вопрос:" VerticalAlignment="Center" Margin="0,0,5,0"/>
             <TextBox x:Name="QuestionTextBox" Width="300"/>
             <Button Content="Сохранить вопрос"
@@ -34,7 +41,7 @@
 
         <ListView x:Name="QuestionsListView" 
           SelectionChanged="QuestionsListView_SelectionChanged"
-          Grid.Row="1" Margin="10">
+          Grid.Row="2" Margin="10">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Текст вопроса" DisplayMemberBinding="{Binding QuestionText}" Width="400"/>
@@ -66,7 +73,7 @@
         </ListView>
 
         <ListView x:Name="AnswersListView"
-                  Grid.Row="3" Margin="10">
+                  Grid.Row="4" Margin="10">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Текст ответа" DisplayMemberBinding="{Binding AnswerText}" Width="400"/>
@@ -97,7 +104,7 @@
             </ListView.View>
         </ListView>
 
-        <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="10">
+        <StackPanel Grid.Row="5" VerticalAlignment="Center" Orientation="Horizontal" Margin="10">
             <Label Content="Варианты ответов на выбранный вопрос:" VerticalAlignment="Center" Margin="0,0,5,0"/>
             <TextBox x:Name="AnswerTextBox" Width="200"/>
             <Button Content="Сохранить ответ" Width="200" 

@@ -81,7 +81,11 @@
                     </Button.Resources>
                 </Button>
             </StackPanel>
-            <StackPanel HorizontalAlignment="Left"
+            <StackPanel>
+                <StackPanel HorizontalAlignment="Center">
+                    <Label Content="Управление клиентами" Foreground="Black" FontSize="24"/>
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Left"
                         Margin="10,0,0,0"
                         VerticalAlignment="Center"
                         Orientation="Horizontal">
@@ -89,6 +93,7 @@
                 <TextBox Width="300"
                          x:Name="txbSearch"
                          TextChanged="txbSearch_TextChanged"/>
+            </StackPanel>
             </StackPanel>
             
             <GroupBox Grid.Row="1"
@@ -151,5 +156,8 @@
                 
             </StackPanel>
         </Grid>
+        <StackPanel Grid.Row="4" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+            <Label Content="version 1.4" FontSize="10" Opacity="0.5"/>
+        </StackPanel>
     </Grid>
 </Page>
